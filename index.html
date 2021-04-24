@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <title>Test App</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Test App</h1>
+    <div id="app">
+        <h2>New Key</h2>
+        <label>
+            Name
+            <input v-model="name" type="text" />
+        </label>
+        <label>
+            Value
+            <input v-model="value" type="text" />
+        </label>
+        <button @click="create">Create</button>
+        <h2>Keys</h2>
+        <p v-for="key in keys"><span style="font-weight: bold">{{ key.name }}:</span> {{ key.value }}</p>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
