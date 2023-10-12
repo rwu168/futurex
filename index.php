@@ -20,7 +20,7 @@ form {
   position: fixed;
   width: 30px;
   margin: auto;
-  height: 200px;
+  height: 205px;
   width: 30%;
   top: 120px;
   background-color: lightgrey;
@@ -40,9 +40,10 @@ form {
   
 }
 
-.data {
+
+.ytd{
   position: fixed;
-  width: 300px;
+  width: 600px;
   left: 5px;
   height: 20px;
   width: 50%;
@@ -50,7 +51,18 @@ form {
   background-color: lightyellow;
   border: 3px solid #73AD21;
   color: black;
-  
+}
+
+.data {
+  position: fixed;
+  width: 300px;
+  left: 5px;
+  height: 20px;
+  width: 50%;
+  top: 500px;
+  background-color: lightyellow;
+  border: 3px solid #73AD21;
+  color: black;
 }
 
 </style>
@@ -66,7 +78,7 @@ form {
 		canvas.setHeight(350);
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking ALGO future index trading software that takes the trading game to a whole new level of excitement and profit... like to test it out?  No credit card or money needed.  It's free to test - just sign up!", 
+		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking algo future index trading software that takes the trading game to a whole new level of excitement and high profit return... like to test it out?  No credit card or money needed.  It's free to test - just sign up!", 
         {
 			width: 800,
 			left: 500,
@@ -88,7 +100,7 @@ form {
 		canvas1.setHeight(250);
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("Xtrade Investment", 
+		var textbox = new fabric.Textbox("TradeXinvestment.com", 
         {
 			width: 550,
 			left: 100,
@@ -189,27 +201,59 @@ Onclick=topaction();">
 
     ?>
 
-    
-     <?php
-    /*=================Display detail of trading activities==================================*/
-        function disp_detail($data)
+    <?php
+    /*=================Display YTD P/L==================================*/
+        function disp_ytd($conn)
         {
+                /*
+                $sql = "SELECT  FROM control limit 4;";
+          
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);
+                $rowcount= pg_num_rows($rs);
+                $k=1;
+                while ($k<=$rowcount)
+                {
+                    echo "$row[0] &nbsp;&nbsp  $row[1] &nbsp  $row[2] &nbsp  $row[3]<br>";
+                    $bal[$k]=$row[0];
+                    $name[$k]=$row[1];
+                    $email[$k]=$row[2];
+                    $ph[$k]=$row[3];
+                    if ($row[2]==$userid)
+                    {
+                        print("      Email Not found $userid");
+                    }   
+                    $row=pg_fetch_row($rs);
+                    $k++;
+ 
+                    
+                }
+                */
     ?>
-                <table  class="data" bgcolor="lightblue" width="20px" height="10px" color="red">
+                <table  class="ytd" bgcolor="lightblue" width="20px" height="10px" color="red">
 
                  <tr>
-                            <th>Date & time</th>
-                            <th>Profit % in this trade</th>
-                            <th>Sold at</th>
-                            <th>Brought at</th>
-                            <th>MES Position sold</th>
+                            <th>Jan</th>
+                            <th>Feb</th>
+                            <th>Mar</th>
+                            <th>Apr</th>
+                            <th>May</th>
+                            <th>Jun</th>
+                            <th>Jul</th>
+                            <th>Aug</th>
+                            <th>Sep</th>
+                            <th>Oct</th>
+                            <th>Nov</th>
+                            <th>Dec</th>    
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=5;
+                    $max_columns=12;
                     $record_id=0;
+                    $data=array(1,2,3,4,5,6,7,8,9,10,11,12);
+                    
                     while(True)
                     {
                         for ($columns=0;$columns<$max_columns;$columns++)
@@ -226,146 +270,118 @@ Onclick=topaction();">
                     
                 ?>
 
-                    <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
+                            <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
                          
-                        <?php echo $data[$record_id] ?>
-                    </td>
-                    <?php
+                            <?php echo $data[$record_id] .'%' ?>
+                                </td>
+                            <?php
                         
-                        if ($columns==$max_columns)
-                        {
-                            echo "<tr>";
-                        }
-                        $record_id++;
-                    ?>
+                            if ($columns==$max_columns)
+                            {
+                                echo "<tr>";
+                            }
+                            $record_id++;
+                            ?>
 
         <?php
                
 
+                        }
+                    }
+                    
+           
+        ?>
+    </table>
+    <?php
+        }
+           
+    ?>
+
+    
+     <?php
+    /*=================Display detail of trading activities==================================*/
+        function disp_detail($conn)
+        {
+                $sql = "SELECT bal,sys,email,ph FROM control limit 4;";
+          
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);
+                $rowcount= pg_num_rows($rs);
+                $k=1;
+                while ($k<=$rowcount)
+                {
+                    /*echo "$row[0] &nbsp;&nbsp  $row[1] &nbsp  $row[2] &nbsp  $row[3]<br>";*/
+                    $bal[$k]=$row[0];
+                    $name[$k]=$row[1];
+                    $email[$k]=$row[2];
+                    $ph[$k]=$row[3];
+                    $row=pg_fetch_row($rs);
+                    $k++;
+ 
+
                 }
-            }
+                
+    ?>
+                <table  class="data" bgcolor="lightblue" width="20px" height="10px" color="red">
+
+                 <tr>
+                            <th>Date & time</th>
+                            <th>Profit this trade</th>
+                            <th>Sold at</th>
+                            <th>Brought at</th>
+                            <th>MES Position sold</th>
+                           
+                            
+                </tr>
+
+                <?php
+                    $max_columns=5;
+                    $record_id=0;
+                    
+                    $data=array("10/11/2023 11:30am", "0.0078%","4430.25", "4410.50","1");
+                    while(True)
+                    {
+                        for ($columns=0;$columns<$max_columns;$columns++)
+                        {
+                            if (!isset($data[$record_id]))
+                            {
+                                return;
+                            }
+                    
+                            if ($columns==0)
+                            {
+                                echo "<tr>";
+                            }
+                    
+                ?>
+
+                            <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
+                         
+                            <?php echo $data[$record_id] ?>
+                                </td>
+                             <?php
+                        
+                             if ($columns==$max_columns)
+                                {
+                                    echo "<tr>";
+                             }
+                             $record_id++;
+                             ?>
+
+        <?php
+               
+                        
+                            }
+                            print "<font color='red'>Real LIVE trading activities & APR below: </font>";
+                        }
+                        
+    ?>
            
         ?>
     </table>
     <?php
     }
            
-    ?>
-
-
-
-
-    <?php
-        /*=======================login validation=========================*/
-
-        function LogIn($conn)
-        {
-
-            global $userid,$password;
-            
-            if (isset($_POST['userid']))
-            {
-	            $userid = $_POST['userid'];
-            } 
-            else 
-            {
-	            $userid = '';
-            }
-
-            if (isset($_POST['password']))
-            {
-	            $password = $_POST['password'];
-            } 
-            else 
-            {
-	            $password = '';
-            }
-
-
-            if (isset($_POST['userid']))
-            {
-	            print "<input type='hidden' name='userid' size='11' value='".$userid."' /><br /> ";
-	            print "<input type='hidden' name='password' size='11' value='".$password."' /><br /> ";
-            }
-            else 
-            {
-                /*print"<br><br><br>";*/
-	            print "<h2>Enter Email/Phone# to Login: </h2>";
-
-	            print "<table> ";
-
-	            print "<tr> ";
-	            print "<td>Email: </td><td><input type='text' name='userid' size='25' /><br /> ";
-	            print "</tr> ";
-
-	            print "<tr> ";
-	            print "<td>Password: </td><td><input type='password' name='password' size='11' /></td> ";
-	            print "</tr> ";
-
-                /*
-                print "<tr> ";
-	            print "<td>Comments:</td><td><input type='textarea' name='comments' rows='7' cols='50' /></td> ";
-	            print "</tr> ";
-                */
-	            print "</table> ";
-                
-
-	            print "<p><input type='submit' name='mysubmit' value='Login' /> ";
-                
-            }
-
-            /*
-            $userid='allcountywest@gmail.com';
-            $password='6263533808';
-            $sql_statement  = "SELECT bal,sys,email,ph ";
-            $sql_statement .= "FROM control ";
-            $sql_statement .= "WHERE email = '".$userid."' ";
-            $sql_statement .= "AND ph = '".$password."' ";
-
-            print $sql_statement;
-            */
-
-            /*$sql = "SELECT bal,sys FROM control WHERE email= '$userid' and ph='$password';"; */
-            $sql = "SELECT bal,sys,email,ph FROM control WHERE email= '$userid' AND ph='$password';";
-            $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-            $row=pg_fetch_row($rs);
-            $rowcount= pg_num_rows($rs);
-            echo "<br>";
-            /*
-            print $rowcount. "       ".  $row[2] ."<br>";
-            $row=pg_fetch_row($rs);
-            print $rowcount. "       ".  $row[2] ."<br>";
-            */
-            if ($rowcount<=0)
-            {
-                print 'UnSuccessfully selected!<br>';
-            }
-            else 
-            {
-                print 'Successfully selected!!!!<br>';
-	        }
-     
-            $k=1;
-            while ($k<=$rowcount)
-            {
-                echo "$row[0] &nbsp;&nbsp  $row[1] &nbsp  $row[2] &nbsp  $row[3]<br>";
-                $bal[$k]=$row[0];
-                $name[$k]=$row[1];
-                $email[$k]=$row[2];
-                $ph[$k]=$row[3];
-                if ($row[2]==$userid)
-                {
-                    print("email found $userid");
-                }
-                $row=pg_fetch_row($rs);
-                $k++;
- 
-
-            }
-   
-
-
-        }
     ?>
 
 
@@ -400,11 +416,11 @@ Onclick=topaction();">
 	            print "<table> ";
 
 	            print "<tr> ";
-	            print "<td>Email: </td><td><input type='text' name='userid' size='25' /><br /> ";
+	            print "<td>Email: </td><td><input type='email' name='userid' size='25' /><br /> ";
 	            print "</tr> ";
 
 	            print "<tr> ";
-	            print "<td>Cell-phone: </td><td><input type='password' name='password' size='11' /></td> ";
+	            print "<td>Cell-phone: </td><td><input type='phone' name='password' size='11' /></td> ";
 	            print "</tr> ";
 
                 /*
@@ -416,55 +432,29 @@ Onclick=topaction();">
 
 
 	            print "<p><input type='submit' name='mysubmit' color: value='Login' /> ";
-                print "<br>";
+                print "<br><br>";
                 print "No Account - signup for FREE!";
-                print "<p><input type='submit' name='signup' value='Sign Up' /> ";
+                echo '<form <method="POST" action="form_input1.php">
+                            <input type="submit" name="SignUp" value="SignUp"/>
+                      </form>';
+                /*
+                echo '<a href="www.google.com">
+                        <input type="submit"/>
+                     </a>';
+                */
+
             
-            /*
-            $sql = "SELECT sys,email,ph FROM control WHERE email= '$userid' AND ph='$password';";
             
-            */
-            $sql = "SELECT sys,email,ph FROM control limit 4;";
-          
+            $sql = "SELECT email FROM control WHERE email= '$userid' AND ph='$password';";
+
             $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
             $row=pg_fetch_row($rs);
             $rowcount= pg_num_rows($rs);
            
-            /*
-            print $rowcount. "       ".  $row[2] ."<br>";
-            $row=pg_fetch_row($rs);
-            print $rowcount. "       ".  $row[2] ."<br>";
-            */
-            if ($rowcount<=0)
+            if ($rowcount<=0 and(!isset($row[$rowcount])))
             {
-                print 'Email and Phone not found - no account, sign up for FREE!<br>';
-                echo '<a href="http://programminghead.com">
-                <input type="submit" value="Return" />
-                </a>';
-                
+                print 'Email or Phone not found!';
             }
-            
-
-            $k=1;
-            $data=array();
-            while ($k<=$rowcount)
-            {
-                /*echo "$row[0] &nbsp;&nbsp  $row[1] &nbsp  $row[2] &nbsp <br>";*/
-                $name[$k]=$row[0];
-                $email[$k]=$row[1];
-                $ph[$k]=$row[2];
-                $data=array_merge($data,array($name[$k],$email[$k],$ph[$k],$ph[$k],$ph[$k]));
-
-                if ($row[0]==$userid)
-                {
-                    print("email found $userid");
-                }
-                $row=pg_fetch_row($rs);
-                $k++;
- 
-
-            }
-
 
           ?>
     </h3>
@@ -472,16 +462,15 @@ Onclick=topaction();">
 
     <h3 class="tot"> 
     <?php
-
+        disp_ytd($conn);
         $totpercent=50;
         $lastpercent=60;
 
-        $data=array("10/11/2023 11:30am", "0.0078%","4430.25", "4410.50","1");
-        print "<br>YTD Annual Return:  $totpercent%  &nbsp &nbsp Last Year: $lastpercent% <br>";
-        print "Recent LIVE trading activits: ";
-   
+       
+        print "<br>Last Year Annual Return:  $totpercent%  &nbsp &nbsp Last Year: $lastpercent% <br>";
+        
 
-        disp_detail($data);
+        disp_detail($conn);
     ?>
     </h3>
 
