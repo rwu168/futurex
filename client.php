@@ -18,11 +18,11 @@ form {
 }
 .login {
   position: fixed;
-  width: 30px;
+  width: 70px;
   margin: auto;
-  height: 205px;
-  width: 20%;
-  top: 120px;
+  height: 275px;
+  width: 25%;
+  top: 100px;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -34,7 +34,7 @@ form {
   left: 5px;
   height: 40px;
   width: 20%;
-  top: 330px;
+  top: 360px;
   border: 3px solid #73AD21;
   color: black;
   
@@ -47,7 +47,7 @@ form {
   left: 5px;
   height: 20px;
   width: 50%;
-  top: 420px;
+  top: 470px;
   background-color: lightyellow;
   border: 3px solid #73AD21;
   color: black;
@@ -59,12 +59,25 @@ form {
   left: 5px;
   height: 20px;
   width: 50%;
-  top: 500px;
+  top: 530px;
   background-color: lightyellow;
   border: 3px solid #73AD21;
   color: black;
 }
 
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  top:550px;
+}
 </style>
 
 <body>
@@ -78,9 +91,38 @@ form {
 		canvas.setHeight(400);
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking algo future index trading software that takes the trading game to a whole new level of excitement and high profit return... like to test it out?  No credit card or money needed.  It's free to test - just sign up!  Any questions, please contact us at futurex168168@gmail.com", 
+   
+        $act=2;
+
+        if ($act == 0)
         {
-			width: 810,
+            $status="[STATUS]: Account in Live Trading";
+        }
+        if ($act == 1)
+        {
+            $status="[STATUS]: Account in Paper Money trading. Ready for Real Live Trade - Click Upgrade button - any questions, please contact us at futurex168168@gmail.com";
+        }
+        if ($act == 2)
+        {
+            $status="[STATUS]: Test Trading Expired .... any questions, please contact us at futurex168168@gmail.com";
+        }
+        if ($act == 3)
+        {
+            $status="[STATUS]: Invalid TD Ameritrade User name or Password - please contact us at futurex168168@gmail.com";
+        }
+        if ($act == 4)
+        {
+            $status="[STATUS]: Account missing secondary phone#.  Please add this #626-353-3808 to allow access - any questions, please contact us at futurex168168@gmail.com";
+        }
+        if ($act == 5)
+        {
+            $status="[STATUS]: Account waiting for Future Trading approve by TD Ameritrade (take 2-3 business days after your applied)  - Any questions,please contact us at futurex168168@gmail.com";
+        }
+
+
+		var textbox = new fabric.Textbox($status, 
+        {
+			width: 510,
 			left: 500,
 			top: 40,
 			fill: "orange",
@@ -204,12 +246,12 @@ Onclick=topaction();">
 
     <?php
     /*=================Display YTD P/L==================================*/
-        function disp_ytd($conn)
+        function disp_ytd($conn,$name)
         {
                 global $data;
 
-
-                $sql = "SELECT  jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec FROM plapr where name='acw';";
+                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                $sql = "SELECT  jan1,feb1,mar1,apr1,may1,jun1,jul1,aug1,sep1,oct1,nov1,dec1 FROM plapr where name='$name';";
           
                 //$sql = "SELECT bal,sys,email,ph FROM control limit 4;";
           
@@ -223,8 +265,8 @@ Onclick=topaction();">
        
                 while ($k<=$rowcount)
                 {
-                    //$data=array(round($row[0],5),round($row[1],5),round($row[2],5),round($row[3],5),round($row[4],5),round($row[5],5),round($row[6],5),round($row[7],5),round($row[8],5),round($row[9],5),round($row[10],5),round($row[11],5),);
-                    $data=array(21,22,36,21,25.20,25.20,20.40,16.80,4.33,round($row[9],5),round($row[10],5),round($row[11],5),);
+                    $data=array(round($row[0],5),round($row[1],5),round($row[2],5),round($row[3],5),round($row[4],5),round($row[5],5),round($row[6],5),round($row[7],5),round($row[8],5),round($row[9],5),round($row[10],5),round($row[11],5),);
+                    //$data=array(21,22,36,21,25.20,25.20,20.40,16.80,4.33,round($row[9],5),round($row[10],5),round($row[11],5),);
 
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -274,7 +316,9 @@ Onclick=topaction();">
 
                             <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
                          
-                            <?php echo $data[$record_id] .'%' ?>
+                            <?php 
+                                $usd = $fmt->formatCurrency($data[$record_id], "USD");
+                                echo $usd ?>
                                 </td>
                             <?php
                         
@@ -302,10 +346,10 @@ Onclick=topaction();">
     
      <?php
     /*=================Display detail of trading activities==================================*/
-        function disp_detail($conn)
+        function disp_detail($conn,$name)
         {
-                $user_id='acw';
-                $sql = "SELECT dnt,per,sellp,buyp,qty FROM plper where name='$user_id' order by dnt desc limit 4;";
+                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                $sql = "SELECT dnt,plamt,sellp,buyp,qty FROM plper where name='$name' order by dnt desc limit 4;";
 
                 //$sql = "SELECT bal,sys,email,ph FROM control where sys='py' limit 4;";
 
@@ -363,7 +407,8 @@ Onclick=topaction();">
                             <?php 
                                 if ($columns==1)
                                 {
-                                    echo $data[$record_id] ."%";
+                                    $usd = $fmt->formatCurrency($data[$record_id], "USD");
+                                    echo $usd;
                                 }
                                 else 
                                 {
@@ -387,7 +432,7 @@ Onclick=topaction();">
                             }
                             if (!isset($data[$record_id]))
                             {
-                                print "<font color='red'>Real LIVE trading activities & APR below: </font>"; 
+                                print "<br><font color='red'>Real LIVE trading activities below: </font>"; 
                             }
                         }
 
@@ -403,43 +448,57 @@ Onclick=topaction();">
 
     <?php RemoteDb();  ?> 
  
-
-    <h3 class="login";color:black;>Enter Email and Cell-phone to sign-in
+   
+    <h2 class="login";color:black;>Real Time Account Info
  
         <?php
+                $usd = 100000;
                 
-        if (isset($_POST['userid']))
-            {
-	            $userid = $_POST['userid'];
-                
-            } 
-            else 
-            {
-	            $userid = '';
-  
-            }
-
-            if (isset($_POST['password']))
-            {
-	            $password = $_POST['password'];
-            } 
-            else 
-            {
-	            $password = '';
-            }
-            
-            
-
+                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                $usd = $fmt->formatCurrency($usd, "USD");
 	            print "<table> ";
 
 	            print "<tr> ";
-	            print "<td>Email: </td><td><input type='email' name='userid' size='25' /><br /> ";
+	                print "<td>Investment Amount: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
 	            print "<tr> ";
-	            print "<td>Cell-phone: </td><td><input type='phone' name='password' size='11' /></td> ";
+                    $usd=1000.25;
+                    $usd = $fmt->formatCurrency($usd, "USD");
+	                print "<td>Unajusted Profit &nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
+                print "<tr> ";
+                    $usd=10000.25;
+                    $usd = $fmt->formatCurrency($usd, "USD");
+	                print "<td>Unrealized P/L &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";
+	            print "</tr> ";
+
+                print "<tr> ";
+                    $qty=5;
+	                print "<td>Holding Positions &nbsp: $qty <td> <size='25' /><br /> ";
+	            print "</tr> ";
+
+                print "<tr> ";
+                    $usd=1000000.25;
+                    $usd = $fmt->formatCurrency($usd, "USD");
+	                print "<td>Avaiable Cash &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";
+	            print "</tr> ";
+
+                print "<tr> ";
+                    $usd=1000000.25;
+                    $usd = $fmt->formatCurrency($usd, "USD");
+	                print "<td>Account Balance &nbsp;&nbsp: $usd <td> <size='25' /><br /> ";                   
+	            print "</tr> ";
+
+               
+?>
+                
+
+                <button></button>
+                <a href="http://localhost:8080/futurexweb/form_input1.php" class="button">Upgrade</a>
+
+<?php
                 /*
                 print "<tr> ";
 	            print "<td>Comments:</td><td><input type='textarea' name='comments' rows='7' cols='50' /></td> ";
@@ -448,95 +507,22 @@ Onclick=topaction();">
 	            print "</table> ";
 
 
-	            print "<p><input type='submit' name='mysubmit' color: value='Login' /> ";
-                print "<br><br>";
-                print "No Account - signup for FREE!";
-
-                echo '<form method="POST" action="form_input1.php">
-                        <input type="submit" value="SignUp"/>
-                        </form>';
-
-
-
-
-
-                ?>
-                <a href="form_input1.php <p><input bgcolor="lightred" name="SignUp" value="SignUp "/></a>
-
-
-
-             <?php
-
-            $sql = "SELECT sys FROM control WHERE email= '$userid' AND ph='$password';";
-
-            $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-            $row=pg_fetch_row($rs);
-            $rowcount= pg_num_rows($rs);
-            //print($rowcount .$userid);
-            if ($rowcount<=0 and(!isset($row[$rowcount])))
-            {
-                print 'Email or Phone not found!';
-           
-              
-            }
-            else if ($rowcount>0 and $userid !='')
-            {
-
-                    $id=$row[0];
-                    $url="http://localhost:8080/futurexweb/client.php?name=$id";
-                    header("Location: $url");
-
-                    //<a href="http://localhost:8080/futurexweb/client.php?name=test">Goto</a>
-
-
-            }
 
 
           ?>
-    </h3>
+    </h2>
 
 
     <h3 class="tot"> 
     <?php
-        disp_ytd($conn);
-        $lastyearper=35;
-
-       
-        print "<br>Last Year Annual Return:  $lastyearper%<br>";
+        $name=$_GET['name'];
+        disp_ytd($conn,$name);
+        disp_detail($conn,$name);
+        $k=0;
         
-
-        disp_detail($conn);
+        
     ?>
     </h3>
-
-    
-    
-    
-
-    
-
-    <?php
-
-
-        /*LogIn($conn);*/
-
-        /*
-        $to="rwu168@gmail.com";
-        $subject="Test";
-        $body="testing";
-        $from="rwu168@gmail.com";
-        $rtnto="rwu168@gmail.com";
-        mail($to, $subject, $body, $from, $rtnto);
-
-        // file1.php 
-//session_start();
-//$_SESSION['variable'] = 'This is a variable from file1.php';
-//$_SESSION['variable1'] = 'This is a second variable from file1.php';
-
-
-        * neeeds to set sentmail_form in php.ini first*/
-
-    ?>
 
 
 </body>
