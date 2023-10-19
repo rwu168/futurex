@@ -1,27 +1,57 @@
+<?php 
+                datetime();
+                if ($day=="Saturday")
+                {
+                    $ask="Market Closed";
+
+                }
+                else if ( $day=="Sunday" and $time<"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else if ( $day=="Friday" and $time>"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else
+                {
+                        header("refresh: 120");
+                }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 
-<style>body {font-family: Arial, Helvetica, sans-serif; font-size: 16px;}</style>
+<style>body {font-family: Arial, Helvetica, sans-serif; font-size: 12px;}</style>
 <!link rel="stylesheet" type="text/css" href="css/basic.css" />
-<body style="font-family: Arial, Helvetica, sans-serif; color: Blue; background-color: white;">
+<body style="font-family: Arial, Helvetica, sans-serif; color: red; background-color: white;">
 <form id="myform" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
 <!h2 style="background-color: white; "</h2>
 <title>HTML <td> bgcolor Attribute</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/510/fabric.min.js"></script>
 
 <style>
+<style>
+
+ //   body {
+ // background-image: url("htech1.png");
+ // background-color: lightgrey;
+}
+
+
 form { 
   display: block;
   margin-top: 0em;
   margin-left: 0em;
 }
+
 .login {
   position: fixed;
-  width: 70px;
+  width: 50px;
+  height: 255px;
   margin: auto;
-  height: 275px;
-  width: 25%;
+  width: 30%;
   top: 100px;
   background-color: lightgrey;
   border: 3px solid #73AD21;
@@ -33,13 +63,24 @@ form {
   width: 60px;
   left: 5px;
   height: 40px;
-  width: 20%;
-  top: 360px;
-  border: 3px solid #73AD21;
+  width: 30%;
+  top: 350px;
+  background-color: white;
+  #border: 3px solid #73AD21;
   color: black;
   
 }
 
+
+.ask {
+  position: fixed;
+  width: 60px;
+  left: 5px;
+  height: 40px;
+  width: 25%;
+  top: 370px;
+  color: green;
+}
 
 .ytd{
   position: fixed;
@@ -47,8 +88,7 @@ form {
   left: 5px;
   height: 20px;
   width: 50%;
-  top: 470px;
-  background-color: lightyellow;
+  top: 400px;
   border: 3px solid #73AD21;
   color: black;
 }
@@ -57,10 +97,10 @@ form {
   position: fixed;
   width: 300px;
   left: 5px;
-  height: 20px;
+  height: 40px;
   width: 50%;
-  top: 530px;
-  background-color: lightyellow;
+  top: 470px;
+  background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
 }
@@ -82,25 +122,93 @@ form {
 
 <body>
 
+    <?php
+                RemoteDb();
+                //get account data
+                $name=$_GET['name'];
+                $sql = "SELECT qty, amt, flag2,micro,bal,active FROM control where sys='$name';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);        
+                $qty=$row[0];
+                $amt=$row[1];
+                $act1=$row[2];
+                $micro=$row[3];
+                $bal=$row[4];
+                $active=$row[5];
+
+                //get profit/los per month data
+                $sql = "SELECT sum(jan1),sum(feb1),sum(mar1),sum(apr1),sum(may1),sum(jun1),sum(jul1),sum(aug1),sum(sep1),sum(oct1),sum(nov1),sum(dec1) FROM plapr where name='$name';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);
+                $totpl=floatval($row[0])+floatval($row[1])+floatval($row[2])+floatval($row[3])+floatval($row[4])+floatval($row[5])+floatval($row[6])+floatval($row[7])+floatval($row[8])+floatval($row[9])+floatval($row[10])+floatval($row[11]);
+
+
+                DateTime();
+                //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
+                RemoteDb(); 
+                //get ask price
+                //$day="Saturday";
+                if ($day=="Saturday")
+                {
+                    $ask="Market Closed";
+
+                }
+                else if ( $day=="Sunday" and $time>"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else
+                {
+                    $sql = "SELECT cost from config where symbol='trade';";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    $row=pg_fetch_row($rs);
+                    $ask=$row[0];
+                }
+                
+
+                //get level buy data
+                $sql = "SELECT tprice,qty from cost where name='$name';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);
+                $rowcount= pg_num_rows($rs); 
+                $urpl=0;
+
+                for ($k=0;$k<$rowcount;$k++)
+                {
+                
+                    if ($micro=="y")
+                    {
+                        $pl=(floatval($ask)-floatval($row[0])) * floatval($row[1]) *5;
+                    }
+                    else
+                    {
+                        $pl=(floatval($ask)-floatval($row[0])) * floatval($row[1]) * 50;
+                    }
+
+                    $row=pg_fetch_row($rs);
+                    $urpl=$urpl+$pl;
+                }
+      
+
+    ?>
 
 	<canvas id="canvas"></canvas>
 	<script>
 		// Initiate a canvas instance
 		var canvas = new fabric.Canvas("canvas");
 		canvas.setWidth(document.body.scrollWidth);
-		canvas.setHeight(400);
+		canvas.setHeight(900);
 
 		// Initiate a textbox object
-   
-        $act=2;
-
+ 
+        var $act = "<?php echo"$act1"?>"; 
         if ($act == 0)
         {
             $status="[STATUS]: Account in Live Trading";
         }
         if ($act == 1)
         {
-            $status="[STATUS]: Account in Paper Money trading. Ready for Real Live Trade - Click Upgrade button - any questions, please contact us at futurex168168@gmail.com";
+            $status="[STATUS]: Congradtion! Your Account is in live Paper Money trading.  We use first-in/last-out accounting rule for P/L. Ready for Real Live Trade, Click Upgrade button - any questions, please contact us at futurex168168@gmail.com";
         }
         if ($act == 2)
         {
@@ -122,11 +230,12 @@ form {
 
 		var textbox = new fabric.Textbox($status, 
         {
-			width: 510,
-			left: 500,
+            width: 510,
+			left: 600,
 			top: 40,
 			fill: "orange",
-			strokeWidth: 2,
+			strokeWidth: 1,
+            fontSize: 30,
 			stroke: "green",
 		});
 
@@ -143,7 +252,7 @@ form {
 		canvas1.setHeight(250);
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("TradeXinvestment.com", 
+		var textbox = new fabric.Textbox("AlgoXinvestment.com", 
         {
 			width: 550,
 			left: 100,
@@ -190,12 +299,17 @@ Onclick=topaction();">
         /*=================date & time function=========================*/
         function DateTime()
         {   
-            global $today;
+           global $today,$day,$time;
+
+
 		    $today = date('Y-m-d');
-		    print "<p><b>Today is $today </b></p>";
+            $day=date('l', strtotime($today));
+            //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
+
+		    //print "<p><b>Today is $today </b></p>";
 
 		    $time = date('h:g:s');
-		    echo "<p><b>and the Time is $time </b></p>";
+		    //echo "<p><b>and the Time is $time </b></p>";
 
         }
 	?>
@@ -274,7 +388,7 @@ Onclick=topaction();">
                 }
            
     ?>
-                <table  class="ytd" bgcolor="lightblue" width="20px" height="10px" color="red">
+                 <table  class="ytd" width="20px" height="5px"  bgcolor="lightgreen" >
 
                  <tr>
                             <th>Jan</th>
@@ -314,7 +428,7 @@ Onclick=topaction();">
                     
                 ?>
 
-                            <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
+                            <td valign="top" bgcolor="yellow" width="30px" height="30px" color="red" >
                          
                             <?php 
                                 $usd = $fmt->formatCurrency($data[$record_id], "USD");
@@ -346,10 +460,12 @@ Onclick=topaction();">
     
      <?php
     /*=================Display detail of trading activities==================================*/
-        function disp_detail($conn,$name)
+        function disp_detail($conn,$name,$ask)
         {
+                global $totpl;
+
                 $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
-                $sql = "SELECT dnt,plamt,sellp,buyp,qty FROM plper where name='$name' order by dnt desc limit 4;";
+                $sql = "SELECT dnt,plamt,sellp,buyp,qty FROM plper where name='$name' order by dnt desc limit 3;";
 
                 //$sql = "SELECT bal,sys,email,ph FROM control where sys='py' limit 4;";
 
@@ -369,7 +485,7 @@ Onclick=topaction();">
                 }
                 
     ?>
-                <table  class="data" bgcolor="lightblue" width="20px" height="10px" color="red">
+                <table  class="data" bgcolor="lightyellow" width="20px" height="10px">
 
                  <tr>
                             <th>Date & time</th>
@@ -402,7 +518,7 @@ Onclick=topaction();">
                     
                 ?>
 
-                            <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
+                            <td valign="top" bgcolor="white" width="20px" height="10px" >
                          
                             <?php 
                                 if ($columns==1)
@@ -430,10 +546,7 @@ Onclick=topaction();">
                
                         
                             }
-                            if (!isset($data[$record_id]))
-                            {
-                                print "<br><font color='red'>Real LIVE trading activities below: </font>"; 
-                            }
+                            
                         }
 
     ?>
@@ -445,58 +558,68 @@ Onclick=topaction();">
            
     ?>
 
-
-    <?php RemoteDb();  ?> 
+    
+    
  
    
-    <h2 class="login";color:black;>Real Time Account Info
+    <h2 class="login";color:black;>Real Time Acct Info
  
         <?php
-                $usd = 100000;
                 
                 $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
-                $usd = $fmt->formatCurrency($usd, "USD");
-	            print "<table> ";
+  	            print "<table> ";
 
 	            print "<tr> ";
+                    $usd = $fmt->formatCurrency($amt, "USD");
 	                print "<td>Investment Amount: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
 	            print "<tr> ";
-                    $usd=1000.25;
-                    $usd = $fmt->formatCurrency($usd, "USD");
-	                print "<td>Unajusted Profit &nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";
+                    $usd = $fmt->formatCurrency($totpl, "USD");
+	                print "<td>Unajusted P/L MTD &nbsp: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
-                    $usd=10000.25;
-                    $usd = $fmt->formatCurrency($usd, "USD");
-	                print "<td>Unrealized P/L &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";
+                    $usd = $fmt->formatCurrency($urpl, "USD");
+	                print "<td>Unrealized P/L &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: <font color=green>$usd </font><td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
-                    $qty=5;
-	                print "<td>Holding Positions &nbsp: $qty <td> <size='25' /><br /> ";
+	                print "<td>Holding Positions;&nbsp;&nbsp;&nbsp: $qty <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
-                    $usd=1000000.25;
-                    $usd = $fmt->formatCurrency($usd, "USD");
-	                print "<td>Avaiable Cash &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";
+      
+                    $bal=$amt+$totpl;
+
+                    if ($micro=='y')
+                    {
+                        $cash=$bal-$qty*1400;
+                    }
+                    else 
+                    {
+                        $cash=$bal-$qty*14000;
+                    }
+                    
+                    $usd = $fmt->formatCurrency($cash, "USD");
+	                print "<td>Cash Buying Power: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
-                    $usd=1000000.25;
-                    $usd = $fmt->formatCurrency($usd, "USD");
-	                print "<td>Account Balance &nbsp;&nbsp: $usd <td> <size='25' /><br /> ";                   
+                    $usd = $fmt->formatCurrency($bal, "USD");
+	                print "<td>Account Balance &nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";                   
 	            print "</tr> ";
 
                
 ?>
-                
-
-                <button></button>
-                <a href="http://localhost:8080/futurexweb/form_input1.php" class="button">Upgrade</a>
+                <?php
+                if ($act1>0)
+                {?>
+                    <button></button>
+                    <!-- a href="www.tradexinvestment.com/form_input1.php" class="button">Upgrade to Live Tradeing</a> -->
+                    <a href="http://localhost:8080/futurexweb/form_input1.php" class="button">Upgrade to Live Trading</a>
+                <?php
+                }?>
 
 <?php
                 /*
@@ -513,17 +636,26 @@ Onclick=topaction();">
     </h2>
 
 
-    <h3 class="tot"> 
-    <?php
-        $name=$_GET['name'];
-        disp_ytd($conn,$name);
-        disp_detail($conn,$name);
-        $k=0;
-        
-        
-    ?>
+<h3 class="ask">
+      <?php
+        print "<font color='black'>LIVE - ES current price:</font> $ask";
+      ?>
     </h3>
 
+<h3 class="ask"> 
+    <?php
+     
+        
+        disp_ytd($conn,$name);
+        disp_detail($conn,$name,$ask);
+        exit;
+    
+ 
+        
+    ?>
+</h3>
+
+    
 
 </body>
 </html>

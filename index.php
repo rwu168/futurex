@@ -1,8 +1,30 @@
+<?php 
+                datetime();
+                if ($day=="Saturday")
+                {
+                    $ask="Market Closed";
+
+                }
+                else if ( $day=="Sunday" and $time<"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else if ( $day=="Friday" and $time>"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else
+                {
+                        header("refresh: 120");
+                }
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 
-<style>body {font-family: Arial, Helvetica, sans-serif; font-size: 16px;}</style>
+<style>body {font-family: Arial, Helvetica, sans-serif; font-size: 15px;}</style>
 <!link rel="stylesheet" type="text/css" href="css/basic.css" />
 <body style="font-family: Arial, Helvetica, sans-serif; color: Blue; background-color: white;">
 <form id="myform" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
@@ -10,7 +32,16 @@
 <title>HTML <td> bgcolor Attribute</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/510/fabric.min.js"></script>
 
+
+
 <style>
+
+ //   body {
+ // background-image: url("htech1.png");
+ // background-color: lightgrey;
+}
+
+
 form { 
   display: block;
   margin-top: 0em;
@@ -20,9 +51,23 @@ form {
   position: fixed;
   width: 30px;
   margin: auto;
-  height: 205px;
-  width: 20%;
+  height: 210px;
+  width: 27%;
   top: 120px;
+  background-image: url("htech1.png");
+  background-color: lightgrey;
+  border: 3px solid #73AD21;
+  color: black;
+}
+
+.login1 {
+  position: fixed;
+  width: 30px;
+  margin: auto;
+  height: 210px;
+  width: 27%;
+  top: 120px;
+  background-image: url("htech1.png");
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -33,11 +78,21 @@ form {
   width: 60px;
   left: 5px;
   height: 40px;
-  width: 20%;
-  top: 330px;
+  width: 25%;
+  top: 375px;
   border: 3px solid #73AD21;
   color: black;
-  
+  background-color:yellow;
+}
+
+.ask {
+  position: fixed;
+  width: 60px;
+  left: 5px;
+  height: 40px;
+  width: 27%;
+  top: 320px;
+  color: green;
 }
 
 
@@ -45,10 +100,8 @@ form {
   position: fixed;
   width: 600px;
   left: 5px;
-  height: 20px;
   width: 50%;
-  top: 420px;
-  background-color: lightyellow;
+  top: 440px;
   border: 3px solid #73AD21;
   color: black;
 }
@@ -59,8 +112,8 @@ form {
   left: 5px;
   height: 20px;
   width: 50%;
-  top: 500px;
-  background-color: lightyellow;
+  top: 510px;
+  background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
 }
@@ -68,23 +121,24 @@ form {
 </style>
 
 <body>
-
-
-	<canvas id="canvas"></canvas>
-	<script>
+    
+    <canvas id="canvas"></canvas>
+    <script>
 		// Initiate a canvas instance
 		var canvas = new fabric.Canvas("canvas");
 		canvas.setWidth(document.body.scrollWidth);
-		canvas.setHeight(400);
+		canvas.setHeight(500);
+
 
 		// Initiate a textbox object
 		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking algo future index trading software that takes the trading game to a whole new level of excitement and high profit return... like to test it out?  No credit card or money needed.  It's free to test - just sign up!  Any questions, please contact us at futurex168168@gmail.com", 
         {
-			width: 810,
+			width: 700,
 			left: 500,
-			top: 40,
+			top: 70,
 			fill: "orange",
 			strokeWidth: 2,
+            fontSize: 31,
 			stroke: "green",
 		});
 
@@ -101,11 +155,11 @@ form {
 		canvas1.setHeight(250);
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("TradeXinvestment.com", 
+		var textbox = new fabric.Textbox("AlgoXinvestment.com", 
         {
 			width: 550,
-			left: 100,
-			top: 40,
+			left: 90,
+			top: 45,
 			fill: "red",
 			strokeWidth: 2,
 			stroke: "red",
@@ -115,32 +169,49 @@ form {
 		canvas.add(textbox);
 	</script>
 
-   
-	
+    <img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
 
-<!//opacity=transparency>
-<!div id="button" class="fourth" onmouseover="this.style.opacity='0.4';this.style.width='140px'" 
-onmouseout="this.style.opacity='1';this.style.width='120px';
-<!//calling function
-Onclick=topaction();">
-
-
-
-<img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
-
-
-
-
-<body>
 
     
     <?php
-        /* =========Color and letter size=======================*/
-		$sec = date('s');
-		$colorArray = array('blue', 'green', 'red', 'maroon', 'gray');
-		$colorIndex = $sec % 1;
+                DateTime();
+                //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
+                RemoteDb(); 
+                //get ask price
+                //$day="Saturday";
+                if ($day=="Saturday")
+                {
+                    $ask="Market Closed";
 
-		/*print '<h1 style="color: '.$colorArray[$colorIndex].';">Hello World</h1>';*/
+                }
+                else if ( $day=="Sunday" and $time<"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else if ( $day=="Friday" and $time>"15:00:00")
+                {
+                    $ask="Market Closed";
+                }
+                else
+                {
+                    $sql = "SELECT cost from config where symbol='trade';";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    $row=pg_fetch_row($rs);
+                    $ask=$row[0];
+                }
+                
+    ?>
+
+    
+    <?php
+        function msg() //for testing only
+        {
+                                $id='acw';
+                                $url="http://localhost:8080/futurexweb/";
+                                $url=$url ."client.php?name=$id";
+                                header("Location: $url");
+          
+        }
 	?>
 
     
@@ -148,12 +219,19 @@ Onclick=topaction();">
         /*=================date & time function=========================*/
         function DateTime()
         {   
-            global $today;
+           global $today,$day,$time,$cm,$cy;
+
+
 		    $today = date('Y-m-d');
-		    print "<p><b>Today is $today </b></p>";
+            $day=date('l', strtotime($today));
+            $cm=date('m');
+            $cy=date('y');
+            //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
+
+		    //print "<p><b>Today is $today </b></p>";
 
 		    $time = date('h:g:s');
-		    echo "<p><b>and the Time is $time </b></p>";
+		    //echo "<p><b>and the Time is $time </b></p>";
 
         }
 	?>
@@ -211,7 +289,7 @@ Onclick=topaction();">
 
                 $sql = "SELECT  jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec FROM plapr where name='acw';";
           
-                //$sql = "SELECT bal,sys,email,ph FROM control limit 4;";
+                //$sql = "SELECT bal,sys,email,password FROM control limit 4;";
           
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
@@ -223,16 +301,16 @@ Onclick=topaction();">
        
                 while ($k<=$rowcount)
                 {
-                    //$data=array(round($row[0],5),round($row[1],5),round($row[2],5),round($row[3],5),round($row[4],5),round($row[5],5),round($row[6],5),round($row[7],5),round($row[8],5),round($row[9],5),round($row[10],5),round($row[11],5),);
-                    $data=array(21,22,36,21,25.20,25.20,20.40,16.80,4.33,round($row[9],5),round($row[10],5),round($row[11],5),);
+                    //$data=array(round($row[0],2),round($row[1],2),round($row[2],2),round($row[3],2),round($row[4],2),round($row[5],2),round($row[6],2),round($row[7],2),round($row[8],2),round($row[9],2),round($row[10],2),round($row[11],2),);
+                    $data=array(21,22,36,29,25.20,25.20,24.40,16.80,4.33,round($row[9],2),round($row[10],2),round($row[11],2),);
 
                     $row=pg_fetch_row($rs);
                     $k++;
                     
                 }
-           
+                
     ?>
-                <table  class="ytd" bgcolor="lightblue" width="20px" height="10px" color="red">
+                <table  class="ytd" width="20px" height="5px"  bgcolor="lightgreen" >
 
                  <tr>
                             <th>Jan</th>
@@ -272,7 +350,7 @@ Onclick=topaction();">
                     
                 ?>
 
-                            <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
+                            <td valign="top" bgcolor="yellow" width="30px" height="30px" color="red" >
                          
                             <?php echo $data[$record_id] .'%' ?>
                                 </td>
@@ -285,14 +363,14 @@ Onclick=topaction();">
                             $record_id++;
                             ?>
 
-        <?php
+     <?php
                
 
                         }
                     }
                     
            
-        ?>
+     ?>
     </table>
     <?php
         }
@@ -302,12 +380,12 @@ Onclick=topaction();">
     
      <?php
     /*=================Display detail of trading activities==================================*/
-        function disp_detail($conn)
+        function disp_detail($conn,$ask)
         {
                 $user_id='acw';
-                $sql = "SELECT dnt,per,sellp,buyp,qty FROM plper where name='$user_id' order by dnt desc limit 4;";
+                $sql = "SELECT dnt,per,sellp,buyp,qty FROM plper where name='$user_id' order by dnt desc limit 3;";
 
-                //$sql = "SELECT bal,sys,email,ph FROM control where sys='py' limit 4;";
+                //$sql = "SELECT bal,sys,email,password FROM control where sys='py' limit 4;";
 
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
@@ -325,14 +403,14 @@ Onclick=topaction();">
                 }
                 
     ?>
-                <table  class="data" bgcolor="lightblue" width="20px" height="10px" color="red">
+                <table  class="data" bgcolor="lightyellow" width="20px" height="10px">
 
                  <tr>
                             <th>Date & time</th>
                             <th>Profit this trade</th>
                             <th>Sold at</th>
                             <th>Brought at</th>
-                            <th>MES Position sold</th>
+                            <th>Positions</th>
                            
                             
                 </tr>
@@ -358,7 +436,7 @@ Onclick=topaction();">
                     
                 ?>
 
-                            <td valign="top" bgcolor="lightblue" width="20px" height="10px" color="red" >
+                            <td valign="top" bgcolor="white" width="10px" height="5px">
                          
                             <?php 
                                 if ($columns==1)
@@ -381,19 +459,15 @@ Onclick=topaction();">
                              $record_id++;
                              ?>
 
-        <?php
+    <?php
                
                         
                             }
-                            if (!isset($data[$record_id]))
-                            {
-                                print "<font color='red'>Real LIVE trading activities & APR below: </font>"; 
-                            }
+                            
                         }
 
     ?>
            
-        ?>
     </table>
     <?php
     }
@@ -401,32 +475,29 @@ Onclick=topaction();">
     ?>
 
 
-    <?php RemoteDb();  ?> 
- 
 
-    <h3 class="login";color:black;>Enter Email and Cell-phone to sign-in
+    <h3 class="login";color:black;>
  
         <?php
                 
-        if (isset($_POST['userid']))
-            {
-	            $userid = $_POST['userid'];
-                
-            } 
-            else 
-            {
-	            $userid = '';
+                if (isset($_POST['userid']))
+                {
+	                $userid = $_POST['userid'];
+                } 
+                else 
+                {
+	                $userid = '';
   
-            }
+                }
 
-            if (isset($_POST['password']))
-            {
-	            $password = $_POST['password'];
-            } 
-            else 
-            {
-	            $password = '';
-            }
+                if (isset($_POST['password']))
+                {
+	                $password = $_POST['password'];
+                } 
+                else 
+                {
+	                $password = '';
+                }
             
             
 
@@ -437,8 +508,10 @@ Onclick=topaction();">
 	            print "</tr> ";
 
 	            print "<tr> ";
-	            print "<td>Cell-phone: </td><td><input type='phone' name='password' size='11' /></td> ";
-	            print "</tr> ";
+	            print "<td>Password: </td><td><input type='phone' name='password' size='11' /></td> ";
+                print "<tr> ";
+	            
+	            //print "</tr> ";
 
                 /*
                 print "<tr> ";
@@ -448,51 +521,104 @@ Onclick=topaction();">
 	            print "</table> ";
 
 
-	            print "<p><input type='submit' name='mysubmit' color: value='Login' /> ";
+	            print "<p><input type='submit' name='login' float-right value='Login' /> ";
                 print "<br><br>";
-                print "No Account - signup for FREE!";
-
-                echo '<form method="POST" action="form_input1.php">
-                        <input type="submit" value="SignUp"/>
-                        </form>';
-
-
-
-
+                print "No Account - signup for FREE!!";
+               
 
                 ?>
-                <a href="form_input1.php <p><input bgcolor="lightred" name="SignUp" value="SignUp "/></a>
 
+                <form action="submit" method="post">
+                    <input type="submit" name="signup" value="SignUp">
+                </form>
 
+        <?php
 
-             <?php
+                       
+  //===========================signup clients=========================================================
+                        if (array_key_exists('signup',$_POST))
+                        {
 
-            $sql = "SELECT sys FROM control WHERE email= '$userid' AND ph='$password';";
+                                $userid=$_POST['userid'];
+                                $password=$_POST['password'];
+                                $ecode=strval(rand(1000,9999));
+                                if ($userid !='' and $password !='')
+                                {
+                                    $sql = "SELECT sys FROM control WHERE email= '$userid';";
 
-            $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-            $row=pg_fetch_row($rs);
-            $rowcount= pg_num_rows($rs);
-            //print($rowcount .$userid);
-            if ($rowcount<=0 and(!isset($row[$rowcount])))
-            {
-                print 'Email or Phone not found!';
+                                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                                    $row=pg_fetch_row($rs);
+                                    $rowcount= pg_num_rows($rs);
+                                    if ($rowcount>0 and(!isset($row[$rowcount])))
+                                    {
+                                        print "Email alreaady exist - please just sign-in";
+                                    }
+                                    else
+                                    {
+
+                                        $sql = "INSERT INTO signup (email,code) values('$userid','$ecode');";
+                                        //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                                        $ecode=123;
+                                        $url=$url ."signup.php?ecode=$ecode&email=$userid&password=$password";
+                                        header("Location: $url");
+                                        
+                                        
+        ?>
+  </h3>
+
+  <h3 class="login1";color:black;
+  <?php
+                                        
+  
+                
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    print "Please enter valid email and cell-phone #";
+                                }
+                        }
+                            
+                        
+//=============================Login start here ===========================================================
+                        if (array_key_exists('login',$_POST))
+                        {
+                            $sql = "SELECT sys FROM control WHERE email= '$userid' AND pw='$password';";
+
+                            $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                            $row=pg_fetch_row($rs);
+                            $rowcount= pg_num_rows($rs);
+                            //print($rowcount .$userid);
+                            if ($rowcount<=0 and(!isset($row[$rowcount])))
+                            {
+                                print 'Email or Password not found!';
            
               
-            }
-            else if ($rowcount>0 and $userid !='')
-            {
+                            }
+                            else if ($rowcount>0 and $userid !='')
+                            {
 
-                    $id=$row[0];
-                    $url="http://localhost:8080/futurexweb/client.php?name=$id";
-                    header("Location: $url");
+                                $id=$row[0];
+                                
+                                $url="http://localhost:8080/futurexweb/";
+                                //$url="www.tradexinvestment.com/";
+ 
+                                $url=$url ."client.php?name=$id";
+                                header("Location: $url");
 
-                    //<a href="http://localhost:8080/futurexweb/client.php?name=test">Goto</a>
+                            }
+                        }
+                    
+ ?>
 
+    </h3>
 
-            }
-
-
-          ?>
+    <h3 class="ask">
+      <?php
+        print "<font color='black'>LIVE - ES current price:</font> $ask";
+      ?>
     </h3>
 
 
@@ -501,43 +627,10 @@ Onclick=topaction();">
         disp_ytd($conn);
         $lastyearper=35;
 
-       
         print "<br>Last Year Annual Return:  $lastyearper%<br>";
-        
-
-        disp_detail($conn);
+        disp_detail($conn,$ask);
     ?>
     </h3>
-
-    
-    
-    
-
-    
-
-    <?php
-
-
-        /*LogIn($conn);*/
-
-        /*
-        $to="rwu168@gmail.com";
-        $subject="Test";
-        $body="testing";
-        $from="rwu168@gmail.com";
-        $rtnto="rwu168@gmail.com";
-        mail($to, $subject, $body, $from, $rtnto);
-
-        // file1.php 
-//session_start();
-//$_SESSION['variable'] = 'This is a variable from file1.php';
-//$_SESSION['variable1'] = 'This is a second variable from file1.php';
-
-
-        * neeeds to set sentmail_form in php.ini first*/
-
-    ?>
-
 
 </body>
 </html>
