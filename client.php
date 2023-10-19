@@ -617,7 +617,7 @@ Onclick=topaction();">
                 {?>
                     <button></button>
                     <!-- a href="www.tradexinvestment.com/form_input1.php" class="button">Upgrade to Live Tradeing</a> -->
-                    <a href="http://localhost:8080/futurexweb/form_input1.php" class="button">Upgrade to Live Trading</a>
+                    <a href="trade.php" class="button">Upgrade to Live Trading</a>
                 <?php
                 }?>
 

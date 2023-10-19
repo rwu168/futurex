@@ -15,7 +15,7 @@
                 }
                 else
                 {
-                        header("refresh: 120");
+                        header("refresh: 60");
                 }
 ?>
 
@@ -90,7 +90,7 @@ form {
   width: 60px;
   left: 5px;
   height: 40px;
-  width: 27%;
+  width: 30%;
   top: 320px;
   color: green;
 }
@@ -207,7 +207,7 @@ form {
         function msg() //for testing only
         {
                                 $id='acw';
-                                $url="http://localhost:8080/futurexweb/";
+                                //$url="http://localhost:8080/futurexweb/";
                                 $url=$url ."client.php?name=$id";
                                 header("Location: $url");
           
@@ -559,6 +559,8 @@ form {
                                         $sql = "INSERT INTO signup (email,code) values('$userid','$ecode');";
                                         //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                                         $ecode=123;
+                                        //$url="http://localhost:8080/futurexweb/";
+                                        //$url="www.tradexinvestment.com/";
                                         $url=$url ."signup.php?ecode=$ecode&email=$userid&password=$password";
                                         header("Location: $url");
                                         
@@ -602,7 +604,7 @@ form {
 
                                 $id=$row[0];
                                 
-                                $url="http://localhost:8080/futurexweb/";
+                                //$url="http://localhost:8080/futurexweb/";
                                 //$url="www.tradexinvestment.com/";
  
                                 $url=$url ."client.php?name=$id";
