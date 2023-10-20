@@ -5,9 +5,9 @@
 <?php
 		error_reporting(E_ERROR | E_PARSE);
 		$email=$_GET['email'];
-		$ph=$_GET['password'];
+		$pw=$_GET['pw'];
 		$ecode=$_GET['ecode'];
-		//echo "     dsdsdsds" .$ecode .$email .$ph;
+		//echo "     dsdsdsds" .$ecode .$email .$pw;
 	?>
 	</body>
 <style>body {font-family: Arial, Helvetica, sans-serif; font-size: 15px;}</style>
@@ -121,12 +121,15 @@ form {
 
 	 <h3 class="login1";color:black;">
 	<form action="site.php" method="post" top="120px">
-		Enter code from your email: <input type="text" name="code">  <input type="hidden" name="ecode" value=$ecode> <input type="hidden" name="email" value=$email> <input type="hidden" name="ph" value=$ph>
+		Enter code from your email: <input type="text" name="code">  
+				<input type="hidden" name="ecode" value=$ecode> 
+				<input type="hidden" name="email" value=$email> 
+				<input type="hidden" name="pw" value=$pw>
 		<?php
 	
-			print "<input type='hidden' name='email' value=$email/> ";
-			print "<input type='hidden' name='password' value=$password/> ";
-			print "<input type='hidden' name='ecode' value='$ecode' /> ";
+			print "<input type='hidden' name='email' value=$email /> ";
+			print "<input type='hidden' name='pw' value=$pw /> ";
+			print "<input type='hidden' name='ecode' value=$ecode /> ";
 
 		
 		?>
@@ -138,32 +141,30 @@ form {
 	if (isset($_POST['ecode']))
     {
 		$email=$_POST['email'];
-		$password=$_POST['password'];
+		$pw=$_POST['pw'];
 		$ecode=$_POST['ecode'];
 		$code=$_POST["code"];
-		echo $ecode .$code .$email;
+		echo $code .$pw .$ecode .$email;
 		DateTime();
 		RemoteDb();
 		
         if ($code==$ecode)
         {
+	
 									$id='fx' .strval($ecode);
-                                    $sql = "insert into control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy,id,pw1,rpl,buyl3,selll3,pdate,rtoken,sprice,mmy,email,pw) values(0,10,0,'y',1,1,'',0,200000,1,0,0,'td',-2,0,0,0,0,0,0,0,0,$id,0,0,0,$today,'',10,0,$email,$password));";
-                                    //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+									$sql = "INSERT INTO control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy, pw1,rpl,buyl3,selll3,rtoken, sprice,mmy,pw,email,pdate) values(0,1,20,0,'y',1,1,'0','0',200000,0,0,'$id','td',-2,0,0,0,0,0,0,0,0,'0',0,0,0,'0',10,0,'$pw','$email','$today');";
+                                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-                                    $sql = "insert into plper(name,dnt,dm,dy,sellp,buyp,per,qty, plamt) values($id,$today,$cm,$cy,0,0,0,0,0));";
-                                    //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                                    $sql = "INSERT INTO plper(name,dnt,dm,dy,sellp,buyp,per,qty, plamt) values('$id','$today','$cm','$cy',0,0,0,0,0);";
+                                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-                                    $sql = "insert into control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy,id,pw1,rpl,buyl3,selll3,pdate,rtoken,sprice,mmy,email,pw) values(0,10,0,'y',1,1,'',0,200000,1,0,0,'td',-2,0,0,0,0,0,0,0,0,$id,0,0,0,$today,'',10,0,$email,$password));";
-                                    //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                                    
-                                    $id="acw";
+                                    //$id="acw";
                                     $url=$url ."client.php?name=$id";
                                     header("Location: $url");
 		}
 		else 
 		{
-	
+				echo $pw .$ecode .$code .$email;
 				print "Invalid Code - Please go back and try again";
 				sleep(1);
 				$url=$url ."index.php";

@@ -508,7 +508,7 @@ form {
 	            print "</tr> ";
 
 	            print "<tr> ";
-	            print "<td>Password: </td><td><input type='phone' name='password' size='11' /></td> ";
+	            print "<td>Password: </td><td><input type='text' name='password' size='25' /></td> ";
                 print "<tr> ";
 	            
 	            //print "</tr> ";
@@ -549,8 +549,10 @@ form {
                                     $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                                     $row=pg_fetch_row($rs);
                                     $rowcount= pg_num_rows($rs);
+
                                     if ($rowcount>0 and(!isset($row[$rowcount])))
                                     {
+                                        //print  $ecode .$password .$userid  ."<br>";
                                         print "Email alreaady exist - please just sign-in";
                                     }
                                     else
@@ -558,10 +560,10 @@ form {
 
                                         $sql = "INSERT INTO signup (email,code) values('$userid','$ecode');";
                                         //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                                        $ecode=123;
+                                        //$ecode=123;
                                         //$url="http://localhost:8080/futurexweb/";
                                         //$url="www.tradexinvestment.com/";
-                                        $url=$url ."signup.php?ecode=$ecode&email=$userid&password=$password";
+                                        $url=$url ."signup.php?ecode=$ecode&email=$userid&pw=$password";
                                         header("Location: $url");
                                         
                                         
@@ -606,7 +608,6 @@ form {
                                 
                                 //$url="http://localhost:8080/futurexweb/";
                                 //$url="www.tradexinvestment.com/";
- 
                                 $url=$url ."client.php?name=$id";
                                 header("Location: $url");
 

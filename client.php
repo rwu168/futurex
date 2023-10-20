@@ -492,7 +492,7 @@ Onclick=topaction();">
                             <th>Profit this trade</th>
                             <th>Sold at</th>
                             <th>Brought at</th>
-                            <th>MES Position sold</th>
+                            <th>Position sold</th>
                            
                             
                 </tr>
