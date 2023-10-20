@@ -530,14 +530,16 @@ Onclick=topaction();">
  
         <?php
                 
-                print "I am in here";
+                
   	            print "<table> ";
 
                  print "I am in table";
 
                 $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
 	            print "<tr> ";
+                    print "I am in tr";
                     $usd = $fmt->formatCurrency($amt, "USD");
+                    print "I am out $$$";
 	                print "<td>Investment Amount: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
