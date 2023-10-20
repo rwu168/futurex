@@ -150,14 +150,13 @@ form {
 		
         if ($code==$ecode)
         {
-	
 									$id='fx' .strval($ecode);
-									$sql = "INSERT INTO control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy, pw1,rpl,buyl3,selll3,rtoken, sprice,mmy,pw,email,pdate) values(0,1,20,0,'y',1,1,'0','0',200000,0,0,'$id','td',-2,0,0,0,0,0,0,0,0,'0',0,0,0,'0',10,0,'$pw','$email','$today');";
+									$sql = "INSERT INTO control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy, pw1,rpl,buyl3,selll3,rtoken, sprice,mmy,pw,email,pdate,nq,id,rate1,flag2) values(0,1,20,0,'y',1,1,'0','0',200000,0,0,'$id','td',-2,0,0,0,0,0,0,0,0,'0',0,0,0,'0',10,0,'$pw','$email','$today',0,'',0,1);";
                                     $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
                                     $sql = "INSERT INTO plper(name,dnt,dm,dy,sellp,buyp,per,qty, plamt) values('$id','$today','$cm','$cy',0,0,0,0,0);";
                                     $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-
+									pg_query("COMMIT") or die("Transaction commit failed\n");
                                     //$id="acw";
                                     $url=$url ."client.php?name=$id";
                                     header("Location: $url");

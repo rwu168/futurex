@@ -557,13 +557,10 @@ form {
                                     }
                                     else
                                     {
-
                                         $sql = "INSERT INTO signup (email,code) values('$userid','$ecode');";
-                                        //$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                                        //$ecode=123;
-                                        //$url="http://localhost:8080/futurexweb/";
-                                        //$url="www.tradexinvestment.com/";
-                                        $url=$url ."signup.php?ecode=$ecode&email=$userid&pw=$password";
+                                        $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                                        pg_query("COMMIT") or die("Transaction commit failed\n");
+                                        $url="signup.php?ecode=$ecode&email=$userid&pw=$password";
                                         header("Location: $url");
                                         
                                         
@@ -572,9 +569,7 @@ form {
 
   <h3 class="login1";color:black;
   <?php
-                                        
-  
-                
+                                                       
 
                                     }
 
@@ -607,9 +602,8 @@ form {
                                 $id=$row[0];
                                 
                                 //$url="http://localhost:8080/futurexweb/";
-                                //$url="www.tradexinvestment.com/";
-                                //$url=$url ."client.php?name=$id";
-                                $url=$url ."client.php?name=$id";
+
+                                $url="client.php?name=$id";
                                 header("Location: $url");
 
                             }

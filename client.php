@@ -328,7 +328,7 @@ Onclick=topaction();">
         {
                 global $data;
 
-                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                //$fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
                 $sql = "SELECT  jan1,feb1,mar1,apr1,may1,jun1,jul1,aug1,sep1,oct1,nov1,dec1 FROM plapr where name='$name';";
           
                 //$sql = "SELECT bal,sys,email,ph FROM control limit 4;";
@@ -395,8 +395,9 @@ Onclick=topaction();">
                             <td valign="top" bgcolor="yellow" width="30px" height="30px" color="red" >
                          
                             <?php 
-                                $usd = $fmt->formatCurrency($data[$record_id], "USD");
-                                echo $usd ?>
+                                //$usd = $fmt->formatCurrency($data[$record_id], "USD");
+                                $usd = number_format($data[$record_id],2);
+                                echo "$" .$usd ?>
                                 </td>
                             <?php
                         
@@ -428,7 +429,7 @@ Onclick=topaction();">
         {
                 global $totpl;
 
-                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                //$fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
                 $sql = "SELECT dnt,plamt,sellp,buyp,qty FROM plper where name='$name' order by dnt desc limit 3;";
 
                 //$sql = "SELECT bal,sys,email,ph FROM control where sys='py' limit 4;";
@@ -487,8 +488,9 @@ Onclick=topaction();">
                             <?php 
                                 if ($columns==1)
                                 {
-                                    $usd = $fmt->formatCurrency($data[$record_id], "USD");
-                                    echo $usd;
+                                    //$usd = $fmt->formatCurrency($data[$record_id], "USD");
+                                    $usd = number_format($data[$record_id],2);
+                                    echo "$" .$usd;
                                 }
                                 else 
                                 {
@@ -535,21 +537,20 @@ Onclick=topaction();">
 
                 //$fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
 	            print "<tr> ";
-                    print "I am in tr";
-                    //$usd = $fmt->formatCurrency($amt, "USD");
-                    $usd=100000;
-	                print "<td>Investment Amount: $usd <td> <size='25' /><br /> ";
-                    print "I am out $$$";
+                    $usd = number_format($amt,2);
+	                print "<td>Investment Amount :$ $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
 	            print "<tr> ";
-                    $usd = $fmt->formatCurrency($totpl, "USD");
-	                print "<td>Unajusted P/L MTD &nbsp: $usd <td> <size='25' /><br /> ";
+                    //$usd = $fmt->formatCurrency($totpl, "USD");
+                    $usd = number_format($totpl,2);
+	                print "<td>Unajusted P/L MTD &nbsp:$ $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
-                    $usd = $fmt->formatCurrency($urpl, "USD");
-	                print "<td>Unrealized P/L &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: <font color=green>$usd </font><td> <size='25' /><br /> ";
+                    //$usd = $fmt->formatCurrency($urpl, "USD");
+                    $usd = number_format($urpl,2);
+	                print "<td>Unrealized P/L &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
@@ -569,13 +570,15 @@ Onclick=topaction();">
                         $cash=$bal-$qty*14000;
                     }
                     
-                    $usd = $fmt->formatCurrency($cash, "USD");
-	                print "<td>Cash Buying Power: $usd <td> <size='25' /><br /> ";
+                    //$usd = $fmt->formatCurrency($cash, "USD");
+                    $usd = number_format($cash,2);
+	                print "<td>Cash Buying Power:$ $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
-                    $usd = $fmt->formatCurrency($bal, "USD");
-	                print "<td>Account Balance &nbsp;&nbsp;&nbsp;&nbsp: $usd <td> <size='25' /><br /> ";                   
+                    //$usd = $fmt->formatCurrency($bal, "USD");
+                    $usd = number_format($bal,2);
+	                print "<td>Account Balance &nbsp;&nbsp;&nbsp;&nbsp:$ $usd <td> <size='25' /><br /> ";                   
 	            print "</tr> ";
 
                
