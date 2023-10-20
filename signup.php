@@ -164,11 +164,11 @@ form {
 		}
 		else 
 		{
-				echo $pw .$ecode .$code .$email;
+				//echo $pw .$ecode .$code .$email;
 				print "Invalid Code - Please go back and try again";
 				sleep(1);
 				$url=$url ."index.php";
-                //header("Location: $url");
+                header("Location: $url");
 
         }
 	
