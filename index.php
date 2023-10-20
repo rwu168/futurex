@@ -609,7 +609,7 @@ form {
                                 //$url="http://localhost:8080/futurexweb/";
                                 //$url="www.tradexinvestment.com/";
                                 //$url=$url ."client.php?name=$id";
-                                $url=$url ."test.php?name=$id";
+                                $url=$url ."client.php?name=$id";
                                 header("Location: $url");
 
                             }

@@ -283,17 +283,6 @@ Onclick=topaction();">
 
 
 <body>
-
-    
-    <?php
-        /* =========Color and letter size=======================*/
-		$sec = date('s');
-		$colorArray = array('blue', 'green', 'red', 'maroon', 'gray');
-		$colorIndex = $sec % 1;
-
-		/*print '<h1 style="color: '.$colorArray[$colorIndex].';">Hello World</h1>';*/
-	?>
-
     
     <?php
         /*=================date & time function=========================*/
@@ -313,31 +302,6 @@ Onclick=topaction();">
 
         }
 	?>
-
-    <?php
-        /*======================validateion function===============================*/
-        function ValEntry()
-        { 
-            global $name,$comments;
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST") 
-            {
-
-                $name = $_POST['firstname'];
-                if (empty($name)) 
-                {
-                    echo "Name is empty";
-                } 
-                else 
-                {
-                    echo $name;
-                }
-                $comments = $_POST['comments'];
-		        print "<p>Congratulations $name</p>";
-		        print $comments;
-            }
-        }
-    ?>
     
     <?php
     /*====================open postgresql database================================*/
@@ -566,9 +530,12 @@ Onclick=topaction();">
  
         <?php
                 
-                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                print "I am in here";
   	            print "<table> ";
 
+                 print "I am in table";
+
+                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
 	            print "<tr> ";
                     $usd = $fmt->formatCurrency($amt, "USD");
 	                print "<td>Investment Amount: $usd <td> <size='25' /><br /> ";
