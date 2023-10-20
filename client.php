@@ -535,11 +535,12 @@ Onclick=topaction();">
 
                  print "I am in table";
 
-                $fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
+                //$fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
 	            print "<tr> ";
                     print "I am in tr";
                     $usd = $fmt->formatCurrency($amt, "USD");
                     print "I am out $$$";
+                    $usd=100000;
 	                print "<td>Investment Amount: $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
