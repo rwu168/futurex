@@ -101,7 +101,7 @@ form {
 
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("Please READ instruction below before upgrade to LIVE trading!!  Any questions, feel free to contact us at futurex168168@gmail.com", 
+		var textbox = new fabric.Textbox("Please READ instruction below before upgrade to LIVE trading! This site is under development!!!  Any questions, feel free to contact us at futurex168168@gmail.com", 
         {
 			width: 500,
 			left: 500,
@@ -116,7 +116,7 @@ form {
 		canvas.add(textbox);
 	</script>
 
-
+	<img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
     <canvas id1="canvas1"></canvas>
 	<script>
 		// Initiate a canvas instance
@@ -139,7 +139,7 @@ form {
 		canvas.add(textbox);
 	</script>
 
-    <img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
+
 
 	
 

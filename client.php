@@ -2,19 +2,20 @@
                 datetime();
                 if ($day=="Saturday")
                 {
-                    $ask="Market Closed";
+                    $ask1="Market Closed";
 
                 }
                 else if ( $day=="Sunday" and $time<"15:00:00")
                 {
-                    $ask="Market Closed";
+                    $ask1="Market Closed";
                 }
                 else if ( $day=="Friday" and $time>"15:00:00")
                 {
-                    $ask="Market Closed";
+                    $ask1="Market Closed";
                 }
                 else
                 {
+                        $ask1="o";
                         header("refresh: 120");
                 }
 ?>
@@ -87,7 +88,7 @@ form {
   width: 600px;
   left: 5px;
   height: 20px;
-  width: 50%;
+  width: 30%;
   top: 400px;
   border: 3px solid #73AD21;
   color: black;
@@ -98,7 +99,7 @@ form {
   width: 300px;
   left: 5px;
   height: 40px;
-  width: 50%;
+  width: 30%;
   top: 470px;
   background-color: lightgrey;
   border: 3px solid #73AD21;
@@ -148,50 +149,42 @@ form {
                 RemoteDb(); 
                 //get ask price
                 //$day="Saturday";
-                if ($day=="Saturday")
-                {
-                    $ask="Market Closed";
+                $sql = "SELECT cost from config where symbol='trade';";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    $row=pg_fetch_row($rs);
+                    $ask=floatval($row[0]);
 
-                }
-                else if ( $day=="Sunday" and $time>"15:00:00")
+
+                //get level buy data
+                if ($micro=="y")
                 {
-                    $ask="Market Closed";
+                        $mul=5;
                 }
                 else
                 {
-                    $sql = "SELECT cost from config where symbol='trade';";
-                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                    $row=pg_fetch_row($rs);
-                    $ask=$row[0];
+                        $mul=50;
                 }
-                
 
-                //get level buy data
-                $sql = "SELECT tprice,qty from cost where name='$name';";
+                $sql = "SELECT tprice,qty,level from cost where name='$name' order by level;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs); 
                 $urpl=0;
-
                 for ($k=0;$k<$rowcount;$k++)
-                {
-                
-                    if ($micro=="y")
-                    {
-                        $pl=(floatval($ask)-floatval($row[0])) * floatval($row[1]) *5;
-                    }
-                    else
-                    {
-                        $pl=(floatval($ask)-floatval($row[0])) * floatval($row[1]) * 50;
-                    }
+                { 
+                    $pl=(floatval($ask)-$row[0]) * $row[1] *$mul ;
 
-                    $row=pg_fetch_row($rs);
+                    //print $pl ."|"  .$ask ."|" .$row[0] ."|".$row[1] ."|" .$row[2];  
+                    
                     $urpl=$urpl+$pl;
+                    $row=pg_fetch_row($rs);
                 }
+         
       
 
     ?>
 
+    
 	<canvas id="canvas"></canvas>
 	<script>
 		// Initiate a canvas instance
@@ -208,7 +201,7 @@ form {
         }
         if ($act == 1)
         {
-            $status="[STATUS]: Congradtion! Your Account is in live Paper Money trading.  We use first-in/last-out accounting rule for P/L. Ready for Real Live Trade, Click Upgrade button - any questions, please contact us at futurex168168@gmail.com";
+            $status="Congratulations!  Your Account is in live Paper Money trading and using the first-in/last-out accounting rule for P/L. \n\nDon't think of this trading like a traditional investor but treat it like you invest in a business operation - it allocated about 15% unrealized amount as operating cost (op/cost) to handle market corrections runs 1-3 times a year, and (20-25% major correction or market crash once 5-10 year).  This unrealized op/cost may go up or down from time to time - it normally goes up when we buy more positions during market down, and goes down when we sell positions for profit during market up.  Just like operating a business, you buy products when price are down and sell products when price are up for taking profit.  No need to worry about the allocated operating cost because it always within our allocated range - just keep eyes on the profit month after month... \n\nReady for Real Live Trade, Click Upgrade button - any questions, please contact us at futurex168168@gmail.com";
         }
         if ($act == 2)
         {
@@ -235,7 +228,7 @@ form {
 			top: 40,
 			fill: "orange",
 			strokeWidth: 1,
-            fontSize: 30,
+            fontSize: 20,
 			stroke: "green",
 		});
 
@@ -243,6 +236,7 @@ form {
 		canvas.add(textbox);
 	</script>
 
+    <img id="firstimg" src="logox.png";  style="position:fixed;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
 
     <canvas id1="canvas1"></canvas>
 	<script>
@@ -265,20 +259,6 @@ form {
 		// Add it to the canvas
 		canvas.add(textbox);
 	</script>
-
-   
-	
-
-<!//opacity=transparency>
-<!div id="button" class="fourth" onmouseover="this.style.opacity='0.4';this.style.width='140px'" 
-onmouseout="this.style.opacity='1';this.style.width='120px';
-<!//calling function
-Onclick=topaction();">
-
-
-
-<img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
-
 
 
 
@@ -550,7 +530,7 @@ Onclick=topaction();">
                 print "<tr> ";
                     //$usd = $fmt->formatCurrency($urpl, "USD");
                     $usd = number_format($urpl,2);
-	                print "<td>Unrealized P/L &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
+	                print "<td>Unrealized Op/Cost &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";
@@ -609,7 +589,15 @@ Onclick=topaction();">
 
 <h3 class="ask">
       <?php
-        print "<font color='black'>LIVE - ES current price:</font> $ask";
+        if ($ask1=="o")
+        {
+            print "<font color='black'>LIVE - ES current price:</font> $ask";
+        }
+        else
+        {
+            print "<font color='black'>LIVE - ES current price:</font> Market Closed";
+        }
+
       ?>
     </h3>
 

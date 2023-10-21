@@ -146,7 +146,7 @@ form {
 		canvas.add(textbox);
 	</script>
 
-
+    <img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
     <canvas id1="canvas1"></canvas>
 	<script>
 		// Initiate a canvas instance
@@ -168,8 +168,6 @@ form {
 		// Add it to the canvas
 		canvas.add(textbox);
 	</script>
-
-    <img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
 
 
     

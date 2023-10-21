@@ -90,7 +90,7 @@ form {
         }
 
     ?>
-
+	<img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
     
 	<canvas id="canvas"></canvas>
     <script>
@@ -115,7 +115,7 @@ form {
 		canvas.add(textbox);
 	</script>
 
-    <img id="firstimg" src="logox.png"; style="position:absolute;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
+
 
 	
 
