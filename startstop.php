@@ -32,10 +32,10 @@ form {
 
 .login1 {
   position: fixed;
-  width: 100px;
+  width: 500px;
   margin: auto;
   height: 200px;
-  width: 40%;
+  width: 70%;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -93,12 +93,12 @@ form {
 		$row=pg_fetch_row($rs);
 		$active=$row[0];
 
-		$sql = "select es,nq,tk,smscode,status from control where active<=0;";
+		$sql = "select es,nq,tk,status from control where active<=0;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
         //$rowcount= pg_num_rows($rs); 
 		
-		$backup=$row[0];$txt=$row[1];$tk=$row[2];$sms=$row[3];$forcebk=$row[4];
+		$backup=$row[0];$sms=$row[1];$tk=$row[2];$forcebk=$row[3];
 
 		
 		
@@ -162,7 +162,7 @@ form {
 		$sql = "update config set active=$active where symbol = 'trade';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-		$sql = "update control set es=$backup,nq=$txt,tk=$tk,smscode=$sms,status=$forcebk;";
+		$sql = "update control set es=$backup,nq=$sms,tk=$tk,status=$forcebk;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 

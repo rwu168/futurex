@@ -37,10 +37,10 @@ form {
 
 .login1 {
   position: fixed;
-  width: 100px;
+  width: 700px;
   margin: auto;
-  height: 700px;
-  width: 60%;
+  height: 500px;
+  width: 95%;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -104,10 +104,10 @@ form {
 				{ 
 				$name = unserialize($_SESSION['name']); 
 				} 
-				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,ym,seccont,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2 from control where sys='$name';";
+				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,ym,seccont,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq from control where sys='$name';";
 				$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 				$row=pg_fetch_row($rs);
-				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$ym=$row[10];$seccont=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];
+				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$ym=$row[10];$seccont=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];$pw=$row[22];$nq=$row[23];
 			
 	
 	?>
@@ -133,7 +133,10 @@ form {
 					<input type="text" size=15 name="ph" value="<?=$ph?>"><br>
 
 					Brokerage Firm like td,ts,cs etc...(td):
-					<input type="text" size=2 name="trade" value="<?=$trade?>"><br>
+					<input type="text" size=2 name="trade" value="<?=$trade?>">
+
+					Password for Web:
+					<input type="text" size=2 name="pw" value="<?=$pw?>"><br><br>
 
 					*Buying Range:(0,35,70)'):
 					<input type="text" size=2 name="sprice" value="<?=$sprice?>">
@@ -189,7 +192,7 @@ form {
 
 	if (isset($_POST['mkt_cond']))
     {
-		print "dsdsdsdsd111" .$name .$mkt_cond .$flag2."<br>";
+		//print "dsdsdsdsd111" .$name .$mkt_cond .$flag2."<br>";
 		$name=$_POST['name'];
 		$flag2=$_POST['flag2'];
 		$mkt_cond=$_POST['mkt_cond'];
@@ -212,10 +215,11 @@ form {
 		$buyl3=$_POST['buyl3'];
 		$selll3=$_POST['selll3'];
 		$mmy=$_POST['mmy'];
+		$pw=$_POST['pw'];
 
 
 		
-		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',ym=$ym,seccont=$seccont,qty=$qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
+		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',ym=$ym,seccont=$seccont,qty=$qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw=$pw where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
