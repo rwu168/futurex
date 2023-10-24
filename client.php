@@ -197,7 +197,8 @@ form {
         var $act = "<?php echo"$act1"?>"; 
         if ($act == 0)
         {
-            $status="[STATUS]: Account in Live Trading";
+            $status="Account in Live Trading and using the first-in/last-out accounting rule for P/L. \n\nDon't think of this trading like a traditional investment but treat it like you invest in a business operation - it allocated about 15% unrealized amount as operating cost (op/cost) to handle market corrections runs 1-3 times a year, and (20-25% major correction or market crash once 5-10 year).  This unrealized op/cost may go up or down from time to time - it normally goes up when we buy more positions during market down, and goes down when we sell positions for profit during market up.  Just like operating a business, you buy products when price are down and sell products when price are up for taking profit.  No need to worry about the allocated operating cost because it always within our allocated range - just keep eyes on the profit month after month...";
+
         }
         if ($act == 1)
         {
@@ -225,15 +226,32 @@ form {
         {
             width: 510,
 			left: 600,
-			top: 40,
+			top: 5,
 			fill: "orange",
 			strokeWidth: 1,
-            fontSize: 20,
+            fontSize: 19,
 			stroke: "green",
 		});
+        canvas.add(textbox);
 
-		// Add it to the canvas
-		canvas.add(textbox);
+        if ($act==0) 
+        {
+            $status1="Disclosure: We are NOT licensed brokers and we are NOT directly or indirectly providing any financial advice and no guarantee of profit/principal. This is for you to test our Algo Trading in real money. Both sides may cancel the service at any time by notifying each other.";
+		
+            var textbox1 = new fabric.Textbox($status1, 
+            {
+                width: 510,
+			    left: 600,
+			    top: 410,
+			    fill: "orange",
+			    strokeWidth: 1,
+                fontSize: 13,
+			    stroke: "green",
+		    });
+
+		    // Add it to the canvas
+		    canvas.add(textbox1);
+        }
 	</script>
 
     <img id="firstimg" src="logox.png";  style="position:fixed;top:5px;left:20px;height:100px;width:100px;border-radius:90px;";/>
