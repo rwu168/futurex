@@ -32,10 +32,10 @@ form {
 
 .login1 {
   position: fixed;
-  width: 100px;
+  width: 200px;
   margin: auto;
-  height: 200px;
-  width: 20%;
+  height: 300px;
+  width: 50%;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -53,6 +53,9 @@ form {
 		2) Start, Stop & Backup<br>
 		3) Config Data<br>
 		4) Client Data<br><br>
+		5) Main<br>
+		6) Status Data<br>
+		7) P/L Daily Data<br><br>
 
 		Enter option # above: <input type="text" size=1 name="select">
 		<input type="submit" name="submit"<br><br>
@@ -90,8 +93,23 @@ form {
 					<input type="submit" name="submit"<br><br>
 				</form>
 			<?php
-				
-		}
+			}
+			else if ($select==5)
+			{
+				$url=$url ."index.php?";
+				header("Location: $url");
+			}
+			else if ($select==6)
+			{
+				$url=$url ."status.php?";
+				header("Location: $url");
+			}
+			else if ($select==7)
+			{
+				$url=$url ."pldaily.php?";
+				header("Location: $url");
+			}
+		
 	}
 	
 	?>
