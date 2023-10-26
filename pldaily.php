@@ -61,6 +61,7 @@ form {
         {   
            global $today,$day,$time,$datef,$datet;
 
+            date_default_timezone_set('America/Los_Angeles');
             $today = date('Y-m-d');
   
             $cm=date('m');
@@ -106,7 +107,7 @@ form {
 
                 $datef=date('Y-m-01', strtotime($today));
                 $datet=date('Y-m-t', strtotime($today));
-                //echo $datef ."iiiiii" .$datet ."<br>";
+                //echo $today ."iiiiii" .$datet ;
 
                 $sql = "select name,pl from profit where cdate>=date('$today') and cdate<=date('$today') order by name;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 

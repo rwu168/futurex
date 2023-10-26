@@ -55,7 +55,8 @@ form {
 		4) Client Data<br><br>
 		5) Main<br>
 		6) Status Data<br>
-		7) P/L Daily Data<br><br>
+		7) P/L Daily Data<br>
+		8) Adjustment<br><br>
 
 		Enter option # above: <input type="text" size=1 name="select">
 		<input type="submit" name="submit"<br><br>
@@ -87,13 +88,14 @@ form {
 			{
 
 			?>
-				<h3 class="login1";color:black;">
+				<h3 class="login1";color:"black;">
 				<form action="cd.php?name=$_POST['name']" method="post" top="120px">
 					Name: <input type="text" size=10 name="name">
 					<input type="submit" name="submit"<br><br>
 				</form>
 			<?php
 			}
+			
 			else if ($select==5)
 			{
 				$url=$url ."index.php?";
@@ -108,6 +110,17 @@ form {
 			{
 				$url=$url ."pldaily.php?";
 				header("Location: $url");
+			}
+			else if ($select==8)
+			{
+
+			?>
+				<h3 class="login1";color:"black;">
+				<form action="adjust.php?name=$_POST['name']" method="post" top="120px">
+					Name: <input type="text" size=10 name="name">
+					<input type="submit" name="submit"<br><br>
+				</form>
+			<?php
 			}
 		
 	}
