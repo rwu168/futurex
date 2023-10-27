@@ -262,7 +262,7 @@ form {
 	}
 
 	//if (isset($_POST['level']) or isset($_POST['del']) or isset($_POST['amt']) or isset($_POST['qty1']))
-    if (isset($_POST['submit']) )
+    if (isset($_POST['name']) )
     {
 		$name=$_POST['name'];
         $cm=$_POST['cm'];
@@ -280,8 +280,7 @@ form {
 
 
         
-   
-        //print $today1 ."====<br>";
+        //print $amt .$td .$cm .$cy ."==2==<br>";
         if ($level>0 and $price>0 and $qty>0) //Update and insert level
 		{
                 //print $level ."==1==<br>";
@@ -296,8 +295,8 @@ form {
 
         if (($amt >0 or $amt<0) and $cm !="" and $cy !="") //make adjust to p/l
         {
-                //print $amt ."==2==<br>";
-                $sql = "update profit set pl=pl+$amt where name='$name' and cdate=date('$today1') and adjust=1;";
+                //print $amt .$td ."==2==<br>";
+                $sql = "update profit set pl=pl+$amt where name='$name' and cdate=date('$td') and adjust=1;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $count=pg_affected_rows($rs);
                 if ($count<1)

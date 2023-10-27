@@ -129,6 +129,7 @@ form {
                 {
                     $name=$row[2];
                     $pl=round($row[0],2);
+
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
@@ -179,7 +180,14 @@ form {
 
                         $totwu=$totwu + $wu;
 
-                        //print $rge ."==!=<br>";
+                        /**
+                        print $rge ."==!=<br>";
+                        if ($name=="test")
+                        {
+                                print $name .$pl ."==<br>";
+                        }
+                        */
+
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$seccont,$spriceselldown,$sprice));
                     }
                     $row=pg_fetch_row($rs);

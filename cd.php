@@ -168,7 +168,7 @@ form {
 					My rate:
 					<input type="text" size=2 name="mmy" value="<?=$mmy?>">
 
-					Enable/Disable Level+ Buy(Enable=-1 & Disable=0):
+					No Buy after sold(1= yes & 0=use default):
 					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
 					
 					Risk Level(0-10):
@@ -220,7 +220,7 @@ form {
 		$pw=$_POST['pw'];
 		$shprice=$_POST['shprice'];
 		$shlevel=$_POST['shlevel'];
-
+		$secbuy=$_POST['secbuy'];
 		
 
 
