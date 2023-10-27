@@ -131,9 +131,9 @@ form {
 
 
 		// Initiate a textbox object
-		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking algo future index trading software that takes the trading game to a whole new level of excitement and high profit return... like to test it out?  No credit card or money needed.  It's free to test - just sign up!  Any questions, please contact us at futurex168168@gmail.com", 
+		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking algo future index trading software that takes the trading game to a whole new level of excitement and high profit return... \n\nLike to test it out?  No credit card or money needed and cancel any time.  It's free to test - just sign up!  Any questions, please contact us at futurex168168@gmail.com", 
         {
-			width: 700,
+			width: 750,
 			left: 500,
 			top: 70,
 			fill: "orange",

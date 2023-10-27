@@ -61,6 +61,7 @@ form {
         {   
            global $today,$day,$time,$datef,$datet;
 
+            date_default_timezone_set('America/Los_Angeles');
             $today = date('Y-m-d');
   
             $cm=date('m');
@@ -140,18 +141,32 @@ form {
                         
 	                    $qty=$row1[0];
                         $amt=$row1[1];
-                        $bal=round($row1[2],2);
                         $mkt_cond1=$row1[3];
                         if ($mkt_cond1>0)
                         {
                             $mkt_cond=$mkt_cond1;
                         }
-                        $rpl= round($bal - $amt + $pl);$per=round($pl*12/$amt,2);$micro=$row1[6];$contracts=$row1[7];$seccont=$row1[8];
+                        if ($row1[2]<=0)
+                        { 
+                            $bal=$amt;
+                        }
+                        else
+                        {
+                            $bal=round($row1[2],2);
+                        }
+
+                        $rpl= round($bal - ($amt + $pl));$per=round($pl*12/$amt,2);$micro=$row1[6];$contracts=$row1[7];$seccont=$row1[8];
+                        if ($row1[2]<=0)
+                        { 
+                            $bal=$amt+$rpl+$pl;
+                        }
+
                         if ($row1[4]=='') {$level=0;} else { $level=$row1[4];}
                         if ($row1[5]=='') {$rge=0;} else { $rge=round($row1[5]);}
                         if ($row1[9]>0) {$spriceselldown=round($row1[9]);}
                         if ($row1[10]>0) {$sprice=round($row1[10]);}
                         if ($row1[11]=='') {$myrate=0;} else { $myrate=$row1[11];}
+                        
                         $tot=$tot+$pl;
                         if ($name=="ts" or $name=="py" or $name=="rw2" or $name=="rw1" or $name=="tspy" or $name=="twrw")
                         {

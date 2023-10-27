@@ -32,7 +32,7 @@ form {
   position: fixed;
   width: 500px;
   margin: auto;
-  height: 150px;
+  height: 200px;
   width: 70%;
   top: 5px;
   background-color: lightgrey;
@@ -47,7 +47,7 @@ form {
   left: 5px;
   height: 40px;
   width: 30%;
-  top: 300px;
+  top: 250px;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -63,7 +63,7 @@ form {
         /*=================date & time function=========================*/
         function DateTime()
         {   
-           global $today,$day,$time,$cm,$cy,$today1;
+           global $today,$day,$time,$cm,$cy,$today1,$td;
 
 
 		    $today = date('Y-m-d');
@@ -71,8 +71,11 @@ form {
             $cm=date('m');
             $cy=date('Y');
             $today1=date('Y-m-1');
-		    //print "<p><b>Today is $today1 </b></p>";
 
+            //$td1=date("$cy-$cm-1"); 
+
+		    //print "<p><b>Today is $today1 </b></p>";
+            //print "===" .$td1 ."my date";
 		    $time = date('h:g:s');
 		    //echo "<p><b>and the Time is $time </b></p>";
 
@@ -100,7 +103,7 @@ form {
 
 	 <?php
     /*=================Display detail of trading activities==================================*/
-        function disp_detail($conn,$name,$cm,$cy,$today1)
+        function disp_detail($conn,$name)
         {
 				//print $name ."===";
                 $sql = "select name,level,tprice,qty from cost where name='$name' order by level desc;";
@@ -211,12 +214,13 @@ form {
 				    $name = unserialize($_SESSION['name']); 
 				} 
 
-				disp_detail($conn,$name,$cm,$cy,$today1);
+				disp_detail($conn,$name);
 					
 	?>
 
 				<h3 class="login1";color:black;">
 				<form action="menu.php" method="post" top="120px">
+
                     <input hidden type="text" size=10 name="today1" value="<?=$today1?>">
                     <input hidden type="text" size=10 name="cm" value="<?=$cm?>">
                     <input hidden type="text" size=10 name="cy" value="<?=$cy?>">
@@ -230,36 +234,54 @@ form {
 
                     Adjustment: 
 					Amount:  <input type="text" size=5 name="amt" value="">	
-                    Month:  <input type="text" size=5 name="m" value="<?=$cm?>">	
-					Year: <input type="text" size=2 name="y" value="<?=$cy?>"><br>
+                    Month:  <input type="text" size=5 name="cm" value="<?=$cm?>">	
+					Year: <input type="text" size=2 name="cy" value="<?=$cy?>"><br>
+
+                    ove: 
+					Qty:  <input type="text" size=5 name="qty1" value="">	
+                    From level:  <input type="text" size=5 name="fm" >	
+					To: <input type="text" size=2 name="to" ><br><br>
 
 					Delete(Enter yes and delete all left level=blank):
 					<input type="text" size=5 name="del" value="">
 					Level <input type="text" size=2 name="dellevel" value=""><br><br>
 
 
-					<input type="submit"> <input type="submit" name="quit" value="Return">
+						<input type="submit"> <input type="submit" name="quit" value="Return">
 			</form>
 			<br>
 
 
 
     <?php
+    if (isset($_POST['quit']) )
+	{
+            //print "sdsdssd";
+			$url="menu.php";
+            header("Location: $url");
+	}
 
-	if (isset($_POST['level']) or isset($_POST['del']) or isset($_POST['amt']))
+	//if (isset($_POST['level']) or isset($_POST['del']) or isset($_POST['amt']) or isset($_POST['qty1']))
+    if (isset($_POST['submit']) )
     {
 		$name=$_POST['name'];
-        $today1=$_POST['today1'];
         $cm=$_POST['cm'];
         $cy=$_POST['cy'];
+        $td=date("$cy-$cm-1");
 		$level=$_POST['level'];
 		$price=$_POST['price'];
 		$qty=$_POST['qty'];
         $del=$_POST['del'];
-        $amt=$_POST['amt'];
+        $amt=floatval($_POST['amt']);
         $dellevel=$_POST['dellevel'];
+        $qty1=intval($_POST['qty1']);
+        $fm=intval($_POST['fm']);
+        $to=intval($_POST['to']);
 
 
+        
+   
+        //print $today1 ."====<br>";
         if ($level>0 and $price>0 and $qty>0) //Update and insert level
 		{
                 //print $level ."==1==<br>";
@@ -272,23 +294,37 @@ form {
 
         }
 
-        if ($amt>0 and $cm !="" and $cy !="") //make adjust to p/l
+        if (($amt >0 or $amt<0) and $cm !="" and $cy !="") //make adjust to p/l
         {
-                 print $amt ."==2==<br>";
+                //print $amt ."==2==<br>";
                 $sql = "update profit set pl=pl+$amt where name='$name' and cdate=date('$today1') and adjust=1;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                $rowcount= pg_num_rows($rs);
-                if ($rowcount<1)
+                $count=pg_affected_rows($rs);
+                if ($count<1)
                 {
                     $sql = "insert into profit(name,cdate,pl,adjust) values('$name',date('$today1'),$amt,1);";
                     $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 }
                 pg_query("COMMIT") or die("Transaction commit failed\n");
+                $amt=0;
+        }
+        
+        if ($qty1>0 and $fm>0 and $to>0) //Move level QTY
+		{
+                //print $level ."==3==<br>";
+                $sql = "update cost set qty=qty-$qty1 where name='$name' and level=$fm;";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $sql = "update cost set qty=qty+$qty1 where name='$name' and level=$to;";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+
+                
+		        pg_query("COMMIT") or die("Transaction commit failed\n");
+                $qty1=0;
         }
 
 		if ($del =="yes") //delete level
         {
-                 print $dellevel ."==3==<br>";
+                 //print $dellevel ."==4==<br>";
                 if ($dellevel>0)
                 {
                         $sql = "delete from cost where name='$name' and level='$dellevel';";
@@ -306,17 +342,12 @@ form {
                 pg_query("COMMIT") or die("Transaction commit failed\n");
 
         }
-        
+       
 
-		
-		header("refresh:0");
+		disp_detail($conn,$name);
 	}
 
-	if (isset($_POST['quit']))
-	{
-			$url=$url ."menu.php";
-            header("Location: $url");
-	}
+	
 	?>
 	
 

@@ -2,14 +2,7 @@
 <html>
 <head>
 <body>
-<?php
-		error_reporting(E_ERROR | E_PARSE);
-		$email=$_GET['email'];
-		$ph=$_GET['password'];
-		$ecode=$_GET['ecode'];
-		//echo "     dsdsdsds" .$ecode .$email .$ph;
-	?>
-	</body>
+
 <style>body {font-family: Arial, Helvetica, sans-serif; font-size: 15px;}</style>
 <!link rel="stylesheet" type="text/css" href="css/basic.css" />
 <body style="font-family: Arial, Helvetica, sans-serif; color: Blue; background-color: white;">
@@ -51,6 +44,7 @@ form {
 <body>
 
 	<?php
+
         /*=================date & time function=========================*/
         function DateTime()
         {   
@@ -115,7 +109,7 @@ form {
 				<h3 class="login1";color:black;">
 				<form action="menu.php" method="post" top="120px">
 				
-					Name: <input type="text" size=10 name="name" value="<?=$name?>">
+					Name: <input readonly type="text" size=10 name="name" value="<?=$name?>">
 
 					WebAcctStatus(0=live, -2=web test, -3=self test):
 					<input type="text" size=2 name="flag2" value="<?=$flag2?>"><br><br>
