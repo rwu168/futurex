@@ -32,10 +32,10 @@ form {
 
 .login1 {
   position: fixed;
-  width: 100px;
+  width: 500px;
   margin: auto;
   height: 200px;
-  width: 40%;
+  width: 80%;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -88,18 +88,18 @@ form {
 
 		DateTime();
 		RemoteDb();
-		$sql = "select equd,sl1,sl2,sl3,rl1,rl2,rl3,eq from priceaction where symbol='ES';";
+		$sql = "select equd,sl1,sl2,sl3,rl1,rl2,rl3,eq,as1,forcebs,bs from priceaction where symbol='ES';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
         $rowcount= pg_num_rows($rs); 
-		$equd=$row[0];$sl1=$row[1];$sl2=$row[2];$sl3=$row[3];$rl1=$row[4];$rl2=$row[5];$rl3=$row[6];$eq=$row[7];
+		$equd=$row[0];$sl1=$row[1];$sl2=$row[2];$sl3=$row[3];$rl1=$row[4];$rl2=$row[5];$rl3=$row[6];$eq=$row[7];$as1=$row[8];$forcebs=$row[9];$bs=$row[10];
 	
 	?>
 
 	 <h3 class="login1";color:black;">
 	<form action="site.php" method="post" top="120px">
 
-		Please enter Enable=1 and Disable=0:
+		Please enter Enable=1 and Disable=0(no use yet):
 			<input type="text" size=2 name="equd" value="<?=$equd?>"><br>
 		Enter Equilibrum: 
 			<input type="text" size=5 name="eq" value="<?=$eq?>"><br>
@@ -111,7 +111,12 @@ form {
 		Enter Resistance Level1, 2 & 3: 
 			<input type="text" size=5 name="rl1" value="<?=$rl1?>">
 			<input type="text" size=5 name="rl2" value="<?=$rl2?>">
-			<input type="text" size=5 name="rl3" value="<?=$rl3?>">
+			<input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
+
+		RSI Force buy/sell b=buy/s=sell/n=none: 
+			<input type="text" size=5 name="forcebs" value="<?=$forcebs?>">
+			<input readonly type="text" size=5 name="as1" value="<?=$as1?>">
+			<input readonly type="text" size=5 name="bs" value="<?=$bs?>"><br><br>
 		
 		<input type="submit"> <input type="submit" name="quit" value="Return">
 	</form>
@@ -129,9 +134,10 @@ form {
 		$rl1=$_POST['rl1'];
 		$rl2=$_POST['rl2'];
 		$rl3=$_POST['rl3'];
+		$forcebs=$_POST['forcebs'];
 		
 		//print $equd ."sdsdsd" .$sl1;
-		$sql = "UPDATE priceaction SET equd=$equd,eq=$eq,sl1=$sl1,sl2=$sl2,sl3=$sl3,rl1=$rl1,rl2=$rl2,rl3=$rl3;";
+		$sql = "UPDATE priceaction SET forcebs='$forcebs',equd=$equd,eq=$eq,sl1=$sl1,sl2=$sl2,sl3=$sl3,rl1=$rl1,rl2=$rl2,rl3=$rl3;";
         $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 	    pg_query("COMMIT") or die("Transaction commit failed\n");
 		

@@ -148,10 +148,14 @@ form {
 		DateTime();
 		RemoteDb();
 		
-        if ($code==$ecode)
+        if ($code==$ecode)		
         {
-									$id='fx' .strval($ecode);
-									$sql = "INSERT INTO control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy, pw1,rpl,buyl3,selll3,rtoken, sprice,mmy,pw,email,pdate,nq,id,rate1,flag2) values(0,1,20,0,'y',1,1,'0','0',200000,0,0,'$id','td',-2,0,0,0,0,0,0,0,0,'0',0,0,0,'0',10,0,'$pw','$email','$today',0,'',0,1);";
+									$sql = "SELECT id1 FROM control order by id1 desc;";
+                                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                                    $row=pg_fetch_row($rs);
+
+									$id='fx' .strval($ecode) .strval($row[0]);
+									$sql = "INSERT INTO control(status,mkt_cond,spriceout,spriceselldown,micro,contracts,legs,ntoken,seckey,amt,qty,bal,sys,trade,active,rge,mnq,updn,rty,ym,seccont,m2k,secbuy, pw1,rpl,buyl3,selll3,rtoken, sprice,mmy,pw,email,pdate,nq,id,rate1,flag2) values(0,1,20,0,'y',1,1,'0','0',200000,0,0,'$id','td',-2,0,0,0,0,0,0,0,0,'0',0,0,0,'0',10,0,'$pw','$email','$today',0,'',0,-2);";
                                     $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
                                     $sql = "INSERT INTO plper(name,dnt,dm,dy,sellp,buyp,per,qty, plamt) values('$id','$today','$cm','$cy',0,0,0,0,0);";
