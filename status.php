@@ -109,13 +109,15 @@ form {
                 $datet=date('Y-m-t', strtotime($today));
                 //echo $datef ."iiiiii" .$datet ."<br>";
 
-                $sql = "select mkt_cond,sprice,spriceselldown from config where symbol='trade';";
+                $sql = "select mkt_cond,sprice,spriceselldown,cost from config where symbol='trade';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $mkt_cond=$row[0];
                 $sprice=$row[1];
                 $spriceselldown=$row[2];
+                $ask=$row[3];
 
+                
                 $sql = "Select sum(pl),sum(qty),name from profit where cdate>=date('$datef') and cdate<=date('$datet') group by name order by name;";
 
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
@@ -133,13 +135,37 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,seccont,spriceselldown,sprice,mmy from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     if ($rowcount1>0)
                     {
-                        
+                        $micro=$row1[6];
+                        if ($micro=="y")
+                        {
+                            $mul=5;
+                        }
+                        else
+                        {
+                            $mul=50;
+                        }
+                        $sql2 = "Select tprice,qty from cost where name='$name';";
+                        $rs2 = pg_query($conn, $sql2) or die("Cannot connect: $sql2<br>"); 
+                        $row2=pg_fetch_row($rs2);
+                        $rowcount2= pg_num_rows($rs2);
+                        $url=0;
+                        $k2=0;
+                        while ($k2<$rowcount2)
+                        {
+                            //print $name .$ask ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";
+                            $url1=($ask-floatval($row2[0]))*intval($row2[1])*intval($mul);
+                            $url=$url+$url1;
+                            $row2=pg_fetch_row($rs2);
+                            $k2++;
+
+                        }
+
 	                    $qty=$row1[0];
                         $amt=$row1[1];
                         $mkt_cond1=$row1[3];
@@ -149,24 +175,26 @@ form {
                         }
                         if ($row1[2]<=0)
                         { 
-                            $bal=$amt;
+                            $bal=$amt+$url+$pl;
+                            $rpl=$url;
+                            if ($url==0){$bal=200000+$pl;}
                         }
                         else
                         {
                             $bal=round($row1[2],2);
+                            $rpl= round($bal - ($amt + $pl));
+                            if ($url==0){$bal=$bal+$pl;}
                         }
 
-                        $rpl= round($bal - ($amt + $pl));$per=round($pl*12/$amt,2);$micro=$row1[6];$contracts=$row1[7];$seccont=$row1[8];
-                        if ($row1[2]<=0)
-                        { 
-                            $bal=$amt+$rpl+$pl;
-                        }
+                        $per=round($pl*12/$amt,2);$contracts=$row1[7];$rty=$row1[8];
+
+                        $urper=round((($rpl+$rty)/$amt)*-100,2);
 
                         if ($row1[4]=='') {$level=0;} else { $level=$row1[4];}
                         if ($row1[5]=='') {$rge=0;} else { $rge=round($row1[5]);}
                         if ($row1[9]>0) {$spriceselldown=round($row1[9]);}
                         if ($row1[10]>0) {$sprice=round($row1[10]);}
-                        if ($row1[11]=='') {$myrate=0;} else { $myrate=$row1[11];}
+                        if ($row1[11]=='') {$myrate=0;} else { $myrate=$row1[11];$secbuy=$row1[12];}
                         
                         $tot=$tot+$pl;
                         if ($name=="ts" or $name=="py" or $name=="rw2" or $name=="rw1" or $name=="tspy" or $name=="twrw")
@@ -188,7 +216,8 @@ form {
                         }
                         */
 
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$seccont,$spriceselldown,$sprice));
+                        $per=round($pl*12/$amt,2)*100;
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -196,23 +225,25 @@ form {
 
                 }
                 //print $qty ."==!=<br>";
-                
+               
                 
     ?>
-                <table  class="data" bgcolor="lightyellow" width="20px" height="10px">
-
+                <table  class="data" bgcolor="lightgrey" width="20px" height="10px">
+                 
                  <tr>
                             <th>name</th>
                             <th>Profit</th>
                             <th>Unrealize</th>
                             <th>Balance</th>
+                            <th>%</th>
                             <th>Qty</th>
                             <th>Level</th>
                             <th>Mkt</th>
                             <th>Rge</th>
                             <th>Micro</th>
-                            <th>Q1</th>
-                            <th>Q2</th>
+                            <th>Ct</th>
+                            <th>NoB</th>
+                            <th>%</th>
                             <th>SellD</th>
                             <th>SP</th>
                            
@@ -220,12 +251,13 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=13;
+                    $max_columns=15;
                     $record_id=0;
                     //$data=array(1,2,3,4);
                     //$data=array_merge($data,array(1,2,3,4));
                     //print $data[0] .$data[1] .$data[2] ."===<br>";
-
+                    $row_color = array('red','green');
+                    //print "<table>\n";
                     while(True)
                     {
                         for ($columns=0;$columns<$max_columns;$columns++)
@@ -245,10 +277,15 @@ form {
                             <td valign="top" bgcolor="white" width="20px" height="10px" >
                          
                             <?php 
+                                
                                 if ($columns==1 or $columns==2 or $columns==3)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],2);
+
+                                    //print '<bgcolor="' . $row_color[$columns % 2] . '">';
+                                    //print '<color="black">';
+                                    //echo "<td>$usd</td>";
                                     echo "$" .$usd;
                                 }
                                 else 
@@ -273,6 +310,7 @@ form {
                             }
                             
                      }
+                     //print '</table>';
                      
 
     ?>

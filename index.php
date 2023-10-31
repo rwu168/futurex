@@ -15,7 +15,7 @@
                 }
                 else
                 {
-                        header("refresh: 60");
+                        header("refresh: 120");
                 }
 ?>
 
