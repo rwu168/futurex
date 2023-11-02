@@ -177,7 +177,7 @@ form {
 					No Buy after sold(1= yes & 0=use default):
 					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
 					
-					Risk Level(0-10):
+					Risk Level(0-10%):
 					<input type="text" size=2 name="shlevel" value="<?=$shlevel?>"><br>
 
 					Short to cover long risk(Enter first field only): 

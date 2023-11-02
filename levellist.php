@@ -107,15 +107,9 @@ div.ex1 {
     
      <?php
     /*=================Display detail of trading activities==================================*/
-        function disp_detail($conn,$today)
+        function disp_detail($conn,$name)
         {
-                global $tot, $totwu;
-
-                $datef=date('Y-m-01', strtotime($today));
-                $datet=date('Y-m-t', strtotime($today));
-                //echo $today ."iiiiii" .$datet ;
-
-                $sql = "select name,pl from profit where cdate>=date('$today') and cdate<=date('$today') order by name;";
+                $sql = "select name,level,tprice,qty from cost where name='$name' order by level;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
@@ -124,7 +118,7 @@ div.ex1 {
                 $tot=0;
                 while ($k<=$rowcount)
                 {
-                        $data=array_merge($data,array($row[0],$row[1]));
+                        $data=array_merge($data,array($row[0],$row[1],$row[2],$row[3]));
                         $row=pg_fetch_row($rs);
                         $k++;
                 }
@@ -134,14 +128,16 @@ div.ex1 {
                 <table  class="data" bgcolor="lightyellow" width="20px" height="10px">
                  <tr>
                             <th>name</th>
-                            <th>Date</th>
+                            <th>Level</th>
+                            <th>Price</th>
+                            <th>Qty</th>
                             
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=2;
+                    $max_columns=4;
                     $record_id=0;
                     //$data=array(1,2,3,4);
                     //$data=array_merge($data,array(1,2,3,4));
@@ -166,17 +162,8 @@ div.ex1 {
                             <td valign="top" bgcolor="white" width="20px" height="10px" >
                          
                             <?php 
-                                if ($columns==1 or $columns==2 or $columns==3)
-                                {
-                                    //$usd = $fmt->formatCurrency($data[$record_id], "USD");
-                                    $usd = number_format($data[$record_id],2);
-                                    echo "$" .$usd;
-                                }
-                                else 
-                                {
                                         echo $data[$record_id]; 
-                                }
-                                ?>
+                            ?>
 
                                 </td>
                              <?php
@@ -215,7 +202,8 @@ div.ex1 {
     <?php
         RemoteDb();
         DateTime();
-        disp_detail($conn,$today);
+        $name=$_POST['name'];
+        disp_detail($conn,$name);
        
     ?>
     

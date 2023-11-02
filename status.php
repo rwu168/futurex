@@ -27,7 +27,6 @@ form {
 
 
 .data {
-  position: fixed;
   width: 300px;
   left: 5px;
   height: 40px;
@@ -186,8 +185,7 @@ form {
                             if ($url==0){$bal=$bal+$pl;}
                         }
 
-                        $per=round($pl*12/$amt,2);$contracts=$row1[7];$rty=$row1[8];
-
+                        $per=round($pl*12.0/$amt,2);$contracts=$row1[7];$rty=$row1[8];
                         $urper=round((($rpl+$rty)/$amt)*-100,2);
 
                         if ($row1[4]=='') {$level=0;} else { $level=$row1[4];}
@@ -216,7 +214,7 @@ form {
                         }
                         */
 
-                        $per=round($pl*12/$amt,2)*100;
+                        $per=round(($pl*12/$amt)*100,2);
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice));
                     }
                     $row=pg_fetch_row($rs);

@@ -56,7 +56,9 @@ form {
 		5) Main<br>
 		6) Status Data<br>
 		7) P/L Daily Data<br>
-		8) Adjustment<br><br>
+		8) Level List<br>
+		9) Deleve Level<br>
+		10) Adjustment<br><br>
 
 		Enter option # above: <input type="text" size=1 name="select">
 		<input type="submit" name="submit"<br><br>
@@ -113,7 +115,30 @@ form {
 			}
 			else if ($select==8)
 			{
+				?>
+				<h3 class="login1";color:"black;">
+				<form action="levellist.php?name=$_POST['name']" method="post" top="120px">
+					Name: <input type="text" size=10 name="name">
+					<input type="submit" name="submit"<br><br>
+				</form>
+			<?php
 
+			}
+			else if ($select==9)
+			{
+				?>
+				<h3 class="login1";color:"black;">
+				<form action="deletelevel.php?name=$_POST['name']&deletelevel.php?name=$_POST['level']" method="post" top="120px">
+					Name: <input type="text" size=10 name="name"><br>
+					Level: <input type="text" size=10 name="level">
+					<input type="submit" name="submit"<br><br>
+				</form>
+			<?php
+
+			}
+			else if ($select==10)
+			{
+			
 			?>
 				<h3 class="login1";color:"black;">
 				<form action="adjust.php?name=$_POST['name']" method="post" top="120px">
@@ -122,6 +147,7 @@ form {
 				</form>
 			<?php
 			}
+			
 		
 	}
 	
