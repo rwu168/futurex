@@ -37,10 +37,10 @@ form {
 
 .login1 {
   position: fixed;
-  width: 100px;
+  width: 400px;
   margin: auto;
   height: 400px;
-  width: 40%;
+  width: 80%;
   background-color: lightgrey;
   border: 3px solid #73AD21;
   color: black;
@@ -99,10 +99,11 @@ form {
         $row=pg_fetch_row($rs);
 		$mkt_cond=$row[0];$sprice=$row[1];$spriceout=$row[2];$spricesell=$row[3];$spriceselldown=$row[4];$spricebuy=$row[5];$spricebuydown=$row[6];$smy=$row[7];$nobuy=$row[8];$buysell=$row[9];$buyl3=$row[10];$selll3=$row[11];;
 
-		$sql = "select mkt_cond from control where sprice = 10 and active=0;";
+		$sql = "select mkt_cond,s2 from control where sprice = 10;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
 		$trade10=$row[0];
+		$forcebs=$row[1];
 
 	?>
 
@@ -132,6 +133,9 @@ form {
 
 		Buy when market back up to this point default=0:
 			<input type="text" size=2 name="spricebuydown" value="<?=$spricebuydown?>"><br>
+
+		Force Equilibrium (b=buy, s=sell & n=None):
+			<input type="text" size=2 name="forcebs" value="<?=$forcebs?>"><br>
 
 		No Buying (default=n):
 			<input type="text" size=2 name="nobuy" value="<?=$nobuy?>"><br>
@@ -167,6 +171,7 @@ form {
 		$buysell=$_POST['buysell'];
 		$buyl3=$_POST['buyl3'];
 		$selll3=$_POST['selll3'];
+		$forcebs=$_POST['forcebs'];
 
 		
 		print $mkt_cond ."sdsdsd" .$smy;
@@ -175,7 +180,7 @@ form {
 
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-		$sql = "update control set mkt_cond=$trade10 where sprice=10 and active=0;";
+		$sql = "update control set mkt_cond=$trade10,s2='$forcebs' where sprice=10;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 

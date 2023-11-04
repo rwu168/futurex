@@ -149,6 +149,7 @@ form {
                         {
                             $mul=50;
                         }
+                        $rty=$row1[8];
                         $sql2 = "Select tprice,qty from cost where name='$name';";
                         $rs2 = pg_query($conn, $sql2) or die("Cannot connect: $sql2<br>"); 
                         $row2=pg_fetch_row($rs2);
@@ -180,13 +181,13 @@ form {
                         }
                         else
                         {
-                            $bal=round($row1[2],2);
+                            $bal=round($row1[2]+$rty,2);
                             $rpl= round($bal - ($amt + $pl));
                             if ($url==0){$bal=$bal+$pl;}
                         }
 
                         $per=round($pl*12.0/$amt,2);$contracts=$row1[7];$rty=$row1[8];
-                        $urper=round((($rpl+$rty)/$amt)*-100,2);
+                        $urper=round((($rpl)/$amt)*-100,2);
 
                         if ($row1[4]=='') {$level=0;} else { $level=$row1[4];}
                         if ($row1[5]=='') {$rge=0;} else { $rge=round($row1[5]);}
