@@ -521,7 +521,7 @@ form {
 
 	            print "<p><input type='submit' name='login' float-right value='Login' /> ";
                 print "<br><br>";
-                print "No Account - signup for FREE!!";
+                print "No Account - Just enter email & password then click signup for FREE!!";
                
 
                 ?>

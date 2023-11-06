@@ -133,7 +133,8 @@ form {
 
 		
 		?>
-		<input type="submit">
+		<input type="submit"><br>
+		Not receive email, check your junk mail.
 	</form>
 	<br>
 
