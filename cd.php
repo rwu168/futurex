@@ -117,26 +117,26 @@ form {
 					**Mkt_Condition:
 					<input type="text" size=5 name="mkt_cond" value="<?=$mkt_cond?>">
 
+					Auto Mkt_cond(0=auto/1=no): 
+					<input type="text" size=2 name="m2k" value="<?=$m2k?>">
+
 					Trade Micro (y/n):
-					<input type="text" size=2 name="micro" value="<?=$micro?>">
-
-					Cell Phone #: 
-					<input type="text" size=15 name="ph" value="<?=$ph?>">
-
-					Email:
-					<input type="text" size=20 name="email" value="<?=$email?>"><br>
+					<input type="text" size=2 name="micro" value="<?=$micro?>"><br>
 
 					Number of Contracts:
 					<input type="text" size=2 name="contracts" value="<?=$contracts?>">
-
-					Auto Mkt_cond(0=auto/1=no): 
-					<input type="text" size=2 name="m2k" value="<?=$m2k?>"><br>
 
 					Brokerage Firm like td,ts,cs etc...(td):
 					<input type="text" size=2 name="trade" value="<?=$trade?>">
 
 					Password for Web:
 					<input type="text" size=10 name="pw" value="<?=$pw?>"><br><br>
+
+					Cell Phone #: 
+					<input type="text" size=15 name="ph" value="<?=$ph?>">
+
+					Email:
+					<input type="text" size=20 name="email" value="<?=$email?>"><br>
 
 					*Buying Range:(0,35,70)'):
 					<input type="text" size=2 name="sprice" value="<?=$sprice?>">
@@ -156,17 +156,17 @@ form {
 					Active (0=enable(Live)/1=disable,-2=Web(Test)):
 					<input type="text" size=2 name="active" value="<?=$active?>"><br>
 
-					Force EQ (s=buy,s=sell):
+					Force EQ (s=buy,s=sell, h=hold, & n=None):
 					<input type="text" size=2 name="forcebs" value="<?=$forcebs?>">
 
 					Hedge(y/n):
 					<input type="text" size=2 name="hedge" value="<?=$hedge?>">
 
 					RSI QTY:
-					<input readonly type="text" size=2 name="seccont" value="<?=$seccont?>">
+					<input type="text" size=2 name="seccont" value="<?=$seccont?>">
 
 					Cost:
-					<input readonly type="text" size=5 name="seccont" value="<?=$ym?>">
+					<input readonly type="text" size=5 name="ym" value="<?=$ym?>">
 
 					Total Positions:
 					<input readonly type="text" size=2 name="qty" value="<?=$qty?>"><br><br>
@@ -236,11 +236,12 @@ form {
 		$rty=$_POST['rty'];
 		$hedge=$_POST['hedge'];
 		$forcebs=$_POST['forcebs'];
+		$seccont=$_POST['seccont'];
 		
 
 
 		
-		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',qty=$qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw=$pw,shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,flag3='$hedge',s2='$forcebs' where sys='$name';";
+		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',qty=$qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw=$pw,shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,flag3='$hedge',s2='$forcebs',seccont=$seccont where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");

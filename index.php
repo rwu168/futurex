@@ -574,7 +574,7 @@ form {
                                 }
                                 else
                                 {
-                                    print "Please enter valid email and cell-phone #";
+                                    print "Please enter valid email and new password #";
                                 }
                         }
                             

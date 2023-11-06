@@ -134,7 +134,7 @@ form {
 		Buy when market back up to this point default=0:
 			<input type="text" size=2 name="spricebuydown" value="<?=$spricebuydown?>"><br>
 
-		Force Equilibrium (b=buy, s=sell & n=None):
+		Force Equilibrium (b=buy, s=sell, h=hold, & n=None):
 			<input type="text" size=2 name="forcebs" value="<?=$forcebs?>"><br>
 
 		No Buying (default=n):
