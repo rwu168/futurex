@@ -128,7 +128,7 @@ form {
                 RemoteDb();
                 //get account data
                 $name=$_GET['name'];
-                $sql = "SELECT qty, amt, flag2,micro,bal,active FROM control where sys='$name';";
+                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1 FROM control where sys='$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);        
                 $qty=$row[0];
@@ -137,6 +137,7 @@ form {
                 $micro=$row[3];
                 $bal=$row[4];
                 $active=$row[5];
+                $tsymbol=$row[6];
 
                 //get profit/los per month data
                 $sql = "SELECT sum(jan1),sum(feb1),sum(mar1),sum(apr1),sum(may1),sum(jun1),sum(jul1),sum(aug1),sum(sep1),sum(oct1),sum(nov1),sum(dec1) FROM plapr where name='$name';";
@@ -158,13 +159,27 @@ form {
 
 
                 //get level buy data
-                if ($micro=="y")
+                if ($tsymbol=="NQ")
                 {
-                        $mul=5;
+                    if ($micro=="y")
+                    {
+                        $mul=2;
+                    }
+                    else
+                    {
+                        $mul=20;
+                    }
                 }
                 else
                 {
+                    if ($micro=="y")
+                    {
+                        $mul=5;
+                    }
+                    else
+                    {
                         $mul=50;
+                    }
                 }
 
                 $sql = "SELECT tprice,qty,level from cost where name='$name' order by level;";
@@ -174,7 +189,14 @@ form {
                 $urpl=0;
                 for ($k=0;$k<$rowcount;$k++)
                 { 
-                    $pl=(floatval($ask)-$row[0]) * $row[1] *$mul ;
+                    if ($tsymbol=="NQ")
+                    {
+                        $pl=(floatval($ask2)-$row[0]) * $row[1] *$mul ;
+                    }
+                    else
+                    {
+                        $pl=(floatval($ask)-$row[0]) * $row[1] *$mul ;
+                    }
 
                     //print $pl ."|"  .$ask ."|" .$row[0] ."|".$row[1] ."|" .$row[2];  
                     
