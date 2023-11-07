@@ -32,7 +32,7 @@ form {
   position: fixed;
   width: 700px;
   margin: auto;
-  height: 500px;
+  height: 600px;
   width: 95%;
   background-color: lightgrey;
   border: 3px solid #73AD21;
@@ -98,11 +98,11 @@ form {
 				{ 
 				$name = unserialize($_SESSION['name']); 
 				} 
-				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,m2k,seccont,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq,shprice,shbuy,shqty,shlevel,rty,ym,flag3,s2 from control where sys='$name';";
+				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,m2k,seccont,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq,shprice,shbuy,shqty,shlevel,rty,ym,flag3,s2,s1 from control where sys='$name';";
 				$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 				$row=pg_fetch_row($rs);
-				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$m2k=$row[10];$seccont=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];$pw=$row[22];$nq=$row[23];$shprice=$row[24];$shbuy=$row[25];$shqty=$row[26];$shlevel=$row[27];$rty=$row[28];$ym=$row[29];$hedge=$row[30];$forcebs=$row[31];
-			
+				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$m2k=$row[10];$seccont=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];$pw=$row[22];$nq=$row[23];$shprice=$row[24];$shbuy=$row[25];$shqty=$row[26];$shlevel=$row[27];$rty=$row[28];$ym=$row[29];$hedge=$row[30];$forcebs=$row[31];$tsymbol=$row[32];
+
 	
 	?>
 
@@ -121,10 +121,14 @@ form {
 					<input type="text" size=2 name="m2k" value="<?=$m2k?>">
 
 					Trade Micro (y/n):
-					<input type="text" size=2 name="micro" value="<?=$micro?>"><br>
+					<input type="text" size=2 name="micro" value="<?=$micro?>">
 
 					Number of Contracts:
-					<input type="text" size=2 name="contracts" value="<?=$contracts?>">
+					<input type="text" size=2 name="contracts" value="<?=$contracts?>"><br>
+			
+					
+					Symbol (ES/NQ):
+					<input type="text" size=2 name="tsymbol" value="<?=$tsymbol?>">
 
 					Brokerage Firm like td,ts,cs etc...(td):
 					<input type="text" size=2 name="trade" value="<?=$trade?>">
@@ -159,17 +163,11 @@ form {
 					Force EQ (s=buy,s=sell, h=hold, & n=None):
 					<input type="text" size=2 name="forcebs" value="<?=$forcebs?>">
 
-					Hedge(y/n):
-					<input type="text" size=2 name="hedge" value="<?=$hedge?>">
-
 					RSI QTY:
 					<input type="text" size=2 name="seccont" value="<?=$seccont?>">
 
 					Cost:
-					<input readonly type="text" size=5 name="ym" value="<?=$ym?>">
-
-					Total Positions:
-					<input readonly type="text" size=2 name="qty" value="<?=$qty?>"><br><br>
+					<input readonly type="text" size=5 name="ym" value="<?=$ym?>"><br><br>
 
 					Enter SMSCode for StreetSmart:
 					<input type="text" size=2 name="smscode" value="<?=$smscode?>">
@@ -184,7 +182,10 @@ form {
 					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
 					
 					Risk Level(0-10%):
-					<input type="text" size=2 name="shlevel" value="<?=$shlevel?>"><br>
+					<input type="text" size=2 name="shlevel" value="<?=$shlevel?>">
+					
+					Hedge(y/n):
+					<input type="text" size=2 name="hedge" value="<?=$hedge?>"><br>
 
 					Short to cover long risk(Enter first field only): 
 					<input type="text" size=2 name="shprice" value="<?=$shprice?>">
@@ -195,6 +196,7 @@ form {
 					<input type="text" size=2 name="rpl" value="<?=$rpl?>">
 					Buy: <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
 					Sell:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
+
 
 					<input type="submit"> <input type="submit" name="quit" value="Return">
 			</form>
@@ -221,7 +223,7 @@ form {
 		$active=$_POST['active'];
 		$email=$_POST['email'];
 		$seccont=$_POST['seccont'];
-		$qty=$_POST['qty'];
+		//$qty=$_POST['qty'];
 		$smscode=$_POST['smscode'];
 		$tk=$_POST['tk'];
 		$rpl=$_POST['rpl'];
@@ -237,11 +239,12 @@ form {
 		$hedge=$_POST['hedge'];
 		$forcebs=$_POST['forcebs'];
 		$seccont=$_POST['seccont'];
+		$tsymbol=strtoupper($_POST['tsymbol']);
 		
 
 
 		
-		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',qty=$qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw=$pw,shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,flag3='$hedge',s2='$forcebs',seccont=$seccont where sys='$name';";
+		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',seccont=$seccont,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,flag3='$hedge',s2='$forcebs',s1='$tsymbol' where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");

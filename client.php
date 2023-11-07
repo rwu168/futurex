@@ -150,10 +150,11 @@ form {
                 RemoteDb(); 
                 //get ask price
                 //$day="Saturday";
-                $sql = "SELECT cost from config where symbol='trade';";
-                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                    $row=pg_fetch_row($rs);
-                    $ask=floatval($row[0]);
+                $sql = "SELECT cost,cost1 from config where symbol='trade';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);
+                $ask=floatval($row[0]);
+                $ask2=floatval($row[1]);
 
 
                 //get level buy data
@@ -220,6 +221,10 @@ form {
         if ($act == 5)
         {
             $status="[STATUS]: Account waiting for Future Trading approve by TD Ameritrade (take 2-3 business days after your applied)  - Any questions,please contact us at futurex168168@gmail.com";
+        }
+        else if ($act>5)
+        {
+            $status="Testing....";
         }
 
 
@@ -610,7 +615,7 @@ form {
       <?php
         if ($ask1=="o")
         {
-            print "<font color='black'>LIVE - ES current price:</font> $ask";
+            print "<font color='black'>LIVE - ES-NQ current price:</font> $ask  - $ask2";
         }
         else
         {
