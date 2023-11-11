@@ -108,13 +108,14 @@ form {
                 $datet=date('Y-m-t', strtotime($today));
                 //echo $datef ."iiiiii" .$datet ."<br>";
 
-                $sql = "select mkt_cond,sprice,spriceselldown,cost from config where symbol='trade';";
+                $sql = "select mkt_cond,sprice,spriceselldown,cost,cost1 from config where symbol='trade';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $mkt_cond=$row[0];
                 $sprice=$row[1];
                 $spriceselldown=$row[2];
                 $ask=$row[3];
+                $ask2=$row[4];
 
                 
                 $sql = "Select sum(pl),sum(qty),name from profit where cdate>=date('$datef') and cdate<=date('$datet') group by name order by name;";
@@ -134,20 +135,24 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
+                    $micro=$row1[7];
+                    $tsymbol=$row1[13];
+
                     if ($rowcount1>0)
                     {
                         $micro=$row1[6];
-                        if ($micro=="y")
+                        if ($tsymbol=="NQ")
                         {
-                            $mul=5;
+                                $ask=$ask2;
+                                $mul=20;
                         }
                         else
                         {
-                            $mul=50;
+                                $mul=50;
                         }
                         $rty=$row1[8];
                         $sql2 = "Select tprice,qty from cost where name='$name';";
@@ -158,8 +163,17 @@ form {
                         $k2=0;
                         while ($k2<$rowcount2)
                         {
-                            //print $name .$ask ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";
-                            $url1=($ask-floatval($row2[0]))*intval($row2[1])*intval($mul);
+                            //if ($name=="fx260236") {print $name .$ask ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";}
+
+                            if ($micro=="y")
+                            {
+                                $qty=intval($row2[1])/10;
+                            }
+                            else
+                            {
+                                $qty=intval($row2[1]);
+                            }
+                            $url1=($ask-floatval($row2[0]))*$qty*intval($mul);
                             $url=$url+$url1;
                             $row2=pg_fetch_row($rs2);
                             $k2++;

@@ -109,7 +109,7 @@ div.ex1 {
     /*=================Display detail of trading activities==================================*/
         function disp_detail($conn,$name)
         {
-                $sql = "select name,level,tprice,qty from cost where name='$name' order by level;";
+                $sql = "select name,level,tprice,qty,symbol from cost where name='$name' order by level;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
@@ -118,7 +118,7 @@ div.ex1 {
                 $tot=0;
                 while ($k<=$rowcount)
                 {
-                        $data=array_merge($data,array($row[0],$row[1],$row[2],$row[3]));
+                        $data=array_merge($data,array($row[0],$row[1],$row[2],$row[3],$row[4]));
                         $row=pg_fetch_row($rs);
                         $k++;
                 }
@@ -131,13 +131,14 @@ div.ex1 {
                             <th>Level</th>
                             <th>Price</th>
                             <th>Qty</th>
+                            <th>Symbol</th>
                             
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=4;
+                    $max_columns=5;
                     $record_id=0;
                     //$data=array(1,2,3,4);
                     //$data=array_merge($data,array(1,2,3,4));
