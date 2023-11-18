@@ -114,7 +114,7 @@ form {
                 $mkt_cond=$row[0];
                 $sprice=$row[1];
                 $spriceselldown=$row[2];
-                $ask=$row[3];
+                $ask1=$row[3];
                 $ask2=$row[4];
 
                 
@@ -135,16 +135,24 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1 from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     $micro=$row1[7];
-                    $tsymbol=$row1[13];
-
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];
+                    if (strval($seccont1)=="")
+                    {
+                        $seccont1=0;
+                    }
+                    else
+                    {
+                        $seccont1=$row1[16];
+                    }
                     if ($rowcount1>0)
                     {
                         $micro=$row1[6];
+
                         if ($tsymbol=="NQ")
                         {
                                 $ask=$ask2;
@@ -152,6 +160,7 @@ form {
                         }
                         else
                         {
+                                $ask=$ask1;
                                 $mul=50;
                         }
                         $rty=$row1[8];
@@ -163,7 +172,7 @@ form {
                         $k2=0;
                         while ($k2<$rowcount2)
                         {
-                            //if ($name=="fx260236") {print $name .$ask ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";}
+                            //if ($name=="fx3394") {print $name .$ask .$tsymbol .$ask2 ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";}
 
                             if ($micro=="y")
                             {
@@ -199,9 +208,9 @@ form {
                             $rpl= round($bal - ($amt + $pl));
                             if ($url==0){$bal=$bal+$pl;}
                         }
-
-                        $per=round($pl*12.0/$amt,2);$contracts=$row1[7];$rty=$row1[8];
-                        $urper=round((($rpl)/$amt)*-100,2);
+                        $contracts=$row1[7];$rty=$row1[8];
+                        //$per=round($pl*12.0/$amt,2);
+                        //$urper=round((($rpl)/$amt)*-100,2);
 
                         if ($row1[4]=='') {$level=0;} else { $level=$row1[4];}
                         if ($row1[5]=='') {$rge=0;} else { $rge=round($row1[5]);}
@@ -230,7 +239,7 @@ form {
                         */
 
                         $per=round(($pl*12/$amt)*100,2);
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$seccont1));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -259,12 +268,14 @@ form {
                             <th>%</th>
                             <th>SellD</th>
                             <th>SP</th>
+                            <th>Qty1</th>
+                            <th>Qty2</th>
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=15;
+                    $max_columns=17;
                     $record_id=0;
                     //$data=array(1,2,3,4);
                     //$data=array_merge($data,array(1,2,3,4));
