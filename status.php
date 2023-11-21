@@ -135,12 +135,12 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1 from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,updn,i1 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     $micro=$row1[7];
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$eqtarget=$row1[17];$rsiupdn=$row1[18];
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -149,6 +149,15 @@ form {
                     {
                         $seccont1=$row1[16];
                     }
+                    if (strval($rsiupdn)=="")
+                    {
+                        $rsiupdn=0;
+                    }
+                    else
+                    {
+                        $rsiupdn=$row1[17];
+                    }
+
                     if ($rowcount1>0)
                     {
                         $micro=$row1[6];
@@ -239,7 +248,7 @@ form {
                         */
 
                         $per=round(($pl*12/$amt)*100,2);
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$seccont1));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$seccont1,$eqtarget,$rsiupdn));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -268,20 +277,21 @@ form {
                             <th>%</th>
                             <th>SellD</th>
                             <th>SP</th>
-                            <th>Qty1</th>
-                            <th>Qty2</th>
+                            <th>EquQ</th>
+                            <th>RSIQ</th>
+                            <th>Trgt</th>
+                            <th>RSI/UD</th>
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=17;
+                    $max_columns=19;
                     $record_id=0;
+                    $line=0;
                     //$data=array(1,2,3,4);
                     //$data=array_merge($data,array(1,2,3,4));
-                    //print $data[0] .$data[1] .$data[2] ."===<br>";
-                    $row_color = array('red','green');
-                    //print "<table>\n";
+
                     while(True)
                     {
                         for ($columns=0;$columns<$max_columns;$columns++)
@@ -310,11 +320,26 @@ form {
                                     //print '<bgcolor="' . $row_color[$columns % 2] . '">';
                                     //print '<color="black">';
                                     //echo "<td>$usd</td>";
-                                    echo "$" .$usd;
+                                    if ($line%2==0)
+                                    {
+                                        echo "$" .$usd; 
+                                    }
+                                    else
+                                    {
+                                        echo '<font color="green">' ."$" .$usd; ; 
+                                    }
+                                    
                                 }
                                 else 
                                 {
-                                        echo $data[$record_id]; 
+                                        if ($line%2==0)
+                                        {
+                                            echo  $data[$record_id]; 
+                                        }
+                                        else
+                                        {
+                                            echo  '<font color="green">' .$data[$record_id]; 
+                                        }
                                 }
                                 ?>
 
@@ -323,7 +348,8 @@ form {
                         
                              if ($columns==$max_columns)
                              {
-                                    echo "<tr>";
+                                    echo  "<tr>";
+                                    
                              }
                              $record_id++;
                              ?>
@@ -332,6 +358,7 @@ form {
                
                         
                             }
+                            $line++;
                             
                      }
                      //print '</table>';
