@@ -135,12 +135,12 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,updn,i1 from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     $micro=$row1[7];
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$eqtarget=$row1[17];$rsiupdn=$row1[18];
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -149,14 +149,7 @@ form {
                     {
                         $seccont1=$row1[16];
                     }
-                    if (strval($rsiupdn)=="")
-                    {
-                        $rsiupdn=0;
-                    }
-                    else
-                    {
-                        $rsiupdn=$row1[17];
-                    }
+                    
 
                     if ($rowcount1>0)
                     {
@@ -248,7 +241,7 @@ form {
                         */
 
                         $per=round(($pl*12/$amt)*100,2);
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$seccont1,$eqtarget,$rsiupdn));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -278,9 +271,10 @@ form {
                             <th>SellD</th>
                             <th>SP</th>
                             <th>EquQ</th>
+                            <th>EqP</th>
                             <th>RSIQ</th>
-                            <th>Trgt</th>
-                            <th>RSI/UD</th>
+                            <th>RSIP</th>
+
                            
                             
                 </tr>
