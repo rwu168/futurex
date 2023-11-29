@@ -98,10 +98,11 @@ form {
 				{ 
 				$name = unserialize($_SESSION['name']); 
 				} 
-				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,m2k,seccont1,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq,shprice,shbuy,shqty,shlevel,rty,seccont1qty,flag3,s2,s1 from control where sys='$name';";
+				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,m2k,seccont1,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq,shprice,shbuy,shqty,shlevel,rty,seccont1qty,reserve,s2,s1 from control where sys='$name';";
 				$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 				$row=pg_fetch_row($rs);
-				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$m2k=$row[10];$seccont1=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];$pw=$row[22];$nq=$row[23];$shprice=$row[24];$shbuy=$row[25];$shqty=$row[26];$shlevel=$row[27];$rty=$row[28];$seccont1qty=$row[29];$hedge=$row[30];$forcebs=$row[31];$tsymbol=$row[32];
+				pg_query("COMMIT") or die("Transaction commit failed\n");
+				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$m2k=$row[10];$seccont1=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];$pw=$row[22];$nq=$row[23];$shprice=$row[24];$shbuy=$row[25];$shqty=$row[26];$shlevel=$row[27];$rty=$row[28];$seccont1qty=$row[29];$reserve=$row[30];$forcebs=$row[31];$tsymbol=$row[32];
 
 	
 	?>
@@ -181,11 +182,11 @@ form {
 					No Buy after sold(1= yes & 0=use default):
 					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
 					
-					Risk Level(0-10%):
+					Save for reserve(%):
 					<input type="text" size=2 name="shlevel" value="<?=$shlevel?>">
 					
-					Hedge(y/n):
-					<input type="text" size=2 name="hedge" value="<?=$hedge?>"><br>
+					Reserve$:
+					<input type="text" size=5 name="reserve" value="<?=$reserve?>"><br>
 
 					Short to cover long risk(Enter first field only): 
 					<input type="text" size=2 name="shprice" value="<?=$shprice?>">
@@ -238,7 +239,7 @@ form {
 		$secbuy=$_POST['secbuy'];
 		$m2k=$_POST['m2k'];
 		$rty=$_POST['rty'];
-		$hedge=$_POST['hedge'];
+		$reserve=$_POST['reserve'];
 		$forcebs=$_POST['forcebs'];
 		$tsymbol=strtoupper($_POST['tsymbol']);
 	
@@ -246,7 +247,7 @@ form {
 
 
 		
-		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,flag3='$hedge',s2='$forcebs',s1='$tsymbol' where sys='$name';";
+		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
