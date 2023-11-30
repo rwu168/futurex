@@ -135,7 +135,7 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
 
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,rate2 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
@@ -150,6 +150,14 @@ form {
                     else
                     {
                         $seccont1=$row1[16];
+                    }
+                    if (strval($row1[21])=="")
+                    {
+                        $rsi=0;
+                    }
+                    else
+                    {
+                        $rsi=round($row1[21],2);
                     }
                     
 
@@ -251,7 +259,12 @@ form {
                         }
 
                         $per=round(($pl*12/$amt)*100,2);
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1));
+                        if ($tradeclass>2 and $seccont1>0)
+                        {
+                            $rge=0;
+                            $qty=$seccont1;
+                        }
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$rsi));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -285,13 +298,14 @@ form {
                             <th>EqP</th>
                             <th>RSIQ</th>
                             <th>RSIP</th>
+                            <th>RSI</th>
 
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=20;
+                    $max_columns=21;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
