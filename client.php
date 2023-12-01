@@ -139,12 +139,36 @@ form {
                 $active=$row[5];
                 $tsymbol=$row[6];
 
+                //get level buy data
+                if ($tsymbol=="NQ")
+                {
+                        if ($micro=="y")
+                        {
+                            $mul=2;
+                        }
+                        else
+                        {
+                            $mul=20;
+                        }
+                }
+                else
+                {
+                        if ($micro=="y")
+                        {
+                            $mul=5;
+                        }
+                        else
+                        {
+                            $mul=50;
+                        }
+                }
+
                 //get profit/los per month data
                 $sql = "SELECT sum(jan1),sum(feb1),sum(mar1),sum(apr1),sum(may1),sum(jun1),sum(jul1),sum(aug1),sum(sep1),sum(oct1),sum(nov1),sum(dec1) FROM plapr where name='$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
-                $totpl=floatval($row[0])+floatval($row[1])+floatval($row[2])+floatval($row[3])+floatval($row[4])+floatval($row[5])+floatval($row[6])+floatval($row[7])+floatval($row[8])+floatval($row[9])+floatval($row[10])+floatval($row[11]);
-
+                //$totpl=floatval($row[0])+floatval($row[1])+floatval($row[2])+floatval($row[3])+floatval($row[4])+floatval($row[5])+floatval($row[6])+floatval($row[7])+floatval($row[8])+floatval($row[9])+floatval($row[10])+floatval($row[11]);
+                $totpl=floatval(intval($row[$month-1]));
 
                 DateTime();
                 //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
@@ -158,30 +182,6 @@ form {
                 $ask2=floatval($row[1]);
 
 
-                //get level buy data
-                if ($tsymbol=="NQ")
-                {
-                    if ($micro=="y")
-                    {
-                        $mul=2;
-                    }
-                    else
-                    {
-                        $mul=20;
-                    }
-                }
-                else
-                {
-                    if ($micro=="y")
-                    {
-                        $mul=5;
-                    }
-                    else
-                    {
-                        $mul=50;
-                    }
-                }
-
                 $sql = "SELECT tprice,qty,level from cost where name='$name' order by level;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
@@ -189,6 +189,7 @@ form {
                 $urpl=0;
                 for ($k=0;$k<$rowcount;$k++)
                 { 
+                   
                     if ($tsymbol=="NQ")
                     {
                         $pl=(floatval($ask2)-$row[0]) * $row[1] *$mul ;
@@ -314,12 +315,13 @@ form {
         /*=================date & time function=========================*/
         function DateTime()
         {   
-           global $today,$day,$time;
+           global $today,$day,$time,$month;
 
 
 		    $today = date('Y-m-d');
             $day=date('l', strtotime($today));
-            //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
+            $month=date('m',strtotime($today));
+            //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$month;
 
 		    //print "<p><b>Today is $today </b></p>";
 
