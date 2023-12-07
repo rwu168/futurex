@@ -193,12 +193,8 @@ form {
 					at:  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">	
 					qty: <input type="text" size=2 name="shqty" value="<?=$shqty?>"><br><br>
 
-					Lvl3 BuySell 0=disable/ -1=buy & needs all 3 fields] :
-					<input type="text" size=2 name="rpl" value="<?=$rpl?>">
-					Buy: <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
-
-					Sell:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
-
+					Pivot Contracts:
+					<input type="text" size=2 name="rpl" value="<?=$rpl?>"><br><br>
 
 					<input type="submit"> <input type="submit" name="quit" value="Return">
 			</form>
@@ -230,8 +226,6 @@ form {
 		$smscode=$_POST['smscode'];
 		$tk=$_POST['tk'];
 		$rpl=$_POST['rpl'];
-		$buyl3=$_POST['buyl3'];
-		$selll3=$_POST['selll3'];
 		$mmy=$_POST['mmy'];
 		$pw=$_POST['pw'];
 		$shprice=$_POST['shprice'];
@@ -247,7 +241,7 @@ form {
 
 
 		
-		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
+		$sql = "update control set mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceselldown=$spriceselldown,spriceout=$spriceout,amt=$amt,email='$email',seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");

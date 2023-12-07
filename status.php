@@ -134,15 +134,15 @@ form {
                     $pl=round($row[0],2);
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
-
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,rate2 from control where sys='$name';";
+                    //print($name);
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,i1,rpl from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     pg_query("COMMIT") or die("Transaction commit failed\n");
                     $bal=$row1[2];
                     $micro=$row1[7];
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -151,16 +151,7 @@ form {
                     {
                         $seccont1=$row1[16];
                     }
-                    if (strval($row1[21])=="")
-                    {
-                        $rsi=0;
-                    }
-                    else
-                    {
-                        $rsi=round($row1[21],2);
-                    }
                     
-
                     if ($rowcount1>0)
                     {
                         $micro=$row1[6];
@@ -264,7 +255,7 @@ form {
                             $rge=0;
                             $qty=$seccont1;
                         }
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$rsi));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -298,14 +289,17 @@ form {
                             <th>EqP</th>
                             <th>RSIQ</th>
                             <th>RSIP</th>
-                            <th>RSI</th>
+                            <th>L-Rsv</th>
+                            <th>P-QTY</th>
+                            <th>Tr-Clss</th>
+
 
                            
                             
                 </tr>
 
                 <?php
-                    $max_columns=21;
+                    $max_columns=23;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
@@ -331,7 +325,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5 or $columns==20)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],2);
