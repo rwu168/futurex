@@ -143,6 +143,7 @@ form {
                     $bal=$row1[2];
                     $micro=$row1[7];
                     $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];
+                    if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
