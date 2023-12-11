@@ -144,6 +144,7 @@ form {
                     $micro=$row1[7];
                     $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
+                    
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -256,6 +257,8 @@ form {
                             $rge=0;
                             $qty=$seccont1;
                         }
+
+                        if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass));
                     }
                     $row=pg_fetch_row($rs);
@@ -288,11 +291,11 @@ form {
                             <th>SP</th>
                             <th>EquQ</th>
                             <th>EqP</th>
-                            <th>RSIQ</th>
-                            <th>RSIP</th>
+                            <th>P-Qty</th>
+                            <th>P-Price</th>
                             <th>L-Rsv</th>
-                            <th>P-QTY</th>
-                            <th>Tr-Clss</th>
+                            <th>Set-QTY</th>
+                            <th>Class</th>
 
 
                            
