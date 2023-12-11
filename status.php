@@ -108,7 +108,7 @@ form {
                 $datet=date('Y-m-t', strtotime($today));
                 //echo $datef ."iiiiii" .$datet ."<br>";
 
-                $sql = "select mkt_cond,sprice,spriceselldown,cost,cost1 from config where symbol='trade';";
+                $sql = "select mkt_cond,sprice,spriceselldown,cost,cost1,buyl3 from config where symbol='trade';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $mkt_cond=$row[0];
@@ -116,6 +116,7 @@ form {
                 $spriceselldown=$row[2];
                 $ask1=$row[3];
                 $ask2=$row[4];
+                $time_stop=$row[5];
 
                 
                 $sql = "Select sum(pl),sum(qty),name from profit where cdate>=date('$datef') and cdate<=date('$datet') group by name order by name;";
@@ -259,7 +260,7 @@ form {
                         }
 
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -296,6 +297,7 @@ form {
                             <th>L-Rsv</th>
                             <th>Set-QTY</th>
                             <th>Class</th>
+                            <th>Tm-Stop</th>
 
 
                            
@@ -303,7 +305,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=23;
+                    $max_columns=24;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);

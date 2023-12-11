@@ -143,10 +143,9 @@ form {
 		*Set buy for trade10 Mkt_Condition(default=0):
 			<input type="text" size=2 name="trade10" value="<?=$trade10?>"><br><br>
 
-		Lvl3 BuySell 0=disable/ -1=buy & needs all 3 fields] :
-			<input type="text" size=2 name="buysell" value="<?=$buysell?>">
-		Buy: <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
-		Sell:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
+
+		Time out(in 24 hours-seconnds): <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
+		Time back-in:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
 
 		
 
@@ -168,14 +167,13 @@ form {
 		$spricebuydown=$_POST['spricebuydown'];
 		$nobuy=strval($_POST['nobuy']);
 		$trade10=$_POST['trade10'];
-		$buysell=$_POST['buysell'];
 		$buyl3=$_POST['buyl3'];
 		$selll3=$_POST['selll3'];
 		$forcebs=$_POST['forcebs'];
 
 		
 		print $mkt_cond ."sdsdsd" .$smy;
-		$sql = "update config set mkt_cond=$mkt_cond,sprice=$sprice,spriceout=$spriceout,spricesell=$spricesell,spriceselldown=$spriceselldown,spricebuy=$spricebuy,spricebuydown=$spricebuydown,smy='$smy',nobuy='$nobuy',buysell=$buysell,buyl3=$buyl3,selll3=$selll3 where symbol='trade';";
+		$sql = "update config set mkt_cond=$mkt_cond,sprice=$sprice,spriceout=$spriceout,spricesell=$spricesell,spriceselldown=$spriceselldown,spricebuy=$spricebuy,spricebuydown=$spricebuydown,smy='$smy',nobuy='$nobuy',buyl3=$buyl3,selll3=$selll3 where symbol='trade';";
 
 
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
