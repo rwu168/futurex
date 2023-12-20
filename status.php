@@ -294,7 +294,7 @@ form {
                             <th>EqP</th>
                             <th>P-Qty</th>
                             <th>P-Price</th>
-                            <th>L-Rsv</th>
+                            <th>Status</th>
                             <th>Set-QTY</th>
                             <th>Class</th>
                             <th>Tm-Stop</th>
@@ -331,7 +331,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5 or $columns==20)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],2);

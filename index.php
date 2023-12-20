@@ -52,7 +52,7 @@ form {
   width: 30px;
   margin: auto;
   height: 210px;
-  width: 27%;
+  width: 30%;
   top: 120px;
   background-image: url("htech1.png");
   background-color: lightgrey;
