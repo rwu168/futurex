@@ -78,7 +78,7 @@ form {
   width: 60px;
   left: 5px;
   height: 40px;
-  width: 25%;
+  width: 35%;
   top: 355px;
   border: 3px solid #73AD21;
   color: black;
