@@ -52,7 +52,7 @@ form {
   width: 30px;
   margin: auto;
   height: 210px;
-  width: 30%;
+  width: 40%;
   top: 120px;
   background-image: url("htech1.png");
   background-color: lightgrey;
@@ -90,7 +90,7 @@ form {
   width: 60px;
   left: 5px;
   height: 40px;
-  width: 30%;
+  width: 40%;
   top: 320px;
   color: green;
 }
@@ -134,7 +134,7 @@ form {
 		var textbox = new fabric.Textbox("We're the wizards behind the curtains, crafting groundbreaking algo future index trading software that takes the trading game to a whole new level of excitement and high profit return... \n\nLike to test it out?  No credit card or money needed and cancel any time.  It's free to test - just sign up!  Any questions, please contact us at futurex168168@gmail.com", 
         {
 			width: 750,
-			left: 500,
+			left: 600,
 			top: 70,
 			fill: "orange",
 			strokeWidth: 2,
