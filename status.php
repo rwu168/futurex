@@ -260,6 +260,7 @@ form {
                         }
 
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
+                        if ($tradeclass>=6 and $tradeclass<=8){$rge=0;}
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
                     }
                     $row=pg_fetch_row($rs);
@@ -334,7 +335,7 @@ form {
                                 if ($columns==1 or $columns==2 or $columns==3 or $columns==5)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
-                                    $usd = number_format($data[$record_id],2);
+                                    $usd = number_format($data[$record_id],0);
 
                                     //print '<bgcolor="' . $row_color[$columns % 2] . '">';
                                     //print '<color="black">';
