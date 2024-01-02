@@ -292,21 +292,9 @@ form {
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
-                $k=1;
 
-                //print "testttttttt" .$row[9];
+                $data=array(round($row[0],2),round($row[1],2),round($row[2],2),round($row[3],2),round($row[4],2),round($row[5],2),round($row[6],2),round($row[7],2),round($row[8],2),round($row[9],2),round($row[10],2),round($row[11],2),);
 
-       
-                while ($k<=$rowcount)
-                {
-                    //$data=array(round($row[0],2),round($row[1],2),round($row[2],2),round($row[3],2),round($row[4],2),round($row[5],2),round($row[6],2),round($row[7],2),round($row[8],2),round($row[9],2),round($row[10],2),round($row[11],2),);
-                    $data=array(21,22,36,29,25.20,25.20,24.40,16.80,4.33,round($row[9],2),round($row[10],2),round($row[11],2),);
-
-                    $row=pg_fetch_row($rs);
-                    $k++;
-                    
-                }
-                
     ?>
                 <table  class="ytd" width="20px" height="5px"  bgcolor="lightgreen" >
 
@@ -621,7 +609,7 @@ form {
     <h3 class="tot"> 
     <?php
         disp_ytd($conn);
-        $lastyearper=35;
+        $lastyearper=24.5;
 
         print "<br>Last Year Annual Return:  $lastyearper%<br>";
         disp_detail($conn,$ask);
