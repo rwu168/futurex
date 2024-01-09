@@ -223,7 +223,7 @@ form {
 		    $today = date('Y-m-d');
             $day=date('l', strtotime($today));
             $cm=date('m');
-            $cy=date('y');
+            $cy=date('Y');
             //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$day;
 
 		    //print "<p><b>Today is $today </b></p>";
@@ -280,19 +280,19 @@ form {
 
     <?php
     /*=================Display YTD P/L==================================*/
-        function disp_ytd($conn)
+        function disp_ytd($conn,$cy)
         {
                 global $data;
 
 
-                $sql = "SELECT  jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec FROM plapr where name='acw';";
+                $sql = "SELECT  jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec FROM plapr where yy=$cy and name='acw';";
           
                 //$sql = "SELECT bal,sys,email,password FROM control limit 4;";
           
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
-
+                //print "testttttttt" .$row[0];
                 $data=array(round($row[0],2),round($row[1],2),round($row[2],2),round($row[3],2),round($row[4],2),round($row[5],2),round($row[6],2),round($row[7],2),round($row[8],2),round($row[9],2),round($row[10],2),round($row[11],2),);
 
     ?>
@@ -608,7 +608,7 @@ form {
 
     <h3 class="tot"> 
     <?php
-        disp_ytd($conn);
+        disp_ytd($conn,$cy);
         $lastyearper=24.5;
 
         print "<br>Last Year Annual Return:  $lastyearper%<br>";
