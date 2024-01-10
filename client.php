@@ -164,7 +164,7 @@ form {
                 }
 
                 //get profit/los per month data
-                $sql = "SELECT sum(jan1),sum(feb1),sum(mar1),sum(apr1),sum(may1),sum(jun1),sum(jul1),sum(aug1),sum(sep1),sum(oct1),sum(nov1),sum(dec1) FROM plapr where name='$name';";
+                $sql = "SELECT sum(jan1),sum(feb1),sum(mar1),sum(apr1),sum(may1),sum(jun1),sum(jul1),sum(aug1),sum(sep1),sum(oct1),sum(nov1),sum(dec1) FROM plapr where yy=$cy and name='$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 //$totpl=floatval($row[0])+floatval($row[1])+floatval($row[2])+floatval($row[3])+floatval($row[4])+floatval($row[5])+floatval($row[6])+floatval($row[7])+floatval($row[8])+floatval($row[9])+floatval($row[10])+floatval($row[11]);
@@ -315,12 +315,13 @@ form {
         /*=================date & time function=========================*/
         function DateTime()
         {   
-           global $today,$day,$time,$month;
+           global $today,$day,$time,$month,$cy;
 
 
 		    $today = date('Y-m-d');
             $day=date('l', strtotime($today));
             $month=date('m',strtotime($today));
+            $cy=date('Y');
             //print "<br><br> <br>dsfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddfdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" .$month;
 
 		    //print "<p><b>Today is $today </b></p>";
@@ -352,12 +353,12 @@ form {
 
     <?php
     /*=================Display YTD P/L==================================*/
-        function disp_ytd($conn,$name)
+        function disp_ytd($conn,$name,$cy)
         {
                 global $data;
 
                 //$fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
-                $sql = "SELECT  jan1,feb1,mar1,apr1,may1,jun1,jul1,aug1,sep1,oct1,nov1,dec1 FROM plapr where name='$name';";
+                $sql = "SELECT  jan1,feb1,mar1,apr1,may1,jun1,jul1,aug1,sep1,oct1,nov1,dec1 FROM plapr where yy=$cy and name='$name';";
           
                 //$sql = "SELECT bal,sys,email,ph FROM control limit 4;";
           
@@ -653,7 +654,7 @@ form {
     <?php
      
         
-        disp_ytd($conn,$name);
+        disp_ytd($conn,$name,$cy);
         disp_detail($conn,$name,$ask);
         exit;
     
