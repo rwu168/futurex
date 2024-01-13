@@ -170,7 +170,7 @@ form {
                                 $mul=50;
                         }
                         $rty=$row1[8];
-                        $sql2 = "Select tprice,qty from cost where name='$name';";
+                        $sql2 = "Select tprice,qty,insqty,insprice from cost where name='$name';";
                         $rs2 = pg_query($conn, $sql2) or die("Cannot connect: $sql2<br>"); 
                         $row2=pg_fetch_row($rs2);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
@@ -190,8 +190,12 @@ form {
                             {
                                 $qty=intval($row2[1]);
                             }
-                            $url1=($ask-floatval($row2[0]))*$qty*intval($mul);
-                            $url=$url+$url1;
+                            $insqty=intval($row2[2]);
+                            $insprice=floatval($row2[3]);
+
+                            $url1=($ask-floatval($row2[0]))*($qty+$insqty)*intval($mul);
+                            $url2=($ask-$insprice)*$insqty*intval($mul);
+                            $url=$url+$url1+$url2;
                             $row2=pg_fetch_row($rs2);
                             $k2++;
 
@@ -291,8 +295,8 @@ form {
                             <th>%</th>
                             <th>SellD</th>
                             <th>SP</th>
-                            <th>EquQ</th>
-                            <th>EqP</th>
+                            <th>InsQ</th>
+                            <th>InsP</th>
                             <th>P-Qty</th>
                             <th>P-Price</th>
                             <th>Status</th>

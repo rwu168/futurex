@@ -104,6 +104,7 @@ form {
         $row=pg_fetch_row($rs);
 		$trade10=$row[0];
 		$forcebs=$row[1];
+		$m2k=0;
 
 	?>
 
@@ -122,7 +123,7 @@ form {
 		*Sellying Range:(35,70):
 			<input type="text" size=2 name="spriceout" value="<?=$spriceout?>"><br>
 
-		Sell when price reach this point default=0:
+		Insurance Buy/Sell Adjustment default=0:
 			<input type="text" size=2 name="spricesell" value="<?=$spricesell?>"><br><br>
 
 		**Sell when market BackDown to this point:
@@ -134,17 +135,19 @@ form {
 		Buy when market back up to this point default=0:
 			<input type="text" size=2 name="spricebuydown" value="<?=$spricebuydown?>"><br>
 
-		Force Equilibrium (b=buy, s=sell, h=hold, & n=None):
+		Force Equilibrium/Pivot (b=buy, s=sell, h=hold, & n=None):
 			<input type="text" size=2 name="forcebs" value="<?=$forcebs?>"><br>
 
 		No Buying (default=n):
 			<input type="text" size=2 name="nobuy" value="<?=$nobuy?>"><br>
 
 		*Set buy for trade10 Mkt_Condition(default=0):
-			<input type="text" size=2 name="trade10" value="<?=$trade10?>"><br><br>
+			<input type="text" size=2 name="trade10" value="<?=$trade10?>">
+		 Auto (1=disable & 0=enable):
+			<input type="text" size=2 name="m2k" value="<?=$m2k?>"><br><br>
 
 
-		Time out(in 24 hours-seconnds): <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
+		Time out(in 24 hours-seconnds 4am=14400&7am=25200): <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
 		Time back-in:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
 
 		
@@ -167,6 +170,7 @@ form {
 		$spricebuydown=$_POST['spricebuydown'];
 		$nobuy=strval($_POST['nobuy']);
 		$trade10=$_POST['trade10'];
+		$m2k=$_POST['m2k'];
 		$buyl3=$_POST['buyl3'];
 		$selll3=$_POST['selll3'];
 		$forcebs=$_POST['forcebs'];
@@ -178,7 +182,7 @@ form {
 
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-		$sql = "update control set mkt_cond=$trade10,s2='$forcebs' where sprice=10;";
+		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=10 or sprice=25;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 

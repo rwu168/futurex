@@ -241,7 +241,7 @@ form {
 
 
 		
-		$sql = "update control set spriceselldown=$spriceselldown,mkt_cond=$mkt_cond,micro='$micro',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
+		$sql = "update control set spriceselldown=$spriceselldown,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
