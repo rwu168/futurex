@@ -123,10 +123,10 @@ form {
 		*Sellying Range:(35,70):
 			<input type="text" size=2 name="spriceout" value="<?=$spriceout?>"><br>
 
-		Insurance Buy/Sell Adjustment default=0:
+		Not Use(spricesell):
 			<input type="text" size=2 name="spricesell" value="<?=$spricesell?>"><br><br>
 
-		**Sell when market BackDown to this point:
+		*Insurance Buy/Sell Adjustment default=0:
 			<input type="text" size=2 name="spriceselldown" value="<?=$spriceselldown?>"><br>
 
 		Buy when down to this point default=0:

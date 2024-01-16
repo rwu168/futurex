@@ -149,7 +149,7 @@ form {
 					*Sellying Range:(0,20,70)'):
 					<input type="text" size=2 name="spriceout" value="<?=$spriceout?>"><br>
 
-					*Sell when market BackDown to this point:
+					*Ins Adjustment default=0:
 					<input type="text" size=2 name="spriceselldown" value="<?=$spriceselldown?>"><br><br>
 
 					Investment Amount:
