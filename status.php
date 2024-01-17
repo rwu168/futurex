@@ -136,7 +136,7 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,i1,rpl from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,bsl,rpl from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
