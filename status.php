@@ -136,7 +136,7 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,bsl,rpl from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,bss,rpl from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
@@ -264,7 +264,7 @@ form {
                         }
 
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
-                        if ($tradeclass>=6 and $tradeclass<=8){$rge=0;}
+                        if ($tradeclass>=4 and $tradeclass<=8){$rge=0;}
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
                     }
                     $row=pg_fetch_row($rs);

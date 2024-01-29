@@ -115,7 +115,7 @@ div.ex1 {
                 $datet=date('Y-m-t', strtotime($today));
                 //echo $today ."iiiiii" .$datet ;
 
-                $sql = "select name,pl from profit where cdate>=date('$today') and cdate<=date('$today') order by name;";
+                $sql = "select name,pl,datesort from profit1 where cdate>=date('$today') and cdate<=date('$today') and name='ts' order by id;";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
