@@ -188,10 +188,10 @@ form {
 					Reserve$:
 					<input type="text" size=5 name="reserve" value="<?=$reserve?>"><br>
 
-					Short to cover long risk(Enter first field only): 
+					Ins Retire Price at(default=60): 
 					<input type="text" size=2 name="shprice" value="<?=$shprice?>">
-					at:  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">	
-					qty: <input type="text" size=2 name="shqty" value="<?=$shqty?>"><br><br>
+					Ins ES QTY Adj:  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">	
+					Not use: <input type="text" size=2 name="shqty" value="<?=$shqty?>"><br><br>
 
 					Pivot Contracts:
 					<input type="text" size=2 name="rpl" value="<?=$rpl?>"><br><br>
@@ -229,6 +229,7 @@ form {
 		$mmy=$_POST['mmy'];
 		$pw=$_POST['pw'];
 		$shprice=$_POST['shprice'];
+		$shbuy=$_POST['shbuy'];
 		$shlevel=$_POST['shlevel'];
 		$secbuy=$_POST['secbuy'];
 		$m2k=$_POST['m2k'];
@@ -241,7 +242,7 @@ form {
 
 
 		
-		$sql = "update control set spriceselldown=$spriceselldown,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccontqty=$seccontqty,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
+		$sql = "update control set shbuy=$shbuy,spriceselldown=$spriceselldown,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccontqty=$seccontqty,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");

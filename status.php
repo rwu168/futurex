@@ -204,7 +204,7 @@ form {
 	                    $qty=$row1[0];
                         $amt=$row1[1];
                         $mkt_cond1=$row1[3];
-                        
+                        $contracts=$row1[7];$rty=$row1[8];
                         if ($mkt_cond1>0)
                         {
                             $mkt_cond=$mkt_cond1;
@@ -219,10 +219,10 @@ form {
                         else
                         {
                             $bal=round($row1[2]+$rty,2);
-                            $rpl= round($bal - ($amt + $pl));
+                            $rpl= round($bal - ($amt + $pl+$rty));
                             if ($url==0){$bal=$bal+$pl;}
                         }
-                        $contracts=$row1[7];$rty=$row1[8];
+                        
                         //$per=round($pl*12.0/$amt,2);
                         //$urper=round((($rpl)/$amt)*-100,2);
 
