@@ -190,7 +190,7 @@ form {
 
 					Ins Retire Price at(default=60): 
 					<input type="text" size=2 name="shprice" value="<?=$shprice?>">
-					Ins ES QTY Adj:  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">	
+					Ins ES QTY Adj(must be <=0):  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">	
 					Not use: <input type="text" size=2 name="shqty" value="<?=$shqty?>"><br><br>
 
 					Pivot Contracts:

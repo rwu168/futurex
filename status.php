@@ -256,7 +256,7 @@ form {
                             $bal=$row1[2];
                         }
 
-                        $per=round(($pl*12/$amt)*100,2);
+                        $per=round(($pl*12/($amt+$rty))*100,2);
                         if ($tradeclass>2 and $seccont1>0)
                         {
                             $rge=0;

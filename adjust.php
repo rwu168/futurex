@@ -237,11 +237,11 @@ form {
                     Month:  <input type="text" size=5 name="cm" value="<?=$cm?>">	
 					Year: <input type="text" size=2 name="cy" value="<?=$cy?>"><br>
 
-                    ove: 
-					Qty:  <input type="text" size=5 name="qty1" value="">	
+                    Rollover Qty:  <input type="text" size=5 name="qty1" value="">	
                     From level:  <input type="text" size=5 name="fm" >	
-					To: <input type="text" size=2 name="to" ><br><br>
-
+					To: <input type="text" size=2 name="to" ><br>
+                    Ins Reset Name:  <input type="text" size=5 name="name1" value=""><br><br>
+                    
 					Delete(Enter yes and delete all left level=blank):
 					<input type="text" size=5 name="del" value="">
 					Level <input type="text" size=2 name="dellevel" value=""><br><br>
@@ -277,6 +277,7 @@ form {
         $qty1=intval($_POST['qty1']);
         $fm=intval($_POST['fm']);
         $to=intval($_POST['to']);
+        $name1=$_POST['name1'];
 
 
         
@@ -342,7 +343,13 @@ form {
 
         }
        
+        if ($name1 != '') //reset INS QTY
+        {
+                $sql = "update control set ym=0,seccont=0,seccontqty=0,ym1=0,seccont1=0,seccont1qty=0 WHERE sys = '$name1';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                pg_query("COMMIT") or die("Transaction commit failed\n");
 
+        }
 		disp_detail($conn,$name);
 	}
 
