@@ -136,14 +136,14 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,bss,rpl,seccontqty,seccont1qty from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,bss,rpl,seccontqty,seccont1qty,ramt from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     pg_query("COMMIT") or die("Transaction commit failed\n");
                     $bal=$row1[2];
                     $micro=$row1[7];
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
                     
                     if (strval($seccont1)=="")
@@ -257,7 +257,7 @@ form {
                         }
 
                         $per=round(($pl*12/($amt+$rty))*100,2);
-                        if ($tradeclass>2 and $seccont1>0)
+                        if ($tradeclass>2 and $seccont1<0)
                         {
                             $rge=0;
                             $qty=$seccont1;
@@ -265,7 +265,7 @@ form {
 
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
                         if ($tradeclass>=4 and $tradeclass<=8){$rge=0;}
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -284,14 +284,14 @@ form {
                             <th>Unrealize</th>
                             <th>Balance</th>
                             <th>%</th>
-                            <th>Reserve</th>
+                            <th>InsPL</th>
                             <th>Qty</th>
                             <th>Level</th>
                             <th>Mkt</th>
                             <th>Rge</th>
                             <th>Micro</th>
                             <th>Ct</th>
-                            <th>NoB</th>
+                            <th>Resve</th>
                             <th>%</th>
                             <th>SellD</th>
                             <th>SP</th>

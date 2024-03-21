@@ -98,12 +98,12 @@ form {
 				{ 
 				$name = unserialize($_SESSION['name']); 
 				} 
-				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,m2k,seccontqty,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq,shprice,shbuy,shqty,shlevel,rty,seccont1qty,reserve,s2,s1,seccont,seccont1 from control where sys='$name';";
+				$sql = "select mkt_cond,spriceout,spriceselldown,micro,contracts,ph,trade,amt,active,email,m2k,seccontqty,qty,smscode,tk,secbuy,rpl,buyl3,selll3,sprice,mmy,flag2,pw,nq,shprice,shbuy,shqty,shlevel,rty,seccont1qty,reserve,s2,s1,seccont,seccont1,bss,ramt from control where sys='$name';";
 				$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 				$row=pg_fetch_row($rs);
 				pg_query("COMMIT") or die("Transaction commit failed\n");
 				$mkt_cond=$row[0];$spriceout=$row[1];$spriceselldown=$row[2];$micro=$row[3];$contracts=$row[4];$ph=$row[5];$trade=$row[6];$amt=$row[7];$active=$row[8];$email=$row[9];$m2k=$row[10];$seccontqty=$row[11];$qty=$row[12];$smscode=$row[13];$tk=$row[14];$secbuy=$row[15];$rpl=$row[16];$buyl3=$row[17];$selll3=$row[18];$sprice=$row[19];$mmy=$row[20];$flag2=$row[21];$pw=$row[22];$nq=$row[23];$shprice=$row[24];$shbuy=$row[25];$shqty=$row[26];$shlevel=$row[27];$rty=$row[28];$seccont1qty=$row[29];$reserve=$row[30];$forcebs=$row[31];$tsymbol=$row[32];
-				$seccont=$row[33];$seccont1=$row[34];
+				$seccont=$row[33];$seccont1=$row[34];$bss=$row[35];$ramt=$row[36];
 	
 	?>
 
@@ -159,7 +159,7 @@ form {
 					<input type="text" size=10 name="rty" value="<?=$rty?>">
 
 					Active (0=enable(Live)/1=disable,-2=Web(Test)):
-					<input type="text" size=2 name="active" value="<?=$active?>"><br>
+					<input type="text" size=2 name="active" value="<?=$active?>"><br><br>
 
 					Force EQ (s=buy,s=sell, h=hold, & n=None):
 					<input type="text" size=2 name="forcebs" value="<?=$forcebs?>">
@@ -170,7 +170,8 @@ form {
 
 					INS QTY1:
 					<input type="text" size=5 name="seccont1qty" value="<?=$seccont1qty?>">
-					<input type="text" size=5 name="seccont1" value="<?=$seccont1?>"><br><br>
+					<input type="text" size=5 name="seccont1" value="<?=$seccont1?>">
+					BSS: <input type="text" size=2 name="bss" value="<?=$bss?>"><br>
 
 				
 					Enter SMSCode for StreetSmart:
@@ -185,16 +186,15 @@ form {
 					No Buy after sold(1= yes & 0=use default):
 					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
 					
-					Save for reserve(%):
-					<input type="text" size=2 name="shlevel" value="<?=$shlevel?>">
-					
-					Reserve$:
-					<input type="text" size=5 name="reserve" value="<?=$reserve?>"><br>
+					Ins P/L$:
+					<input type="text" size=5 name="reserve" value="<?=$reserve?>">
+					Reserved Profit$:
+					<input type="text" size=5 name="ramt" value="<?=$ramt?>"><br>
 
 					Ins Retire Price at(default=60): 
 					<input type="text" size=2 name="shprice" value="<?=$shprice?>">
-					Ins ES QTY Adj(must be <=0):  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">	
-					Not use: <input type="text" size=2 name="shqty" value="<?=$shqty?>"><br><br>
+					Ins ES QTY Adj(must be <=0):  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>"><br><br>	
+					
 
 					Pivot Contracts:
 					<input type="text" size=2 name="rpl" value="<?=$rpl?>"><br><br>
@@ -227,6 +227,7 @@ form {
 		$seccont1qty=$_POST['seccont1qty'];
 		$seccont=$_POST['seccont'];
 		$seccont1=$_POST['seccont1'];
+		$bss=$_POST['bss'];
 		//$qty=$_POST['qty'];
 		$smscode=$_POST['smscode'];
 		$tk=$_POST['tk'];
@@ -235,7 +236,7 @@ form {
 		$pw=$_POST['pw'];
 		$shprice=$_POST['shprice'];
 		$shbuy=$_POST['shbuy'];
-		$shlevel=$_POST['shlevel'];
+		$ramt=$_POST['ramt'];
 		$secbuy=$_POST['secbuy'];
 		$m2k=$_POST['m2k'];
 		$rty=$_POST['rty'];
@@ -247,7 +248,7 @@ form {
 
 
 		
-		$sql = "update control set shbuy=$shbuy,spriceselldown=$spriceselldown,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccont=$seccont,seccontqty=$seccontqty,seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,shlevel=$shlevel,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
+		$sql = "update control set bss=$bss,shbuy=$shbuy,spriceselldown=$spriceselldown,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccont=$seccont,seccontqty=$seccontqty,seccont1=$seccont1,seccont1qty=$seccont1qty,smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,ramt=$ramt,m2k=$m2k,rty=$rty,reserve=$reserve,s2='$forcebs',s1='$tsymbol' where sys='$name';";
 		//$sql = "update control set smscode=$smscode,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,buyl3=$buyl3,selll3=$selll3,legs=1,sprice=$sprice,mmy=$mmy,flag2=$flag2 where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
