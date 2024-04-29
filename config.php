@@ -147,7 +147,7 @@ form {
 			<input type="text" size=2 name="m2k" value="<?=$m2k?>"><br><br>
 
 
-		Time out(in 24 hours-seconnds 4am=14400&7am=25200): <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
+		Time out(in 24 hours-seconnds 5:30a=19800-6:30a=23900 & 11:30a=41400): <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
 		Time back-in:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
 
 		

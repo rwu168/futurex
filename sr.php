@@ -88,12 +88,12 @@ form {
 
 		DateTime();
 		RemoteDb();
-		$sql = "select equd,sl1,sl2,sl3,rl1,rl2,rl3,eq,as1,forcebs,bs,eq1 from priceaction where symbol='ES';";
+		$sql = "select equd,sl1,sl2,sl3,rl1,rl2,rl3,eq,as1,forcebs,bs,eq1,top_price1,bottom_price1,ins_buy,ins_sell from priceaction;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
         $rowcount= pg_num_rows($rs); 
-		$equd=$row[0];$sl1=$row[1];$sl2=$row[2];$sl3=$row[3];$rl1=$row[4];$rl2=$row[5];$rl3=$row[6];$eq=$row[7];$as1=$row[8];$forcebs=$row[9];$bs=$row[10];$eq1=$row[11];
-	
+		$equd=$row[0];$sl1=$row[1];$sl2=$row[2];$sl3=$row[3];$rl1=$row[4];$rl2=$row[5];$rl3=$row[6];$eq=$row[7];$as1=$row[8];$forcebs=$row[9];$bs=$row[10];$eq1=$row[11];$top_price1=$row[12];$bottom_price1=$row[13];$ins_buy=$row[14];$ins_sell=$row[15];
+		//print($bot);
 	?>
 
 	 <h3 class="login1";color:black;">
@@ -115,12 +115,17 @@ form {
 			NQ: <input type="text" size=5 name="rl2" value="<?=$rl2?>">
 			ES: <input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
 
-		RSI Force buy/sell b=buy/s=sell/n=none: 
-			<input type="text" size=5 name="forcebs" value="<?=$forcebs?>">
-			<input readonly type="text" size=5 name="as1" value="<?=$as1?>">
-			<input readonly type="text" size=5 name="bs" value="<?=$bs?>"><br><br>
-		
-		<input type="submit"> <input type="submit" name="quit" value="Return">
+		Life Ins Policy Y Limit: 
+			Top: <input  type="text" size=5 name="as1" value="<?=$as1?>">
+			Bottom: <input  type="text" size=5 name="bs" value="<?=$bs?>"><br>
+
+		Life Ins-Y1: 
+			Buy #:: <input  type="text" size=5 name="ins_buy" value="<?=$ins_buy?>">
+			Sell #: <input  type="text" size=5 name="ins_sell" value="<?=$ins_sell?>">
+			Top: <input  type="text" size=5 name="top_price1" value="<?=$top_price1?>">
+			Bottom: <input  type="text" size=5 name="bottom_price1" value="<?=$bottom_price1?>"><br><br>
+
+		<input type="submit" name="quit" value="Save">
 	</form>
 	<br>
 
@@ -136,11 +141,17 @@ form {
 		$rl1=$_POST['rl1'];
 		$rl2=$_POST['rl2'];
 		$rl3=$_POST['rl3'];
-		$forcebs=$_POST['forcebs'];
+		$as1=$_POST['as1'];
+		$bs=$_POST['bs'];
 		$eq1=$_POST['eq1'];
-		
+		$top_price1=$_POST['top_price1'];
+		$bottom_price1=$_POST['bottom_price1'];
+		$ins_buy=$_POST['ins_buy'];
+		$ins_sell=$_POST['ins_sell'];
+				
+
 		//print $equd ."sdsdsd" .$sl1;
-		$sql = "UPDATE priceaction SET forcebs='$forcebs',equd=$equd,eq=$eq,eq1=$eq1,sl1=$sl1,sl2=$sl2,sl3=$sl3,rl1=$rl1,rl2=$rl2,rl3=$rl3;";
+		$sql = "UPDATE priceaction SET equd=$equd,eq=$eq,eq1=$eq1,sl1=$sl1,sl2=$sl2,sl3=$sl3,rl1=$rl1,rl2=$rl2,rl3=$rl3,as1=$as1,bs=$bs,top_price1=$top_price1,bottom_price1=$bottom_price1,ins_buy=$ins_buy,ins_sell=$ins_sell;";
         $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 	    pg_query("COMMIT") or die("Transaction commit failed\n");
 		

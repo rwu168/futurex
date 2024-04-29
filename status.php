@@ -136,7 +136,7 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,bss,rpl,seccontqty,seccont1qty,ramt from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,s2,rpl,seccontqty,seccont1qty,ramt from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
@@ -233,7 +233,7 @@ form {
                         if ($row1[11]=='') {$myrate=0;} else { $myrate=$row1[11];$secbuy=$row1[12];}
                         
                         $tot=$tot+$pl;
-                        if ($name=="ts" or $name=="py" or $name=="rw2" or $name=="rw1" or $name=="tspy" or $name=="twrw")
+                        if ($name=="ts" or $name=="ts1" or $name=="py" or $name=="rw2" or $name=="rw1" or $name=="tspy" or $name=="tspy1" or $name=="twrw" or $name=="twrw1")
                         {
                             $wu=$pl;
                         }
@@ -295,13 +295,13 @@ form {
                             <th>%</th>
                             <th>SellD</th>
                             <th>SP</th>
-                            <th>InsQl</th>
-                            <th>InsQl1</th>
-                            <th>InsLP</th>
-                            <th>InsQs</th>
-                            <th>InsQs1</th>
-                            <th>InsSP</th>
-                            <th>Status</th>
+                            <th>InsQty</th>
+                            <th>InsQty1</th>
+                            <th>InsPc</th>
+                            <th>InsQty</th>
+                            <th>InsQty1</th>
+                            <th>InsPc</th>
+                            <th>Plcy</th>
                             <th>Set-QTY</th>
                             <th>Class</th>
                             <th>Tm-Stop</th>
@@ -338,7 +338,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5 or $columns==12)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);

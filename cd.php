@@ -161,14 +161,14 @@ form {
 					Active (0=enable(Live)/1=disable,-2=Web(Test)):
 					<input type="text" size=2 name="active" value="<?=$active?>"><br><br>
 
-					Force EQ (s=buy,s=sell, h=hold, & n=None):
+					LifeIns Active(y/n):
 					<input type="text" size=2 name="forcebs" value="<?=$forcebs?>">
 
 					INS QTY:
 					<input type="text" size=2 name="seccontqty" value="<?=$seccontqty?>">
 					<input type="text" size=2 name="seccont" value="<?=$seccont?>">
 
-					INS QTY1:
+					QTY1:
 					<input type="text" size=5 name="seccont1qty" value="<?=$seccont1qty?>">
 					<input type="text" size=5 name="seccont1" value="<?=$seccont1?>">
 					BSS: <input type="text" size=2 name="bss" value="<?=$bss?>"><br>
@@ -199,7 +199,7 @@ form {
 					Pivot Contracts:
 					<input type="text" size=2 name="rpl" value="<?=$rpl?>"><br><br>
 
-					<input type="submit"> <input type="submit" name="quit" value="Return">
+					<input type="submit" name="quit" value="Save">
 			</form>
 			<br>
 
