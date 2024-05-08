@@ -145,7 +145,7 @@ form {
                     $micro=$row1[7];
                     $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
-                    
+
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -214,7 +214,7 @@ form {
 
                             $bal=$amt+$url+$pl;
                             $rpl=$url;
-                            if ($url==0){$bal=200000+$pl;}
+                            if ($url==0){$bal=$amt+$pl;}
                         }
                         else
                         {
@@ -244,8 +244,9 @@ form {
 
                         $totwu=$totwu + $wu;
 
-                       /*
-                        print $rge ."==!=<br>";
+                       
+                        
+                        /*
                         if ($name=="twrw1")
                         {
                                 print $name .$bal . $row1[2] .$pl ."==<br>";
@@ -257,14 +258,17 @@ form {
                         }
 
                         $per=round(($pl*12/($amt+$rty))*100,2);
+                        /*
                         if ($tradeclass>2 and $seccont1<0)
                         {
                             $rge=0;
                             $qty=$seccont1;
                         }
+                        */
 
+                        //print $name .$rge ."==!=<br>";
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
-                        if ($tradeclass>=4 and $tradeclass<=8){$rge=0;}
+                        if ($tradeclass>5 and $tradeclass<=8){$rge=0;}
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
                     }
                     $row=pg_fetch_row($rs);
@@ -298,10 +302,10 @@ form {
                             <th>InsQty</th>
                             <th>InsQty1</th>
                             <th>InsPc</th>
-                            <th>InsQty</th>
-                            <th>InsQty1</th>
-                            <th>InsPc</th>
-                            <th>Plcy</th>
+                            <th>PvtQty</th>
+                            <th>PvtQty1</th>
+                            <th>PvtPc</th>
+                            <th>InsID</th>
                             <th>Set-QTY</th>
                             <th>Class</th>
                             <th>Tm-Stop</th>
