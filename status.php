@@ -266,10 +266,18 @@ form {
                         }
                         */
 
-                        //print $name .$rge ."==!=<br>";
+                        //print $name .$ask .$ym1 ."==!=<br>";
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
                         if ($tradeclass>5 and $tradeclass<=8){$rge=0;}
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
+                        if ($ym1>0)
+                        {
+                             $rge1=$ask-$ym1;
+                        }
+                        else 
+                        {
+                            $rge1=0;
+                        }
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$rge1,$time_stop));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -308,6 +316,7 @@ form {
                             <th>InsID</th>
                             <th>Set-QTY</th>
                             <th>Class</th>
+                            <th>Rge</th>
                             <th>Tm-Stop</th>
 
 
@@ -316,7 +325,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=26;
+                    $max_columns=27;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
