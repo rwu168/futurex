@@ -269,11 +269,15 @@ form {
                         //print $name .$ask .$ym1 ."==!=<br>";
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
                         if ($tradeclass>5 and $tradeclass<=8){$rge=0;}
-                        if ($ym1>0)
+                        if ($ym1>0 and $tradeclass !=6)
                         {
                              $rge1=$ask-$ym1;
                         }
-                        else 
+                        else if ($ym>0 and $tradeclass !=6)
+                        {
+                            $rge1=$ask-$ym;
+                        }
+                        else
                         {
                             $rge1=0;
                         }
