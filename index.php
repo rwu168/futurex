@@ -570,7 +570,7 @@ form {
 //=============================Login start here ===========================================================
                         if (array_key_exists('login',$_POST))
                         {
-                            $sql = "SELECT sys FROM control WHERE email= '$userid' AND pw='$password';";
+                            $sql = "SELECT sys,flag2 FROM control WHERE email= '$userid' AND pw='$password';";
 
                             $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                             $row=pg_fetch_row($rs);
@@ -581,6 +581,10 @@ form {
                                 print 'Email or Password not found!';
            
               
+                            }
+                            else if ($rowcount>0 and $row[1] ==10)
+                            {
+                                echo '<font color="RED">' ."Test Account EXPIRED! please contact us at futurex168168@gmail.com";
                             }
                             else if ($rowcount>0 and $userid !='')
                             {
