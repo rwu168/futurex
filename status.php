@@ -198,6 +198,7 @@ form {
                             $url=$url+$url1+$url2;
                             $row2=pg_fetch_row($rs2);
                             $k2++;
+                            
 
                         }
 
@@ -281,6 +282,23 @@ form {
                         {
                             $rge1=0;
                         }
+                        $sql3 = "Select tprice from cost where name='$name' order by level desc;";
+                        $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql2<br>"); 
+                        $row3=pg_fetch_row($rs3);
+                        pg_query("COMMIT") or die("Transaction commit failed\n");
+                        $rowcount3= pg_num_rows($rs3);
+                        if ($rowcount3>0)
+                        {
+                            $tprice=$row3[0];
+                            $rge=$ask-$tprice;
+                        }
+                        else if ($ym1>0 and $tradeclass==4)
+                        {
+                            $rge=$ask-$ym1;
+                        }
+                        else { $rge=0;}
+                        $rge=round($rge);
+                        //print $name .$ask .$tprice ."==!=<br>";
                         $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$rge1,$time_stop));
                     }
                     $row=pg_fetch_row($rs);
