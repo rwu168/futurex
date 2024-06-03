@@ -115,14 +115,14 @@ form {
 			NQ: <input type="text" size=5 name="rl2" value="<?=$rl2?>">
 			ES: <input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
 
-		Life Ins Policy Y Limit: 
+		Life Ins Policy Y Limit (Not Use yet): 
 			Top: <input  type="text" size=5 name="as1" value="<?=$as1?>">
 			Bottom: <input  type="text" size=5 name="bs" value="<?=$bs?>"><br>
 
-		Life Ins-Y1: 
+		Life Ins-Y & Y1: 
 			Buy #:: <input  type="text" size=5 name="ins_buy" value="<?=$ins_buy?>">
 			Sell #: <input  type="text" size=5 name="ins_sell" value="<?=$ins_sell?>">
-			Top: <input  type="text" size=5 name="top_price1" value="<?=$top_price1?>">
+			Sell All: <input  type="text" size=5 name="top_price1" value="<?=$top_price1?>">
 			Bottom: <input  type="text" size=5 name="bottom_price1" value="<?=$bottom_price1?>"><br><br>
 
 		<input type="submit" name="quit" value="Save">

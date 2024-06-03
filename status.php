@@ -223,6 +223,7 @@ form {
                             $rpl= round($bal - ($amt + $pl+$rty));
                             if ($url==0){$bal=$bal+$pl;}
                         }
+
                         
                         //$per=round($pl*12.0/$amt,2);
                         //$urper=round((($rpl)/$amt)*-100,2);
@@ -252,11 +253,12 @@ form {
                         {
                                 print $name .$bal . $row1[2] .$pl ."==<br>";
                         }
-                       */
+                       
                         if ($tradeclass>2 and $row1[2]>0)
                         {
                             $bal=$row1[2];
                         }
+                        */
 
                         $per=round(($pl*12/($amt+$rty))*100,2);
                         /*
