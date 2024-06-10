@@ -192,7 +192,7 @@ form {
                 }
                 else
                 {
-                    $sql = "SELECT cost from config where symbol='trade';";
+                    $sql = "SELECT cost1 from config where symbol='trade';";
                     $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                     $row=pg_fetch_row($rs);
                     $ask=$row[0];
@@ -605,7 +605,7 @@ form {
 
     <h3 class="ask">
       <?php
-        print "<font color='black'>LIVE - ES current price:</font> $ask";
+        print "<font color='black'>LIVE - NQ current price:</font> $ask";
       ?>
     </h3>
 
