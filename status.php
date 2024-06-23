@@ -143,6 +143,7 @@ form {
                     pg_query("COMMIT") or die("Transaction commit failed\n");
                     $bal=$row1[2];
                     $micro=$row1[7];
+                    //echo $name .$bal;
                     $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
 
@@ -154,6 +155,7 @@ form {
                     {
                         $seccont1=$row1[16];
                     }
+                    
                     
                     if ($rowcount1>0)
                     {
@@ -201,7 +203,7 @@ form {
                             
 
                         }
-
+                       
 	                    $qty=$row1[0];
                         $amt=$row1[1];
                         $mkt_cond1=$row1[3];
@@ -210,21 +212,24 @@ form {
                         {
                             $mkt_cond=$mkt_cond1;
                         }
+                        
                         if ($row1[2]<=0)
                         { 
 
                             $bal=$amt+$url+$pl;
                             $rpl=$url;
                             if ($url==0){$bal=$amt+$pl;}
+                            
                         }
                         else
                         {
                             $bal=round($row1[2]+$rty,2);
                             $rpl= round($bal - ($amt + $pl+$rty));
-                            if ($url==0){$bal=$bal+$pl;}
+                            //if ($url==0){$bal=$bal+$pl;}
+                            
                         }
-
                         
+                        //echo $name ."=" .$bal;
                         //$per=round($pl*12.0/$amt,2);
                         //$urper=round((($rpl)/$amt)*-100,2);
 
@@ -334,8 +339,8 @@ form {
                             <th>InsQty</th>
                             <th>InsQty1</th>
                             <th>InsPc</th>
-                            <th>PvtQty</th>
-                            <th>PvtQty1</th>
+                            <th>HedgeQty</th>
+                            <th>HdgPrice</th>
                             <th>PvtPc</th>
                             <th>InsID</th>
                             <th>Set-QTY</th>
