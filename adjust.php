@@ -237,29 +237,26 @@ form {
                     Month:  <input type="text" size=5 name="cm" value="<?=$cm?>">	
 					Year: <input type="text" size=2 name="cy" value="<?=$cy?>"><br>
 
-                    Rollover Qty:  <input type="text" size=5 name="qty1" value="">	
+                    Move Qty:  <input type="text" size=5 name="qty1" value="">	
                     From level:  <input type="text" size=5 name="fm" >	
 					To: <input type="text" size=2 name="to" ><br>
-                    Ins Reset Name:  <input type="text" size=5 name="name1" value=""><br><br>
+
+                    Ins Edit Qty:  <input type="text" size=5 name="ins_qty" >	
+					Price: <input type="text" size=2 name="ins_price" ><br><br>
                     
 					Delete(Enter yes and delete all left level=blank):
 					<input type="text" size=5 name="del" value="">
 					Level <input type="text" size=2 name="dellevel" value=""><br><br>
 
 
-						<input type="submit"> <input type="submit" name="quit" value="Return">
+				    <<input type="submit" name="quit" value="Save">
 			</form>
 			<br>
 
 
 
     <?php
-    if (isset($_POST['quit']) )
-	{
-            //print "sdsdssd";
-			$url="menu.php";
-            header("Location: $url");
-	}
+    
 
 	//if (isset($_POST['level']) or isset($_POST['del']) or isset($_POST['amt']) or isset($_POST['qty1']))
     if (isset($_POST['name']) )
@@ -275,9 +272,9 @@ form {
         $amt=floatval($_POST['amt']);
         $dellevel=$_POST['dellevel'];
         $qty1=intval($_POST['qty1']);
-        $fm=intval($_POST['fm']);
-        $to=intval($_POST['to']);
-        $name1=$_POST['name1'];
+        $ins_qty=intval($_POST['ins_qty']);
+        $ins_price=floatval($_POST['ins_price']);
+
 
 
         
@@ -343,17 +340,23 @@ form {
 
         }
        
-        if ($name1 != '') //reset INS QTY
+        if ($name != '' and $ins_qty <0 and $ins_price>0) //reset INS QTY
         {
-                $sql = "update control set ym=0,seccont=0,seccontqty=0,ym1=0,seccont1=0,seccont1qty=0 WHERE sys = '$name1';";
+                $sql = "update control set ym=$ins_price,seccont=$ins_qty,seccontqty=$ins_qty WHERE sys = '$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 pg_query("COMMIT") or die("Transaction commit failed\n");
 
         }
 		disp_detail($conn,$name);
-	}
 
-	
+	}
+    if (isset($_POST['quit']) )
+	{
+            //print "sdsdssd";
+			$url="menu.php";
+            header("Location: $url");
+	}
+    
 	?>
 	
 

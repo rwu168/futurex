@@ -592,11 +592,11 @@ form {
 
                     if ($micro=='y')
                     {
-                        $cash=$bal-$qty*1400;
+                        $cash=$bal-$qty*2500;
                     }
                     else 
                     {
-                        $cash=$bal-$qty*14000;
+                        $cash=$bal-$qty*25000;
                     }
                     
                     //$usd = $fmt->formatCurrency($cash, "USD");
