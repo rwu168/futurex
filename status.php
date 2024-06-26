@@ -244,6 +244,10 @@ form {
                         {
                             $wu=$pl;
                         }
+                        else if ($name=="kiet")
+                        {
+                            $wu=$pl * (($myrate-10) / 100);
+                        }
                         else
                         {
                             $wu=$pl * ($myrate / 100);
