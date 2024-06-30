@@ -128,7 +128,7 @@ form {
                 RemoteDb();
                 //get account data
                 $name=$_GET['name'];
-                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1 FROM control where sys='$name';";
+                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1,ym,seccont FROM control where sys='$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);        
                 $qty=$row[0];
@@ -138,6 +138,8 @@ form {
                 $bal=$row[4];
                 $active=$row[5];
                 $tsymbol=$row[6];
+                $ym=$row[7];
+                $seccont=$row[8];
 
                 //get level buy data
                 if ($tsymbol=="NQ")
@@ -608,6 +610,13 @@ form {
                     //$usd = $fmt->formatCurrency($bal, "USD");
                     $usd = number_format($bal,2);
 	                print "<td>Account Balance &nbsp;&nbsp;&nbsp;&nbsp:$ $usd <td> <size='25' /><br /> ";                   
+	            print "</tr> ";
+
+                print "<tr> ";
+                    //$usd = $fmt->formatCurrency($bal, "USD");
+                    $ins_hold=($ym-$ask2)*20*$seccont;
+                    $usd = number_format($ins_hold,2);
+	                print "<td>Life Ins Holding &nbsp;&nbsp;&nbsp;&nbsp;&nbsp:$ $usd <td> <size='25' /><br /> ";                   
 	            print "</tr> ";
 
                
