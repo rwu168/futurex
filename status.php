@@ -283,7 +283,7 @@ form {
                         if ($tradeclass>5 and $tradeclass<=8){$rge=0;}
                         if ($ym>0 and $tradeclass !=6)
                         {
-                             $rge1=$ask-$ym;
+                             $rge1=(($ask-$ym)*-$mul)*$seccont;
                         }
                         else if ($ym1>0 and $tradeclass !=6)
                         {
@@ -310,7 +310,7 @@ form {
                         else { $rge=0;}
                         $rge=round($rge);
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$spriceselldown,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$rge1,$hedgecap));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$tradeclass,$rge1,$hedgecap));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -329,7 +329,6 @@ form {
                             <th>Unrealize</th>
                             <th>Balance</th>
                             <th>%</th>
-                            <th>InsPL</th>
                             <th>Qty</th>
                             <th>Level</th>
                             <th>Mkt</th>
@@ -338,7 +337,6 @@ form {
                             <th>Ct</th>
                             <th>Resve</th>
                             <th>%</th>
-                            <th>SellD</th>
                             <th>SP</th>
                             <th>InsQty</th>
                             <th>InsQty1</th>
@@ -358,7 +356,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=27;
+                    $max_columns=25;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
@@ -384,7 +382,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5 or $columns==12 or $columns==26)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==11 or $columns==23 or $columns==24)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);
