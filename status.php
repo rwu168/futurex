@@ -340,14 +340,14 @@ form {
                             <th>SP</th>
                             <th>InsQty</th>
                             <th>InsQty1</th>
-                            <th>InsPc</th>
+                            <th>InsPts</th>
                             <th>HedgeQty</th>
                             <th>HdgPrice</th>
                             <th>PvtPc</th>
                             <th>InsID</th>
                             <th>Set-QTY</th>
                             <th>Class</th>
-                            <th>Rge</th>
+                            <th>Ins</th>
                             <th>HedgeCap</th>
 
 

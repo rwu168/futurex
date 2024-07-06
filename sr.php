@@ -115,11 +115,10 @@ form {
 			NQ: <input type="text" size=5 name="rl2" value="<?=$rl2?>">
 			ES: <input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
 
-		Life Ins Policy Y Limit (Not Use yet): 
-			Top: <input  type="text" size=5 name="as1" value="<?=$as1?>">
-			Bottom: <input  type="text" size=5 name="bs" value="<?=$bs?>"><br>
+		No use yet:
+			<input  type="text" size=5 name="as1" value="<?=$as1?>"><br>
 
-		Life Ins-Y & Y1: 
+		Life Ins: 
 			Buy #:: <input  type="text" size=5 name="ins_buy" value="<?=$ins_buy?>">
 			Sell #: <input  type="text" size=5 name="ins_sell" value="<?=$ins_sell?>">
 			AllTimeHigh Price: <input  type="text" size=5 name="top_price1" value="<?=$top_price1?>">
@@ -142,7 +141,6 @@ form {
 		$rl2=$_POST['rl2'];
 		$rl3=$_POST['rl3'];
 		$as1=$_POST['as1'];
-		$bs=$_POST['bs'];
 		$eq1=$_POST['eq1'];
 		$top_price1=$_POST['top_price1'];
 		$bottom_price1=$_POST['bottom_price1'];
@@ -151,7 +149,7 @@ form {
 				
 
 		//print $equd ."sdsdsd" .$sl1;
-		$sql = "UPDATE priceaction SET equd=$equd,eq=$eq,eq1=$eq1,sl1=$sl1,sl2=$sl2,sl3=$sl3,rl1=$rl1,rl2=$rl2,rl3=$rl3,as1=$as1,bs=$bs,top_price1=$top_price1,bottom_price1=$bottom_price1,ins_buy=$ins_buy,ins_sell=$ins_sell;";
+		$sql = "UPDATE priceaction SET equd=$equd,eq=$eq,eq1=$eq1,sl1=$sl1,sl2=$sl2,sl3=$sl3,rl1=$rl1,rl2=$rl2,rl3=$rl3,as1=$as1,top_price1=$top_price1,bottom_price1=$bottom_price1,ins_buy=$ins_buy,ins_sell=$ins_sell;";
         $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 	    pg_query("COMMIT") or die("Transaction commit failed\n");
 		
