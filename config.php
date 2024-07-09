@@ -126,22 +126,22 @@ form {
 		Not Use(spricesell):
 			<input type="text" size=2 name="spricesell" value="<?=$spricesell?>"><br><br>
 
-		*Insurance Buy/Sell Adjustment default=0:
+		Not Use:
 			<input type="text" size=2 name="spriceselldown" value="<?=$spriceselldown?>"><br>
 
-		Buy when down to this point default=0:
+		No Use:
 			<input type="text" size=2 name="spricebuy" value="<?=$spricebuy?>"><br>
 
-		Buy when market back up to this point default=0:
+		Not USe:
 			<input type="text" size=2 name="spricebuydown" value="<?=$spricebuydown?>"><br>
 
 		Force Equilibrium/Pivot (b=buy, s=sell, h=hold, & n=None):
 			<input type="text" size=2 name="forcebs" value="<?=$forcebs?>"><br>
 
-		No Buying (default=n):
+		Not Use:
 			<input type="text" size=2 name="nobuy" value="<?=$nobuy?>"><br>
 
-		*Set buy for trade10 Mkt_Condition(default=0):
+		*Set buy for trade25(MNQ) Mkt_Condition(default=0):
 			<input type="text" size=2 name="trade10" value="<?=$trade10?>">
 		 Auto (1=disable & 0=enable):
 			<input type="text" size=2 name="m2k" value="<?=$m2k?>"><br><br>
@@ -152,7 +152,7 @@ form {
 
 		
 
-		<input type="submit"> <input type="submit" name="quit" value="Return">
+		<input type="submit" name="quit" value="Save">
 	</form>
 	<br>
 
@@ -182,7 +182,7 @@ form {
 
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=10 or sprice=25;";
+		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=25;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 

@@ -124,7 +124,7 @@ form {
 					Trade Micro (y/n):
 					<input type="text" size=2 name="micro" value="<?=$micro?>">
 
-					Number of Contracts:
+					*Number of Contracts:
 					<input type="text" size=2 name="contracts" value="<?=$contracts?>"><br>
 			
 					
@@ -147,10 +147,10 @@ form {
 					<input type="text" size=2 name="sprice" value="<?=$sprice?>">
 
 					*Sellying Range:(0,20,70)'):
-					<input type="text" size=2 name="spriceout" value="<?=$spriceout?>"><br>
+					<input type="text" size=2 name="spriceout" value="<?=$spriceout?>">
 
-					*Hedge Position:
-					<input type="text" size=2 name="spriceselldown" value="<?=$spriceselldown?>"><br><br>
+					Hedge Cap:
+					<input type="text" size=5 name="spriceselldown" value="<?=$spriceselldown?>"><br><br>
 
 					Investment Amount:
 					<input type="text" size=10 name="amt" value="<?=$amt?>">
@@ -182,9 +182,9 @@ form {
 					<input type="text" size=2 name="tk" value="<?=$tk?>">
 				
 					My rate:
-					<input type="text" size=2 name="mmy" value="<?=$mmy?>"><br>
+					<input type="text" size=2 name="mmy" value="<?=$mmy?>"><br><br>
 
-					Hedge (1=Hedge buy, 2=In Hedge, 3= INS Reverse [MUST change back to 0 when done except in 2]):
+					Hedge (1=Hedge buy, 2=In Hedge, 3= INS Reverse & default=0):
 					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
 					
 					Ins P/L$:
@@ -192,12 +192,12 @@ form {
 					Reserved Profit$:
 					<input type="text" size=5 name="ramt" value="<?=$ramt?>"><br>
 
-					Ins Retire Price at(default=60): 
+					Not Use: 
 					<input type="text" size=2 name="shprice" value="<?=$shprice?>">
-					Ins ES QTY Adj(must be <=0):  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>"><br><br>	
+					NOT Use:  <input type="text" size=2 name="shbuy" value="<?=$shbuy?>"><br><br>	
 					
 
-					Pivot Contracts:
+					Ins Contracts:
 					<input type="text" size=2 name="rpl" value="<?=$rpl?>"><br><br>
 
 					<input type="submit" name="quit" value="Save">
