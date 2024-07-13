@@ -104,13 +104,14 @@ form {
 		Enter Equilibrum ES: 
 			<input type="text" size=5 name="eq" value="<?=$eq?>">
 		NQ:
-			<input type="text" size=5 name="eq1" value="<?=$eq1?>"><br>
+			<input type="text" size=5 name="eq1" value="<?=$eq1?>"><br><br>
 
-		Enter Support Level1, 2 & 3: 
-			<input type="text" size=5 name="sl1" value="<?=$sl1?>">
-			NQ: <input type="text" size=5 name="sl2" value="<?=$sl2?>">
-			ES: <input type="text" size=5 name="sl3" value="<?=$sl3?>"><br>
-		Enter Resistance Level1, 2 & 3: 
+		Wave Trade: 
+			Top:<input type="text" size=5 name="sl1" value="<?=$sl1?>">
+			Bottom: <input type="text" size=5 name="sl2" value="<?=$sl2?>">
+			Range: <input type="text" size=5 name="sl3" value="<?=$sl3?>"><br>
+
+		Not Use: 
 			<input type="text" size=5 name="rl1" value="<?=$rl1?>">
 			NQ: <input type="text" size=5 name="rl2" value="<?=$rl2?>">
 			ES: <input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
