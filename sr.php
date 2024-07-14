@@ -106,15 +106,15 @@ form {
 		NQ:
 			<input type="text" size=5 name="eq1" value="<?=$eq1?>"><br><br>
 
-		Wave Trade: 
+		Wave Trade MES: 
 			Top:<input type="text" size=5 name="sl1" value="<?=$sl1?>">
 			Bottom: <input type="text" size=5 name="sl2" value="<?=$sl2?>">
 			Range: <input type="text" size=5 name="sl3" value="<?=$sl3?>"><br>
 
-		Not Use: 
-			<input type="text" size=5 name="rl1" value="<?=$rl1?>">
-			NQ: <input type="text" size=5 name="rl2" value="<?=$rl2?>">
-			ES: <input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
+		Wave Trade MNQ: 
+			Top:<input type="text" size=5 name="rl1" value="<?=$rl1?>">
+			Bottom: <input type="text" size=5 name="rl2" value="<?=$rl2?>">
+			Range: <input type="text" size=5 name="rl3" value="<?=$rl3?>"><br><br>
 
 		No use yet:
 			<input  type="text" size=5 name="as1" value="<?=$as1?>"><br>

@@ -144,9 +144,8 @@ form {
                     $bal=$row1[2];
                     $micro=$row1[7];
                     //echo $name .$bal;
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];$hedgecap=$row1[26];$m2k=$row1[27];$avgcost=$row1[28];
-                    if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
-
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];$hedgecap=$row1[26];$m2k=$row1[27];$avgcost=$row1[28];
+                    if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -161,7 +160,7 @@ form {
                     {
                         $micro=$row1[6];
 
-                        if ($tsymbol=="NQ")
+                        if ($tsymbol=="NQ" and $tradeclass !=5)
                         {
                                 $ask=$ask2;
                                 $mul=20;
@@ -284,6 +283,7 @@ form {
                         if ($ym>0 and $tradeclass !=6)
                         {
                              $rge1=(($ask-$ym)*-$mul)*$seccont;
+                             if ($tradeclass==5){$rge1=$rge1*-1;}
                         }
                         else if ($ym1>0 and $tradeclass !=6)
                         {
@@ -298,7 +298,7 @@ form {
                         $row3=pg_fetch_row($rs3);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
                         $rowcount3= pg_num_rows($rs3);
-                        if ($rowcount3>0)
+                        if ($rowcount3>0 and $tradeclass<4)
                         {
                             $tprice=$row3[0];
                             $rge=$ask-$tprice;
@@ -307,10 +307,15 @@ form {
                         {
                             $rge=$ask-$ym1;
                         }
+                        else if ($rowcount3>0 and $tradeclass==5)
+                        {
+                            $tprice=$row3[0];
+                            $rge=$ask2-$tprice;
+                        }
                         else { $rge=0;}
                         $rge=round($rge);
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$ramt,$pivotqty,$m2k,$rge1,$hedgecap));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$s2,$pivotqty,$m2k,$rge1,$hedgecap));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
