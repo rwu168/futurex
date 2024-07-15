@@ -182,6 +182,16 @@ form {
                         while ($k2<$rowcount2)
                         {
                             //if ($name=="fx3394") {print $name .$ask .$tsymbol .$ask2 ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";}
+                            if ($tsymbol=="ES")
+                            {
+                                $ask=$ask1;
+                                $mul=50;
+                            }
+                            else 
+                            {
+                                $ask=$ask2;
+                                $mul=20;
+                            }
 
                             if ($micro=="y")
                             {
@@ -197,6 +207,7 @@ form {
                             $url1=($ask-floatval($row2[0]))*($qty+$insqty)*intval($mul);
                             $url2=($ask-$insprice)*$insqty*intval($mul);
                             $url=$url+$url1+$url2;
+                            //if ($name=="test") {print $name .$url1  .$qty .$mul ."==!=<br>";}
                             $row2=pg_fetch_row($rs2);
                             $k2++;
                             
@@ -211,6 +222,7 @@ form {
                         {
                             $mkt_cond=$mkt_cond1;
                         }
+                        
                         
                         if ($row1[2]<=0)
                         { 
@@ -282,8 +294,10 @@ form {
                         if ($tradeclass>5 and $tradeclass<=8){$rge=0;}
                         if ($ym>0 and $tradeclass !=6)
                         {
-                             $rge1=(($ask-$ym)*-$mul)*$seccont;
-                             if ($tradeclass==5){$rge1=$rge1*-1;}
+                             if ($tradeclass=="5" or $tsymbol=="ES") {$ask=$ask1;$mul=50;} else {$ask=$ask2;$mul=20;}
+                             //if ($name=="test") {print $name .$ym  .$ask1 .$mul ."==!=<br>";}
+                             if ($tradeclass=="5") {$rge1=(($ask-$ym)*-$mul)*($seccont/10)*-1;} else {$rge1=(($ask-$ym)*-$mul)*$seccont;}
+
                         }
                         else if ($ym1>0 and $tradeclass !=6)
                         {
