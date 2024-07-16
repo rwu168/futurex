@@ -307,24 +307,30 @@ form {
                         {
                             $rge1=0;
                         }
-                        $sql3 = "Select tprice from cost where name='$name' order by level desc;";
+                        $sql3 = "Select tprice,level from cost where name='$name' order by level desc;";
                         $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql2<br>"); 
                         $row3=pg_fetch_row($rs3);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
                         $rowcount3= pg_num_rows($rs3);
+                        //if ($name=="funky"){print $name .$row3[1] ."==!=<br>";}
+                        //if (strval($row3[1])==""){$level=0;} else {$level=$row3[1];
                         if ($rowcount3>0 and $tradeclass<4)
                         {
                             $tprice=$row3[0];
                             $rge=$ask-$tprice;
+                            $level=$row3[1];
                         }
                         else if ($ym1>0 and $tradeclass==4)
                         {
                             $rge=$ask-$ym1;
+                            $level=0;
                         }
                         else if ($rowcount3>0 and $tradeclass==5)
                         {
                             $tprice=$row3[0];
                             $rge=$ask2-$tprice;
+                            $level=$row3[1];
+                            //print $name .$ask2 .$tprice ."==!=<br>";
                         }
                         else { $rge=0;}
                         $rge=round($rge);
