@@ -296,12 +296,12 @@ form {
                         {
                              if ($tradeclass=="5" or $tsymbol=="ES") {$ask=$ask1;$mul=50;} else {$ask=$ask2;$mul=20;}
                              //if ($name=="test") {print $name .$ym  .$ask1 .$mul ."==!=<br>";}
-                             if ($tradeclass=="5") {$rge1=(($ask1-$ym)*-$mul)*$seccont*-1;} else {$rge1=(($ask1-$ym)*-$mul)*$seccont;}
+                             if ($tradeclass=="5") {$rge1=(($ask1-$ym)*-$mul)*$seccont*-1;} else {$rge1=(($ask-$ym)*-$mul)*$seccont;}
 
                         }
                         else if ($ym1>0 and $tradeclass !=6)
                         {
-                            $rge1=$ask-$ym1;
+                            $rge1=$ask2-$ym1;
                         }
                         else
                         {
