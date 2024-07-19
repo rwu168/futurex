@@ -296,7 +296,7 @@ form {
                         {
                              if ($tradeclass=="5" or $tsymbol=="ES") {$ask=$ask1;$mul=50;} else {$ask=$ask2;$mul=20;}
                              //if ($name=="test") {print $name .$ym  .$ask1 .$mul ."==!=<br>";}
-                             if ($tradeclass=="5") {$rge1=(($ask-$ym)*-$mul)*($seccont/10)*-1;} else {$rge1=(($ask-$ym)*-$mul)*$seccont;}
+                             if ($tradeclass=="5") {$rge1=(($ask1-$ym)*-$mul)*$seccont*-1;} else {$rge1=(($ask1-$ym)*-$mul)*$seccont;}
 
                         }
                         else if ($ym1>0 and $tradeclass !=6)
@@ -328,7 +328,7 @@ form {
                         else if ($rowcount3>0 and $tradeclass==5)
                         {
                             $tprice=$row3[0];
-                            $rge=$ask2-$tprice;
+                            $rge=$ask1-$tprice;
                             $level=$row3[1];
                             //print $name .$ask2 .$tprice ."==!=<br>";
                         }
@@ -369,7 +369,7 @@ form {
                             <th>HedgeQty</th>
                             <th>HdgPrice</th>
                             <th>PvtPc</th>
-                            <th>InsID</th>
+                            <th>Ins</th>
                             <th>Set-QTY</th>
                             <th>Auto</th>
                             <th>Ins</th>
