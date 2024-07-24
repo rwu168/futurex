@@ -224,7 +224,7 @@ form {
         var $act = "<?php echo"$act1"?>"; 
         if ($act == 0)
         {
-            $status="Account in Live Trading and using the first-in/last-out accounting rule for P/L. \n\nDon't think of this trading like a traditional investment but treat it like you invest in a business operation - it allocated about 15-20% unrealized amount as operating cost (op/cost) to handle market corrections(5-10%) runs 1-3 times a year, and (25-30% major correction or market crash once 5-10 year).  This unrealized op/cost may go up or down from time to time - it normally goes up when we buy more positions during market down, and goes down when we sell positions for profit during market up.  Just like operating a business, you buy products when price are down and sell products when price are up for taking profit.  No need to worry about the allocated operating cost because it always within our allocated range - just keep eyes on the profit month after month...";
+            $status="Account in Live Trading and using the first-in/last-out accounting rule for P/L. \n\nDon't think of this trading like a traditional investment but treat it like you invest in a business operation - it allocated about 15-25% unrealized amount as Cost of Holding Investory (COHI) to handle market corrections(5-10%) runs 1-3 times a year, and (25-35% major correction or market crash once 5-10 year).  This unrealized COHI may go up or down from time to time - it normally goes up when we buy more positions during market down, and goes down when we sell positions for profit during market up.  Just like operating a business, you buy products when price are down and sell products when price are up for taking profit.  No need to worry about the allocated Cost of Holding Inventory because it always within our allocated range - just keep eyes on the profit month after month...";
 
         }
         if ($act == 1)
@@ -581,7 +581,8 @@ form {
                 print "<tr> ";
                     //$usd = $fmt->formatCurrency($urpl, "USD");
                     $usd = number_format($urpl,2);
-	                print "<td>Unrealized Op/Cost &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
+	                //print "<td>Unrealized Op/Cost &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
+                    print "<td>Cost of Investories &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
 	            print "</tr> ";
 
                 print "<tr> ";

@@ -216,13 +216,8 @@ form {
                        
 	                    $qty=$row1[0];
                         $amt=$row1[1];
-                        $mkt_cond1=$row1[3];
-                        $contracts=$row1[7];$rty=$row1[8];
-                        if ($mkt_cond1>0)
-                        {
-                            $mkt_cond=$mkt_cond1;
-                        }
-                        
+                        $mkt_cond=$row1[3];
+                        $contracts=$row1[7];$rty=$row1[8];                     
                         
                         if ($row1[2]<=0)
                         { 
