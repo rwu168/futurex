@@ -185,6 +185,10 @@ form {
 		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=25;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
+		
+		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=25;";
+		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+		pg_query("COMMIT") or die("Transaction commit failed\n");
 
 
 		header("Refresh:0");

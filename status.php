@@ -136,16 +136,16 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,i1,rpl from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,s2,rpl,seccontqty,seccont1qty,ramt,spriceselldown,m2k,buyl3 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
                     pg_query("COMMIT") or die("Transaction commit failed\n");
                     $bal=$row1[2];
                     $micro=$row1[7];
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$ramt=$row1[21];$pivotqty=$row1[22];
-                    if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}if (strval($ramt)==""){$ramt=0;}
-                    
+                    //echo $name .$bal;
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];$hedgecap=$row1[26];$m2k=$row1[27];$avgcost=$row1[28];
+                    if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -155,11 +155,12 @@ form {
                         $seccont1=$row1[16];
                     }
                     
+                    
                     if ($rowcount1>0)
                     {
                         $micro=$row1[6];
 
-                        if ($tsymbol=="NQ")
+                        if ($tsymbol=="NQ" and $tradeclass !=5)
                         {
                                 $ask=$ask2;
                                 $mul=20;
@@ -181,6 +182,16 @@ form {
                         while ($k2<$rowcount2)
                         {
                             //if ($name=="fx3394") {print $name .$ask .$tsymbol .$ask2 ."|" .$row2[0] ."|" .$row2[1] .$mul ."===";}
+                            if ($tsymbol=="ES")
+                            {
+                                $ask=$ask1;
+                                $mul=50;
+                            }
+                            else 
+                            {
+                                $ask=$ask2;
+                                $mul=20;
+                            }
 
                             if ($micro=="y")
                             {
@@ -196,33 +207,35 @@ form {
                             $url1=($ask-floatval($row2[0]))*($qty+$insqty)*intval($mul);
                             $url2=($ask-$insprice)*$insqty*intval($mul);
                             $url=$url+$url1+$url2;
+                            //if ($name=="test") {print $name .$url1  .$qty .$mul ."==!=<br>";}
                             $row2=pg_fetch_row($rs2);
                             $k2++;
+                            
 
                         }
-
+                       
 	                    $qty=$row1[0];
                         $amt=$row1[1];
-                        $mkt_cond1=$row1[3];
+                        $mkt_cond=$row1[3];
+                        $contracts=$row1[7];$rty=$row1[8];                     
                         
-                        if ($mkt_cond1>0)
-                        {
-                            $mkt_cond=$mkt_cond1;
-                        }
                         if ($row1[2]<=0)
                         { 
 
                             $bal=$amt+$url+$pl;
                             $rpl=$url;
-                            if ($url==0){$bal=200000+$pl;}
+                            if ($url==0){$bal=$amt+$pl;}
+                            
                         }
                         else
                         {
                             $bal=round($row1[2]+$rty,2);
-                            $rpl= round($bal - ($amt + $pl));
-                            if ($url==0){$bal=$bal+$pl;}
+                            $rpl= round($bal - ($amt + $pl+$rty));
+                            //if ($url==0){$bal=$bal+$pl;}
+                            
                         }
-                        $contracts=$row1[7];$rty=$row1[8];
+                        
+                        //echo $name ."=" .$bal;
                         //$per=round($pl*12.0/$amt,2);
                         //$urper=round((($rpl)/$amt)*-100,2);
 
@@ -233,9 +246,13 @@ form {
                         if ($row1[11]=='') {$myrate=0;} else { $myrate=$row1[11];$secbuy=$row1[12];}
                         
                         $tot=$tot+$pl;
-                        if ($name=="ts" or $name=="py" or $name=="rw2" or $name=="rw1" or $name=="tspy" or $name=="twrw")
+                        if ($name=="ts" or $name=="ts1" or $name=="py" or $name=="rw2" or $name=="rw1" or $name=="tspy" or $name=="tspy1" or $name=="twrw" or $name=="twrw1")
                         {
                             $wu=$pl;
+                        }
+                        else if ($name=="kiet")
+                        {
+                            $wu=$pl * (($myrate-10) / 100);
                         }
                         else
                         {
@@ -244,28 +261,99 @@ form {
 
                         $totwu=$totwu + $wu;
 
-                       /*
-                        print $rge ."==!=<br>";
+                       
+                        
+                        /*
                         if ($name=="twrw1")
                         {
                                 print $name .$bal . $row1[2] .$pl ."==<br>";
                         }
-                       */
+                       
                         if ($tradeclass>2 and $row1[2]>0)
                         {
                             $bal=$row1[2];
                         }
+                        */
 
-                        $per=round(($pl*12/$amt)*100,2);
-                        if ($tradeclass>2 and $seccont1>0)
+                        $per=round(($pl*12/($amt+$rty))*100,2);
+                        /*
+                        if ($tradeclass>2 and $seccont1<0)
                         {
                             $rge=0;
                             $qty=$seccont1;
                         }
+                        */
 
+                        //print $name .$ask .$ym1 ."==!=<br>";
                         if (strval($level)==""){$level=0;}if (strval($qty)==""){$qty=0;}
-                        if ($tradeclass>=6 and $tradeclass<=8){$rge=0;}
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$reserve,$qty,$level,$mkt_cond,$rge,$micro,$contracts,$secbuy,$urper,$spriceselldown,$sprice,$seccont,$ym,$seccont1,$ym1,$ramt,$pivotqty,$tradeclass,$time_stop));
+                        if ($tradeclass>5 and $tradeclass<=8){$rge=0;}
+                        if ($ym>0 and $tradeclass !=6)
+                        {
+                             if ($tradeclass=="5" or $tsymbol=="ES") {$ask=$ask1;$mul=50;} else {$ask=$ask2;$mul=20;}
+                             //if ($name=="test") {print $name .$ym  .$ask1 .$mul ."==!=<br>";}
+                             if ($tradeclass=="5") {$rge1=(($ask1-$ym)*-$mul)*$seccont*-1;} else {$rge1=(($ask-$ym)*-$mul)*$seccont;}
+
+                        }
+                        else if ($ym1>0 and $tradeclass !=6)
+                        {
+                            $rge1=$ask2-$ym1;
+                        }
+                        else
+                        {
+                            $rge1=0;
+                        }
+                        $sql3 = "Select tprice,level from cost where name='$name' order by level desc;";
+                        $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql2<br>"); 
+                        $row3=pg_fetch_row($rs3);
+                        pg_query("COMMIT") or die("Transaction commit failed\n");
+                        $rowcount3= pg_num_rows($rs3);
+                        //if ($name=="funky"){print $name .$row3[1] ."==!=<br>";}
+                        //if (strval($row3[1])==""){$level=0;} else {$level=$row3[1];
+                        if ($rowcount3>0 and $tradeclass<4)
+                        {
+                            $tprice=$row3[0];
+                            $rge=$ask-$tprice;
+                            $level=$row3[1];
+                            //print $name .$ask1 .$tprice ."==!=<br>";
+                            if ($s2=="w"){$rge1=(($ask1-$ym)*$seccont*50)/10;}
+                        }
+                        else if ($ym1>0 and $tradeclass==4)
+                        {
+                            $rge=$ask-$ym1;
+                            $level=0;
+                        }
+                        else if ($rowcount3>0 and $tradeclass==5)
+                        {
+                            $tprice=$row3[0];
+                            $rge=$ask1-$tprice;
+                            $level=$row3[1];
+                            //print $name .$ask2 .$tprice ."==!=<br>";
+                        }
+                        else { $rge=0;}
+                        $rge=round($rge);
+
+                        //Calculate wave range=====================
+                        $sql3 = "Select tprice,level from cost_ins where name='$name' order by level desc;";
+                        $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql2<br>"); 
+                        $row4=pg_fetch_row($rs3);
+                        pg_query("COMMIT") or die("Transaction commit failed\n");
+                        $rowcount4= pg_num_rows($rs3);
+                        //if ($name=="funky"){print $name .$row3[1] ."==!=<br>";}
+                        //if (strval($row3[1])==""){$level=0;} else {$level=$row3[1];
+                        if ($rowcount4>0 and $s2=="w")
+                        {
+                            $w_tprice=$row4[0];
+                            $rge1=$ask1-$w_tprice;
+                            $w_level=$row4[1];
+                            //print $name .$ask1 .$tprice ."==!=<br>";
+
+                        }
+                        
+
+
+
+                        //print $name .$ask .$tprice ."==!=<br>";
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$s2,$pivotqty,$m2k,$rge1,$hedgecap));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -284,25 +372,26 @@ form {
                             <th>Unrealize</th>
                             <th>Balance</th>
                             <th>%</th>
-                            <th>Reserve</th>
                             <th>Qty</th>
                             <th>Level</th>
                             <th>Mkt</th>
                             <th>Rge</th>
-                            <th>Micro</th>
+                            <th>Avg</th>
                             <th>Ct</th>
-                            <th>NoB</th>
+                            <th>Resve</th>
                             <th>%</th>
-                            <th>SellD</th>
                             <th>SP</th>
-                            <th>InsQ</th>
-                            <th>InsP</th>
-                            <th>P-Qty</th>
-                            <th>P-Price</th>
-                            <th>Status</th>
+                            <th>InsQty</th>
+                            <th>InsQty1</th>
+                            <th>AvgPts</th>
+                            <th>HedgeQty</th>
+                            <th>HdgPrice</th>
+                            <th>PvtPc</th>
+                            <th>Ins</th>
                             <th>Set-QTY</th>
-                            <th>Class</th>
-                            <th>Tm-Stop</th>
+                            <th>Auto</th>
+                            <th>Ins</th>
+                            <th>HedgeCap</th>
 
 
                            
@@ -310,7 +399,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=24;
+                    $max_columns=25;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
@@ -336,14 +425,16 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==5)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==11 or $columns==23 or $columns==24)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);
 
                                     //print '<bgcolor="' . $row_color[$columns % 2] . '">';
                                     //print '<color="black">';
-                                    //echo "<td>$usd</td>";
+                                    //echo "<td>$s2</td>";
+                                    //print $data[20];
+
                                     if ($line%2==0)
                                     {
                                         echo "$" .$usd; 
@@ -352,6 +443,7 @@ form {
                                     {
                                         echo '<font color="green">' ."$" .$usd; ; 
                                     }
+                                    
                                     
                                 }
                                 else 
