@@ -52,7 +52,7 @@ form {
   width: 50px;
   height: 255px;
   margin: auto;
-  width: 30%;
+  width: 40%;
   top: 100px;
   background-color: lightgrey;
   border: 3px solid #73AD21;
