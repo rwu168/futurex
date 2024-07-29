@@ -149,19 +149,16 @@ form {
 					*Sellying Range:(0,20,70)'):
 					<input type="text" size=2 name="spriceout" value="<?=$spriceout?>">
 
-					<!Hedge Cap:
-					<!<input type="text" size=5 name="spriceselldown" value="<?=$spriceselldown?>"><br><br>
-
 					Investment Amount:
 					<input type="text" size=10 name="amt" value="<?=$amt?>">
 
 					Adjust Amt:
-					<input type="text" size=10 name="rty" value="<?=$rty?>">
+					<input type="text" size=10 name="rty" value="<?=$rty?>"><br><br>
 
-					Active (0=enable(Live)/1=disable,-2=Web(Test)):
+					**Active (0=enable(Live)/1=disable,-2=Web(Test)):
 					<input type="text" size=2 name="active" value="<?=$active?>"><br><br>
 
-					LifeIns Active[y=Ins,w=Wave](y/n):
+					Wave Trading[y=Ins,w=Wave](y/n):
 					<input type="text" size=2 name="s2" value="<?=$s2?>">
 
 					INS QTY:
@@ -180,7 +177,7 @@ form {
 					Buying Range(10): <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">
 					Selling Range(20):  <input type="text" size=2 name="shprice" value="<?=$shprice?>"><br>
 					Repair(0): <input type="text" size=2 name="bsl" value="<?=$bsl?>">
-					Repair at(7)%: <input type="text" size=2 name="bss" value="<?=$bss?>"><br><br>	
+					Repair at(>=7)%: <input type="text" size=2 name="bss" value="<?=$bss?>"><br><br>	
 				
 					Qty:
 					<input type="text" size=2 name="qty" value="<?=$qty?>">
@@ -191,9 +188,6 @@ form {
 					My rate:
 					<input type="text" size=2 name="mmy" value="<?=$mmy?>"><br><br>
 
-					Hedge (1=Hedge buy, 2=In Hedge, 3= INS Reverse & default=0):
-					<input type="text" size=2 name="secbuy" value="<?=$secbuy?>"><br><br>
-					
 					Reserved Profit$:
 					<input type="text" size=5 name="ramt" value="<?=$ramt?>"><br>
 
@@ -203,8 +197,6 @@ form {
 					<input type="submit" name="quit" value="Save">
 			</form>
 			<br>
-
-
 
     <?php
 
@@ -238,7 +230,6 @@ form {
 		$shbuy=$_POST['shbuy'];
 		$smscode=$_POST['smscode'];
 		$ramt=$_POST['ramt'];
-		$secbuy=$_POST['secbuy'];
 		$m2k=$_POST['m2k'];
 		$rty=$_POST['rty'];
 		$s2=$_POST['s2'];
@@ -251,7 +242,7 @@ form {
 
 
 		
-		$sql = "update control set bss=$bss,bsl=$bsl,legs=$legs,smscode=$smscode,shbuy=$shbuy,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccont=$seccont,seccontqty=$seccontqty,seccont1=$seccont1,seccont1qty=$seccont1qty,active=$active,tk=$tk,secbuy=$secbuy,rpl=$rpl,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,ramt=$ramt,m2k=$m2k,rty=$rty,s2='$s2',s1='$tsymbol',ym=$ym,ym1=$ym1,qty=$qty where sys='$name';";
+		$sql = "update control set bss=$bss,bsl=$bsl,legs=$legs,smscode=$smscode,shbuy=$shbuy,mkt_cond=$mkt_cond,micro='y',contracts=$contracts,ph='$ph',trade='$trade',spriceout=$spriceout,amt=$amt,email='$email',seccont=$seccont,seccontqty=$seccontqty,seccont1=$seccont1,seccont1qty=$seccont1qty,active=$active,tk=$tk,rpl=$rpl,sprice=$sprice,mmy=$mmy,flag2=$flag2,pw='$pw',shprice=$shprice,ramt=$ramt,m2k=$m2k,rty=$rty,s2='$s2',s1='$tsymbol',ym=$ym,ym1=$ym1,qty=$qty where sys='$name';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 
