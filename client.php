@@ -128,7 +128,7 @@ form {
                 RemoteDb();
                 //get account data
                 $name=$_GET['name'];
-                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1,ym,seccont FROM control where sys='$name';";
+                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1,ym,seccont,s2 FROM control where sys='$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);        
                 $qty=$row[0];
@@ -140,6 +140,7 @@ form {
                 $tsymbol=$row[6];
                 $ym=$row[7];
                 $seccont=$row[8];
+                $lifeactive=$row[9];
 
                 //get level buy data
                 if ($tsymbol=="NQ")
@@ -182,6 +183,7 @@ form {
                 $row=pg_fetch_row($rs);
                 $ask=floatval($row[0]);
                 $ask2=floatval($row[1]);
+                if ($lifeactive=="w") {$ask3=$ask;$mul3=5;$tmp_qty=$seccont;} else {$ask3=$ask2;$mul3=2;$tmp_qty=$seccont*10;}
 
 
                 $sql = "SELECT tprice,qty,level from cost where name='$name' order by level;";
@@ -559,7 +561,7 @@ form {
     
  
    
-    <h2 class="login";color:black;>Real Time Acct Info
+    <h2 class="login";color:black;>
  
         <?php
                 
@@ -569,7 +571,7 @@ form {
                 //$fmt = new NumberFormatter("en_US",  NumberFormatter::CURRENCY);
 	            print "<tr> ";
                     $usd = number_format($amt,2);
-	                print "<td>Investment Amount :$ $usd <td> <size='25' /><br /> ";
+	                print "<td>Investment Amount &nbsp:$ $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
 	            print "<tr> ";
@@ -578,16 +580,7 @@ form {
 	                print "<td>Unajusted P/L MTD &nbsp:$ $usd <td> <size='25' /><br /> ";
 	            print "</tr> ";
 
-                print "<tr> ";
-                    //$usd = $fmt->formatCurrency($urpl, "USD");
-                    $usd = number_format($urpl,2);
-	                //print "<td>Unrealized Op/Cost &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
-                    print "<td>Cost of Investories &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
-	            print "</tr> ";
-
-                print "<tr> ";
-	                print "<td>Holding Positions;&nbsp;&nbsp;&nbsp: $qty <td> <size='25' /><br /> ";
-	            print "</tr> ";
+                
 
                 print "<tr> ";
       
@@ -614,13 +607,36 @@ form {
 	            print "</tr> ";
 
                 print "<tr> ";
-                    //$usd = $fmt->formatCurrency($bal, "USD");
-                    $ins_hold=($ym-$ask2)*20*$seccont;
-                    $usd = number_format($ins_hold,2);
-	                print "<td>Life Ins Holding &nbsp;&nbsp;&nbsp;&nbsp;&nbsp:$ $usd <td> <size='25' /><br /> ";                   
+	                print "<td><font color=green>===========Long Side===========<td> <size='25' /><br /> ";                   
 	            print "</tr> ";
 
-               
+                print "<tr> ";
+                    //$usd = $fmt->formatCurrency($urpl, "USD");
+                    $usd = number_format($urpl,2);
+	                //print "<td>Unrealized Op/Cost &nbsp:$ <font color=green>$usd </font><td> <size='25' /><br /> ";
+                    print "<td>Holding Investory Cost:$ $usd </font><td> <size='25' /><br /> ";
+	            print "</tr> ";
+
+                print "<tr> ";
+	                print "<td>Holding Positions &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: $qty <td> <size='25' /><br /> ";
+	            print "</tr> ";
+
+                print "<tr> ";
+	                print "<td><font color=red>===========Short Side===========<td> <size='25' /><br /> ";                   
+	            print "</tr> ";
+
+                print "<tr> ";
+                    //$usd = $fmt->formatCurrency($bal, "USD");
+
+                    $ins_hold=($ask3-$ym)*$mul3*$tmp_qty;
+                    $usd = number_format($ins_hold,2);
+	                print "<td>Holding Investory Cost:$ $usd </font><td> <size='25' /><br /> ";                
+	            print "</tr> ";
+
+                print "<tr> ";
+                    $short_qty=$tmp_qty*-1;
+	                print "<td>Holding Positions &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: $short_qty <td> <size='25' /><br /> ";
+	            print "</tr> ";
 ?>
                 <?php
                 if ($act1>0)
