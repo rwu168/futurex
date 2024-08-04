@@ -225,7 +225,8 @@ form {
                     <input hidden type="text" size=10 name="cm" value="<?=$cm?>">
                     <input hidden type="text" size=10 name="cy" value="<?=$cy?>">
 				
-					Name: <input readonly type="text" size=10 name="name" value="<?=$name?>"><br><br>
+					Name: <input readonly type="text" size=10 name="name" value="<?=$name?>">
+                    Wave(short side=y): <input type="text" size=10 name="wave" value="<?=$wave?>"><br><br>
 
 					Update/Insert: 
 					Level:  <input type="text" size=5 name="level" value="">	
@@ -241,15 +242,12 @@ form {
                     From level:  <input type="text" size=5 name="fm" >	
 					To: <input type="text" size=2 name="to" ><br>
 
-                    Ins Edit Qty:  <input type="text" size=5 name="ins_qty" >	
-					Price: <input type="text" size=2 name="ins_price" ><br><br>
-                    
 					Delete(Enter yes and delete all left level=blank):
 					<input type="text" size=5 name="del" value="">
 					Level <input type="text" size=2 name="dellevel" value=""><br><br>
 
 
-				    <<input type="submit" name="quit" value="Save">
+				    <input type="submit" name="quit" value="Save">
 			</form>
 			<br>
 
@@ -272,22 +270,40 @@ form {
         $amt=floatval($_POST['amt']);
         $dellevel=$_POST['dellevel'];
         $qty1=intval($_POST['qty1']);
-        $ins_qty=intval($_POST['ins_qty']);
-        $ins_price=floatval($_POST['ins_price']);
+        $wave=$_POST['wave'];
 
 
 
         
         //print $amt .$td .$cm .$cy ."==2==<br>";
-        if ($level>0 and $price>0 and $qty>0) //Update and insert level
+        //print $wave .$level .$price .$qty ."==2==<br>";
+        if ($level>0 and $price>0 and $qty !=0) //Update and insert level
 		{
                 //print $level ."==1==<br>";
-                $sql = "delete from cost where name='$name' and level='$level';";
-                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                if ($wave=="y")
+                {
+                    //print $level ."==1==<br>";
+                    $sql = "delete from cost_ins where name='$name' and level='$level';";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-                $sql = "insert into cost(name,level,tprice,qty) values('$name',$level,$price,$qty);";
-                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-		        pg_query("COMMIT") or die("Transaction commit failed\n");
+                    $sql = "insert into cost_ins(name,level,tprice,qty) values('$name',$level,$price,$qty);";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+		            pg_query("COMMIT") or die("Transaction commit failed\n");
+
+                    
+                }
+                else
+                {
+                    $sql = "delete from cost where name='$name' and level='$level';";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+
+                    $sql = "insert into cost(name,level,tprice,qty) values('$name',$level,$price,$qty);";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+		            pg_query("COMMIT") or die("Transaction commit failed\n");
+
+
+                }
+
 
         }
 
@@ -309,44 +325,68 @@ form {
         if ($qty1>0 and $fm>0 and $to>0) //Move level QTY
 		{
                 //print $level ."==3==<br>";
-                $sql = "update cost set qty=qty-$qty1 where name='$name' and level=$fm;";
-                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                $sql = "update cost set qty=qty+$qty1 where name='$name' and level=$to;";
-                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-
-                
-		        pg_query("COMMIT") or die("Transaction commit failed\n");
-                $qty1=0;
-        }
-
-		if ($del =="yes") //delete level
-        {
-                 //print $dellevel ."==4==<br>";
-                if ($dellevel>0)
+                if ($wave=="y")
                 {
-                        $sql = "delete from cost where name='$name' and level='$dellevel';";
-                        $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-		                pg_query("COMMIT") or die("Transaction commit failed\n");
+                    $sql = "update cost_ins set qty=qty-$qty1 where name='$name' and level=$fm;";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    $sql = "update cost_ins set qty=qty+$qty1 where name='$name' and level=$to;";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+
+		            pg_query("COMMIT") or die("Transaction commit failed\n");
+                    $qty1=0;
                 }
                 else
                 {
+                    $sql = "update cost set qty=qty-$qty1 where name='$name' and level=$fm;";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    $sql = "update cost set qty=qty+$qty1 where name='$name' and level=$to;";
+                    $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+
+		            pg_query("COMMIT") or die("Transaction commit failed\n");
+                    $qty1=0;
+
+                }
+        }
+        
+        //print $del .$dellevel .$wave ."==4==<br>";
+		if ($del =="yes") //delete level
+        {
+                //print $dellevel ."==4==<br>";
+                if ($wave=="y")
+                {
+                    if ($dellevel>0)
+                    {
+                        $sql = "delete from cost_ins where name='$name' and level='$dellevel';";
+                        $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+		                pg_query("COMMIT") or die("Transaction commit failed\n");
+                    }
+                    else
+                    {
+                        $sql = "delete from cost_ins where name='$name';";
+                        $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    }
+                    pg_query("COMMIT") or die("Transaction commit failed\n");   
+                }
+                else
+                {
+                    if ($dellevel>0)
+                    {
+                        $sql = "delete from cost where name='$name' and level='$dellevel';";
+                        $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+		                pg_query("COMMIT") or die("Transaction commit failed\n");
+                    }
+                    else
+                    {
                         $sql = "delete from cost where name='$name';";
                         $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-                        $sql = "update control set secbuy=0,m2k=-2,qty=0,rty=0  WHERE sys = '$name';";
+                        $sql = "update control set qty=0  WHERE sys = '$name';";
                         $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                    }
+                    pg_query("COMMIT") or die("Transaction commit failed\n");   
                 }
-                pg_query("COMMIT") or die("Transaction commit failed\n");
-
         }
        
-        if ($name != '' and $ins_qty <0 and $ins_price>0) //reset INS QTY
-        {
-                $sql = "update control set ym=$ins_price,seccont=$ins_qty,seccontqty=$ins_qty WHERE sys = '$name';";
-                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-                pg_query("COMMIT") or die("Transaction commit failed\n");
-
-        }
 		disp_detail($conn,$name);
 
 	}

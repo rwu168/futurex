@@ -353,7 +353,7 @@ form {
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$s2,$smscode,$m2k,$rge1,$hedgecap));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$s2,$smscode,$rge1,$hedgecap));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -375,6 +375,7 @@ form {
                             <th>Qty</th>
                             <th>Level</th>
                             <th>Mkt</th>
+                            <th>Auto</th>
                             <th>Rge</th>
                             <th>Avg</th>
                             <th>Ct</th>
@@ -387,10 +388,9 @@ form {
                             <th>HedgeQty</th>
                             <th>HdgPrice</th>
                             <th>PvtPc</th>
-                            <th>Ins</th>
+                            <th>Wve</th>
                             <th>Mkt</th>
-                            <th>Auto</th>
-                            <th>Ins</th>
+                            <th>Rge</th>
                             <th>HedgeCap</th>
 
 
@@ -425,7 +425,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==11 or $columns==24)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==24)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);

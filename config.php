@@ -135,9 +135,6 @@ form {
 		Not USe:
 			<input type="text" size=2 name="spricebuydown" value="<?=$spricebuydown?>"><br>
 
-		Force Equilibrium/Pivot (b=buy, s=sell, h=hold, & n=None):
-			<input type="text" size=2 name="forcebs" value="<?=$forcebs?>"><br>
-
 		Not Use:
 			<input type="text" size=2 name="nobuy" value="<?=$nobuy?>"><br>
 
@@ -173,7 +170,7 @@ form {
 		$m2k=$_POST['m2k'];
 		$buyl3=$_POST['buyl3'];
 		$selll3=$_POST['selll3'];
-		$forcebs=$_POST['forcebs'];
+
 
 		
 		print $mkt_cond ."sdsdsd" .$smy;
@@ -182,11 +179,11 @@ form {
 
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=25;";
+		$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 		
-		$sql = "update control set mkt_cond=$trade10,s2='$forcebs',m2k=$m2k where sprice=25;";
+		$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 		pg_query("COMMIT") or die("Transaction commit failed\n");
 
