@@ -246,6 +246,14 @@ form {
 					<input type="text" size=5 name="del" value="">
 					Level <input type="text" size=2 name="dellevel" value=""><br><br>
 
+                    Update Wave:
+                    Qty:  <input type="text" size=5 name="seccont" >	
+					AvgPrice: <input type="text" size=2 name="ym" ><br>
+
+                    Update Hedge:
+                    Qty:  <input type="text" size=5 name="seccont1" >	
+					AvgPrice: <input type="text" size=2 name="ym1" ><br>
+
 
 				    <input type="submit" name="quit" value="Save">
 			</form>
@@ -271,6 +279,10 @@ form {
         $dellevel=$_POST['dellevel'];
         $qty1=intval($_POST['qty1']);
         $wave=$_POST['wave'];
+        $seccont=$_POST['seccont'];
+        $ym=$_POST['ym'];
+        $seccont1=$_POST['seccont1'];
+        $ym1=$_POST['ym1'];
 
 
 
@@ -385,6 +397,24 @@ form {
                     }
                     pg_query("COMMIT") or die("Transaction commit failed\n");   
                 }
+        }
+
+        if ($seccont<0 and $ym>0) //make adjust to wave data
+        {
+                $sql = "update control set seccont=$seccont,seccontqty=$seccont,ym=$ym where sys='$name';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                
+                pg_query("COMMIT") or die("Transaction commit failed\n");
+                $amt=0;
+        }
+
+        if ($seccont1<0 and $ym1>0) //make adjust to hedge data
+        {
+                $sql = "update control set seccont1=$seccont1,seccont1qty=$seccont1,ym1=$ym1 where sys='$name';";
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                
+                pg_query("COMMIT") or die("Transaction commit failed\n");
+                $amt=0;
         }
        
 		disp_detail($conn,$name);

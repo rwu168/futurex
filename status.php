@@ -136,7 +136,7 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,reserve,s2,rpl,seccontqty,seccont1qty,ramt,spriceselldown,m2k,buyl3,smscode from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,secbuy,s2,rpl,seccontqty,seccont1qty,ramt,spriceselldown,m2k,buyl3,smscode,selll3,i1 from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
@@ -144,8 +144,11 @@ form {
                     $bal=$row1[2];
                     $micro=$row1[7];
                     //echo $name .$bal;
-                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$reserve=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];$hedgecap=$row1[26];$m2k=$row1[27];$avgcost=$row1[28];$smscode=$row1[29];
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$secbuy=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$seccont1qty=$row1[24];$ramt1=$row1[25];$hedgecap=$row1[26];$m2k=$row1[27];
+                    $avgcost=$row1[28];$smscode=$row1[29];$selll3=$row1[30];$i1=$row1[31];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}
+                    if (strval($selll3)=='') {$selll3=0;}
+                    if (strval($i1)=='') {$i1=0;}
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -353,7 +356,7 @@ form {
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$seccont1,$seccont1qty,$ym1,$s2,$smscode,$rge1,$hedgecap));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$seccontqty,$ym,$secbuy,$seccont1,$seccont1qty,$ym1,$i1,$selll3,$s2,$smscode,$rge1));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -385,13 +388,16 @@ form {
                             <th>WveQty</th>
                             <th>WveQty1</th>
                             <th>AvgPts</th>
+                            <th>Try#</th>
                             <th>HedgeQty</th>
-                            <th>HdgPrice</th>
-                            <th>PvtPc</th>
+                            <th>HdgQ1</th>
+                            <th>Cost</th>
+                            <th>Buy</th>
+                            <th>Sell</th>
                             <th>Wve</th>
                             <th>Mkt</th>
                             <th>Rge</th>
-                            <th>HedgeCap</th>
+
 
 
                            
@@ -399,7 +405,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=25;
+                    $max_columns=27;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
@@ -425,7 +431,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==24)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);
