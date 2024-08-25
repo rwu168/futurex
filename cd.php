@@ -159,7 +159,7 @@ form {
 					<input type="text" size=2 name="active" value="<?=$active?>"><br><br>
 
 					Hedge:
-					Status(0,1=hedge,2=onetime)<input type="text" size=5 name="secbuy" value="<?=$secbuy?>">
+					Status(0=None,1+=Up,-# = Down)<input type="text" size=5 name="secbuy" value="<?=$secbuy?>">
 					Qty:<input type="text" size=2 name="rpl" value="<?=$rpl?>">
 					BuyAt: <input type="text" size=2 name="i1" value="<?=$i1?>">
 					Buyback: <input type="text" size=2 name="selll3" value="<?=$selll3?>">
@@ -176,7 +176,7 @@ form {
 					BuyRange(10): <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">
 					SellRange(20):  <input type="text" size=2 name="shprice" value="<?=$shprice?>"><br>
 					Repair(0): <input type="text" size=2 name="bsl" value="<?=$bsl?>">
-					Repair at(>=7)%: <input type="text" size=2 name="bss" value="<?=$bss?>"><br><br>	
+					No Use: <input type="text" size=2 name="bss" value="<?=$bss?>"><br><br>
 				
 					Qty:
 					<input type="text" size=2 name="qty" value="<?=$qty?>">

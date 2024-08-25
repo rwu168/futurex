@@ -94,17 +94,13 @@ form {
 
 		RemoteDb();
 		
-		$sql = "select mkt_cond,sprice,spriceout,spricesell,spriceselldown,spricebuy,spricebuydown,smy,nobuy,buysell,buyl3,selll3 from config where symbol = 'trade';";
+		$sql = "select mkt_cond,sprice,spriceout,spricesell,spriceselldown,spricebuy,spricebuydown,smy,nobuy,buysell from config where symbol = 'trade';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
-		$mkt_cond=$row[0];$sprice=$row[1];$spriceout=$row[2];$spricesell=$row[3];$spriceselldown=$row[4];$spricebuy=$row[5];$spricebuydown=$row[6];$smy=$row[7];$nobuy=$row[8];$buysell=$row[9];$buyl3=$row[10];$selll3=$row[11];;
+		$mkt_cond=$row[0];$sprice=$row[1];$spriceout=$row[2];$spricesell=$row[3];$spriceselldown=$row[4];$spricebuy=$row[5];$spricebuydown=$row[6];$smy=$row[7];$nobuy=$row[8];$buysell=$row[9];
 
-		$sql = "select mkt_cond,s2 from control where sprice = 10;";
-		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-        $row=pg_fetch_row($rs);
-		$trade10=$row[0];
-		$forcebs=$row[1];
-		$m2k=0;
+		$trade10=99;$m2k=0;
+		$smscode=99;$legs=0;
 
 	?>
 
@@ -143,9 +139,10 @@ form {
 		 Auto (1=disable & 0=enable):
 			<input type="text" size=2 name="m2k" value="<?=$m2k?>"><br><br>
 
-
-		Time out(in 24 hours-seconnds 5:30a=19800-6:30a=23900 & 11:30a=41400): <input type="text" size=2 name="buyl3" value="<?=$buyl3?>">
-		Time back-in:<input type="text" size=2 name="selll3" value="<?=$selll3?>"><br><br>
+		*Wave buy for (MES) Mkt_Condition(default=0):
+			<input type="text" size=2 name="smscode" value="<?=$smscode?>">
+		 Auto (1=disable & 0=enable):
+			<input type="text" size=2 name="legs" value="<?=$legs?>"><br><br>
 
 		
 
@@ -168,24 +165,28 @@ form {
 		$nobuy=strval($_POST['nobuy']);
 		$trade10=$_POST['trade10'];
 		$m2k=$_POST['m2k'];
-		$buyl3=$_POST['buyl3'];
-		$selll3=$_POST['selll3'];
+		$legs=$_POST['legs'];
+		$smscode=$_POST['smscode'];
 
 
 		
 		print $mkt_cond ."sdsdsd" .$smy;
-		$sql = "update config set mkt_cond=$mkt_cond,sprice=$sprice,spriceout=$spriceout,spricesell=$spricesell,spriceselldown=$spriceselldown,spricebuy=$spricebuy,spricebuydown=$spricebuydown,smy='$smy',nobuy='$nobuy',buyl3=$buyl3,selll3=$selll3 where symbol='trade';";
-
-
+		$sql = "update config set mkt_cond=$mkt_cond,sprice=$sprice,spriceout=$spriceout,spricesell=$spricesell,spriceselldown=$spriceselldown,spricebuy=$spricebuy,spricebuydown=$spricebuydown,smy='$smy',nobuy='$nobuy' where symbol='trade';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
-		$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25;";
-		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-		pg_query("COMMIT") or die("Transaction commit failed\n");
+		if ($trade10>0)
+		{
+			$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25;";
+			$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+			pg_query("COMMIT") or die("Transaction commit failed\n");
+		}
 		
-		$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25;";
-		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
-		pg_query("COMMIT") or die("Transaction commit failed\n");
+		if ($smscode>0)
+		{
+			$sql = "update control set legs=$legs,smscode=$smscode where s2='w';";
+			$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+			pg_query("COMMIT") or die("Transaction commit failed\n");
+		}
 
 
 		header("Refresh:0");

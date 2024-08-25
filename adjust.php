@@ -248,7 +248,7 @@ form {
 
                     Update Wave:
                     Qty:  <input type="text" size=5 name="seccont" >	
-					AvgPrice: <input type="text" size=2 name="ym" ><br>
+					AvgPrice(blank): <input type="text" size=2 name="ym" ><br>
 
                     Update Hedge:
                     Qty:  <input type="text" size=5 name="seccont1" >	
@@ -410,7 +410,14 @@ form {
 
         if ($seccont1<0 and $ym1>0) //make adjust to hedge data
         {
-                $sql = "update control set seccont1=$seccont1,seccont1qty=$seccont1,ym1=$ym1 where sys='$name';";
+                if ($ym1>0)
+                {
+                    $sql = "update control set seccont1=$seccont1,seccont1qty=$seccont1,ym1=$ym1 where sys='$name';";
+                }
+                else 
+                {
+                    $sql = "update control set seccont1=$seccont1,seccont1qty=$seccont1 where sys='$name';";
+                }
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 
                 pg_query("COMMIT") or die("Transaction commit failed\n");
