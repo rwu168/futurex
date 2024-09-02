@@ -143,8 +143,16 @@ form {
                     pg_query("COMMIT") or die("Transaction commit failed\n");
                     $bal=$row1[2];
                     $micro=$row1[7];
-                    
-                    $hedgecap=$row1[9];$tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$secbuy=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$reserve=$row1[24];$ramt1=$row1[25];$m2k=$row1[26];
+                    if (strval($row1[9]==""))
+                    {
+                        $hedgecap=0;
+                    }
+                    else 
+                    {
+                        $hedgecap=$row1[9];
+                    }
+
+                    $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$secbuy=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$reserve=$row1[24];$ramt1=$row1[25];$m2k=$row1[26];
                     $avgcost=$row1[27];$smscode=$row1[28];$selll3=$row1[29];$i1=$row1[30];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}
                     if (strval($selll3)=='') {$selll3=0;}
@@ -396,7 +404,7 @@ form {
                             <th>Mkt</th>
                             <th>Rge</th>
                             <th>Qty</th>
-                            <th>Tot Bal</th>
+                            <th>TotValue</th>
                             <th>Loss</th>
 
 

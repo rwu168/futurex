@@ -175,7 +175,7 @@ form {
 					Auto Mkt_cond(0): <input type="text" size=2 name="legs" value="<?=$legs?>">
 					BuyRange(10): <input type="text" size=2 name="shbuy" value="<?=$shbuy?>">
 					SellRange(20):  <input type="text" size=2 name="shprice" value="<?=$shprice?>"><br>
-					Repair(0): <input type="text" size=2 name="bsl" value="<?=$bsl?>">
+					BK Token(0): <input type="text" size=2 name="bsl" value="<?=$bsl?>">
 					No Use: <input type="text" size=2 name="bss" value="<?=$bss?>"><br><br>
 				
 					Qty:
