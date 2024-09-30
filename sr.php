@@ -108,8 +108,8 @@ form {
 
 		Wave Trade MES: 
 			Top:<input type="text" size=5 name="sl1" value="<?=$sl1?>">
-			NQ Top: <input type="text" size=5 name="sl2" value="<?=$sl2?>"><br><br>
-			Not use: <input type="text" size=5 name="sl3" value="<?=$sl3?>"><br>
+			NQ Top: <input type="text" size=5 name="sl2" value="<?=$sl2?>"><br>
+			Take Loss Below(10): <input type="text" size=5 name="sl3" value="<?=$sl3?>"><br><br>
 
 		NO Use: 
 			not use:<input type="text" size=5 name="rl1" value="<?=$rl1?>">
