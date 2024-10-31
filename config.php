@@ -94,13 +94,13 @@ form {
 
 		RemoteDb();
 		
-		$sql = "select mkt_cond,sprice,spriceout,spricesell,spriceselldown,spricebuy,spricebuydown,smy,nobuy,buysell from config where symbol = 'trade';";
+		$sql = "select mkt_cond,sprice,spriceout,spricesell,spriceselldown,spricebuy,spricebuydown,smy,nobuy,buysell,nsmy from config where symbol = 'trade';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
-		$mkt_cond=$row[0];$sprice=$row[1];$spriceout=$row[2];$spricesell=$row[3];$spriceselldown=$row[4];$spricebuy=$row[5];$spricebuydown=$row[6];$smy=$row[7];$nobuy=$row[8];$buysell=$row[9];
+		$mkt_cond=$row[0];$sprice=$row[1];$spriceout=$row[2];$spricesell=$row[3];$spriceselldown=$row[4];$spricebuy=$row[5];$spricebuydown=$row[6];$smy=$row[7];$nobuy=$row[8];$buysell=$row[9];$nsmy=$row[10];
 
-		$trade10=99;$m2k=0;
-		$smscode=99;$legs=0;
+		$trade10=0;$m2k=0;
+		$smscode=0;$legs=0;
 
 	?>
 
@@ -111,7 +111,8 @@ form {
 			<input type="text" size=2 name="mkt_cond" value="<?=$mkt_cond?>"><br>
 
 		Month&Year Symbol like M23 etc... Required:
-			<input type="text" size=2 name="smy" value="<?=$smy?>"><br>
+			<input type="text" size=2 name="smy" value="<?=$smy?>">
+			Back Month<input type="text" size=2 name="nsmy" value="<?=$nsmy?>"><br>
 
 		Buying Range default=0 (0,35): 
 			<input type="text" size=5 name="sprice" value="<?=$sprice?>"><br>
@@ -156,6 +157,7 @@ form {
     {
 		$mkt_cond=$_POST['mkt_cond'];
 		$smy=strval($_POST['smy']);
+		$nsmy=strval($_POST['nsmy']);
 		$sprice=$_POST['sprice'];
 		$spriceout=$_POST['spriceout'];
 		$spricesellk=$_POST['spricesell'];
@@ -170,8 +172,8 @@ form {
 
 
 		
-		print $mkt_cond ."sdsdsd" .$smy;
-		$sql = "update config set mkt_cond=$mkt_cond,sprice=$sprice,spriceout=$spriceout,spricesell=$spricesell,spriceselldown=$spriceselldown,spricebuy=$spricebuy,spricebuydown=$spricebuydown,smy='$smy',nobuy='$nobuy' where symbol='trade';";
+		//print $mkt_cond ."sdsdsd" .$smy;
+		$sql = "update config set mkt_cond=$mkt_cond,sprice=$sprice,spriceout=$spriceout,spricesell=$spricesell,spriceselldown=$spriceselldown,spricebuy=$spricebuy,spricebuydown=$spricebuydown,smy='$smy',nsmy='$nsmy',nobuy='$nobuy' where symbol='trade';";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 
 		if ($trade10>0)
