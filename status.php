@@ -343,6 +343,19 @@ form {
                         else { $rge=0;}
                         $rge=round($rge);
 
+                        //Calculate repair total qty=====================
+                        $sql4 = "Select sum(qty) from cost_rep where name='$name';";
+                        $rs4 = pg_query($conn, $sql4) or die("Cannot connect: $sql2<br>"); 
+                        $r_totqty=pg_fetch_row($rs4)[0];
+                        if (strval($r_totqty)=="")
+                        {
+                                $r_totqty=0;
+                        }
+
+                        //print $name .$r_totqty ."==!=<br>";
+                        pg_query("COMMIT") or die("Transaction commit failed\n");
+
+
                         //Calculate wave range=====================
                         $sql3 = "Select tprice,level from cost_ins where name='$name' order by level desc;";
                         $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql2<br>"); 
@@ -364,7 +377,7 @@ form {
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -395,6 +408,7 @@ form {
                             <th>SP</th>
                             <th>WveQty</th>
                             <th>AvgPts</th>
+                            <th>Rqty</th>
                             <th>Try#</th>
                             <th>HedgeQty</th>
                             <th>Cost</th>
@@ -414,7 +428,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=28;
+                    $max_columns=29;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
@@ -440,7 +454,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==26 or $columns==27)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==26 or $columns==28)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);
