@@ -183,7 +183,16 @@ form {
                 $row=pg_fetch_row($rs);
                 $ask=floatval($row[0]);
                 $ask2=floatval($row[1]);
-                if ($lifeactive=="w") {$ask3=$ask;$mul3=5;$tmp_qty=$seccont;} else {$ask3=$ask2;$mul3=2;$tmp_qty=$seccont*10;}
+
+                //Calculate repair total qty=====================
+                $sql4 = "Select sum(qty) from cost_rep where name='$name';";
+                $rs4 = pg_query($conn, $sql4) or die("Cannot connect: $sql2<br>"); 
+                $r_totqty=pg_fetch_row($rs4)[0];
+                if (strval($r_totqty)=="")
+                {
+                                $r_totqty=0;
+                }
+                if ($lifeactive=="w") {$ask3=$ask;$mul3=5;$tmp_qty=$seccont+$r_totqty;} else {$ask3=$ask2;$mul3=2;$tmp_qty=$seccont*10;}
 
 
                 $sql = "SELECT tprice,qty,level from cost where name='$name' order by level;";

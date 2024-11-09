@@ -454,7 +454,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==26 or $columns==28)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==27 or $columns==28)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);
