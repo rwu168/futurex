@@ -348,7 +348,7 @@ form {
                         
                         $r_totqty=0;
                         $r_closs=0;
-                        $sql3 = "Select tprice,qty from cost_ins where name='$name' order by level desc;";
+                        $sql3 = "Select tprice,qty from cost_ins where name='$name';";
                         $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql3<br>"); 
                         $row4=pg_fetch_row($rs3);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
@@ -359,7 +359,7 @@ form {
                         {
                             $r_tprice=$row4[0];
                             $r_qty=$row4[1];
-                            $r_rge1=$ask1-$r_tprice;
+                            $r_rge1=$r_tprice-$ask1;
                             $r_totqty=$r_totqty+$r_qty;
                             $r_closs=$r_closs+$r_rge1*($r_qty/10)*50;
                             //print $name .$ask1 .$tprice ."==!=<br>";
@@ -388,7 +388,7 @@ form {
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap,$r_closs,$updn));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap,$updn,$r_closs));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
