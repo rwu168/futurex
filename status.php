@@ -348,18 +348,18 @@ form {
                         
                         $r_totqty=0;
                         $r_closs=0;
-                        $sql3 = "Select tprice,qty from cost_ins where name='$name';";
+                        $sql3 = "Select tprice,qty from cost_rep where name='$name';";
                         $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql3<br>"); 
                         $row4=pg_fetch_row($rs3);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
                         $rowcount4= pg_num_rows($rs3);
-                        //if ($name=="funky"){print $name .$row3[1] ."==!=<br>";}
-                        //if (strval($row3[1])==""){$level=0;} else {$level=$row3[1];
+                        //if ($name=="aaron"){print $name .$ask1 .$row4[0] ."==!=<br>";}
+
                         if ($rowcount4>0 and $s2=="w")
                         {
                             $r_tprice=$row4[0];
                             $r_qty=$row4[1];
-                            $r_rge1=$r_tprice-$ask1;
+                            $r_rge1=$ask1-$r_tprice;
                             $r_totqty=$r_totqty+$r_qty;
                             $r_closs=$r_closs+$r_rge1*($r_qty/10)*50;
                             //print $name .$ask1 .$tprice ."==!=<br>";
