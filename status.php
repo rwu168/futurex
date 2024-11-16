@@ -136,7 +136,7 @@ form {
                     $qty1=$row[1];
                     $pl=$pl-($qty1*6);
                     //print($name);
-                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,secbuy,s2,rpl,seccontqty,reserve,ramt,m2k,buyl3,smscode,selll3,i1 from control where sys='$name';";
+                    $sql1 = "Select qty,amt,bal,mkt_cond,mnq,rge,micro,contracts,rty,spriceselldown,sprice,mmy,secbuy,s1,f1,seccont,seccont1,ym,ym1,flag2,secbuy,s2,rpl,seccontqty,reserve,ramt,m2k,buyl3,smscode,selll3,i1,updn from control where sys='$name';";
                     $rs1 = pg_query($conn, $sql1) or die("Cannot connect: $sql1<br>"); 
                     $row1=pg_fetch_row($rs1);
                     $rowcount1= pg_num_rows($rs1);
@@ -153,10 +153,11 @@ form {
                     }
 
                     $tsymbol=$row1[13];$urper=round($row1[14],2);$seccont=$row1[15];$seccont1=$row1[16];$ym=$row1[17];$ym1=$row1[18];$tradeclass=$row1[19];$secbuy=$row1[20];$s2=$row1[21];$pivotqty=$row1[22];$seccontqty=$row1[23];$reserve=$row1[24];$ramt1=$row1[25];$m2k=$row1[26];
-                    $avgcost=$row1[27];$smscode=$row1[28];$selll3=$row1[29];$i1=$row1[30];
+                    $avgcost=$row1[27];$smscode=$row1[28];$selll3=$row1[29];$i1=$row1[30];$updn=$row1[31];
                     if (strval($seccont)==""){$seccont=0;}if (strval($ym1)==""){$ym1=0;}if (strval($seccont1)==""){$seccont1=0;}
                     if (strval($selll3)=='') {$selll3=0;}
                     if (strval($i1)=='') {$i1=0;}
+                    if (strval($updn)=='') {$updn=0;}
                     if (strval($seccont1)=="")
                     {
                         $seccont1=0;
@@ -344,21 +345,31 @@ form {
                         $rge=round($rge);
 
                         //Calculate repair total qty=====================
-                        $sql4 = "Select sum(qty) from cost_rep where name='$name';";
-                        $rs4 = pg_query($conn, $sql4) or die("Cannot connect: $sql2<br>"); 
-                        $r_totqty=pg_fetch_row($rs4)[0];
-                        if (strval($r_totqty)=="")
-                        {
-                                $r_totqty=0;
-                        }
-
-                        //print $name .$r_totqty ."==!=<br>";
+                        
+                        $r_totqty=0;
+                        $r_closs=0;
+                        $sql3 = "Select tprice,qty from cost_ins where name='$name' order by level desc;";
+                        $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql3<br>"); 
+                        $row4=pg_fetch_row($rs3);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
+                        $rowcount4= pg_num_rows($rs3);
+                        //if ($name=="funky"){print $name .$row3[1] ."==!=<br>";}
+                        //if (strval($row3[1])==""){$level=0;} else {$level=$row3[1];
+                        if ($rowcount4>0 and $s2=="w")
+                        {
+                            $r_tprice=$row4[0];
+                            $r_qty=$row4[1];
+                            $r_rge1=$ask1-$r_tprice;
+                            $r_totqty=$r_totqty+$r_qty;
+                            $r_closs=$r_closs+$r_rge1*($r_qty/10)*50;
+                            //print $name .$ask1 .$tprice ."==!=<br>";
+
+                        }
 
 
                         //Calculate wave range=====================
                         $sql3 = "Select tprice,level from cost_ins where name='$name' order by level desc;";
-                        $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql2<br>"); 
+                        $rs3 = pg_query($conn, $sql3) or die("Cannot connect: $sql3<br>"); 
                         $row4=pg_fetch_row($rs3);
                         pg_query("COMMIT") or die("Transaction commit failed\n");
                         $rowcount4= pg_num_rows($rs3);
@@ -377,7 +388,7 @@ form {
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap,$r_closs,$updn));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -420,6 +431,8 @@ form {
                             <th>Qty</th>
                             <th>TotValue</th>
                             <th>Loss</th>
+                            <th>CLoss</th>
+                            <th>C/P</th>
 
 
 
@@ -428,7 +441,7 @@ form {
                 </tr>
 
                 <?php
-                    $max_columns=29;
+                    $max_columns=31;
                     $record_id=0;
                     $line=0;
                     //$data=array(1,2,3,4);
@@ -454,7 +467,7 @@ form {
                          
                             <?php 
                                 
-                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==27 or $columns==28)
+                                if ($columns==1 or $columns==2 or $columns==3 or $columns==12 or $columns==27 or $columns==28 or $columns==29 or $columns==30)
                                 {
                                     //$usd = $fmt->formatCurrency($data[$record_id], "USD");
                                     $usd = number_format($data[$record_id],0);
