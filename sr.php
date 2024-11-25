@@ -88,11 +88,11 @@ form {
 
 		DateTime();
 		RemoteDb();
-		$sql = "select equd,sl1,sl2,sl3,rl1,rl2,rl3,eq,as1,forcebs,bs,eq1,top_price1,bottom_price1,ins_buy,ins_sell from priceaction;";
+		$sql = "select equd,sl1,sl2,sl3,rl1,rl2,rl3,eq,as1,forcebs,bs,eq1,top_price1,bottom_price1,ins_buy,ins_sell,status from priceaction;";
 		$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
         $row=pg_fetch_row($rs);
         $rowcount= pg_num_rows($rs); 
-		$equd=$row[0];$sl1=$row[1];$sl2=$row[2];$sl3=$row[3];$rl1=$row[4];$rl2=$row[5];$rl3=$row[6];$eq=$row[7];$as1=$row[8];$forcebs=$row[9];$bs=$row[10];$eq1=$row[11];$top_price1=$row[12];$bottom_price1=$row[13];$ins_buy=$row[14];$ins_sell=$row[15];
+		$equd=$row[0];$sl1=$row[1];$sl2=$row[2];$sl3=$row[3];$rl1=$row[4];$rl2=$row[5];$rl3=$row[6];$eq=$row[7];$as1=$row[8];$forcebs=$row[9];$bs=$row[10];$eq1=$row[11];$top_price1=$row[12];$bottom_price1=$row[13];$ins_buy=$row[14];$ins_sell=$row[15];$pname=$row[16];
 		//print($bot);
 	?>
 
@@ -100,7 +100,8 @@ form {
 	<form action="site.php" method="post" top="120px">
 
 		Please enter Enable=1 and Disable=0(no use yet):
-			<input type="text" size=2 name="equd" value="<?=$equd?>"><br>
+			<input type="text" size=2 name="equd" value="<?=$equd?>">
+			Last Processed Name: <input type="text" size=2 name="lname" value="<?=$pname?>"><br>
 		Enter Equilibrum ES: 
 			<input type="text" size=5 name="eq" value="<?=$eq?>">
 		NQ:

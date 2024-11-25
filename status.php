@@ -388,7 +388,7 @@ form {
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
-                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap,$updn,$r_closs));
+                        $data=array_merge($data,array($name,$pl,$rpl,$bal,$per,$qty,$level,$mkt_cond,$m2k,$rge,$avgcost,$contracts,$ramt1,$urper,$sprice,$seccont,$ym,$r_totqty,$secbuy,$seccont1,$ym1,$i1,$selll3,$s2,$smscode,$rge1,$pivotqty,$tot_inv,$hedgecap*-1,$updn,$r_closs));
                     }
                     $row=pg_fetch_row($rs);
                     $k++;
@@ -431,7 +431,7 @@ form {
                             <th>Qty</th>
                             <th>TotValue</th>
                             <th>Loss</th>
-                            <th>CLoss</th>
+                            <th>C/L</th>
                             <th>C/P</th>
 
 
