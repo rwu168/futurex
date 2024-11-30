@@ -638,7 +638,7 @@ form {
                 print "<tr> ";
                     //$usd = $fmt->formatCurrency($bal, "USD");
 
-                    $ins_hold=($ask3-$ym)*$mul3*$tmp_qty;
+                    $ins_hold=($ask3-$ym)*$mul3*($tmp_qty-$r_totqty);
                     $usd = number_format($ins_hold,2);
 	                print "<td>Holding Investory Cost:$ $usd </font><td> <size='25' /><br /> ";                
 	            print "</tr> ";
