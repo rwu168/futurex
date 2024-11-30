@@ -192,7 +192,7 @@ form {
                 {
                                 $r_totqty=0;
                 }
-                if ($lifeactive=="w") {$ask3=$ask;$mul3=5;$tmp_qty=$seccont+$r_totqty;} else {$ask3=$ask2;$mul3=2;$tmp_qty=$seccont*10;}
+                if ($lifeactive=="w") {$ask3=$ask;$mul3=5;$tmp_qty=$seccont-$r_totqty;} else {$ask3=$ask2;$mul3=2;$tmp_qty=$seccont*10;}
 
 
                 $sql = "SELECT tprice,qty,level from cost where name='$name' order by level;";
