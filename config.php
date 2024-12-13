@@ -178,7 +178,7 @@ form {
 
 		if ($trade10>0)
 		{
-			$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25;";
+			$sql = "update control set mkt_cond=$trade10,m2k=$m2k where sprice=25 and sys!='test';";
 			$rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
 			pg_query("COMMIT") or die("Transaction commit failed\n");
 		}

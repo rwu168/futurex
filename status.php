@@ -384,7 +384,7 @@ form {
 
                         }
                         
-                        $tot_inv=$bal-$reserve;
+                        $tot_inv=$bal-$reserve-$r_closs;
 
 
                         //print $name .$ask .$tprice ."==!=<br>";
