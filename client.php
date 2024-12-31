@@ -49,10 +49,10 @@ form {
 
 .login {
   position: fixed;
-  width: 50px;
-  height: 255px;
+  width: 45px;
+  height: 270px;
   margin: auto;
-  width: 40%;
+  width: 35%;
   top: 100px;
   background-color: lightgrey;
   border: 3px solid #73AD21;
@@ -128,7 +128,7 @@ form {
                 RemoteDb();
                 //get account data
                 $name=$_GET['name'];
-                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1,ym,seccont,s2 FROM control where sys='$name';";
+                $sql = "SELECT qty, amt, flag2,micro,bal,active,s1,ym,seccont,s2,ramt FROM control where sys='$name';";
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);        
                 $qty=$row[0];
@@ -141,6 +141,7 @@ form {
                 $ym=$row[7];
                 $seccont=$row[8];
                 $lifeactive=$row[9];
+                $ramt=$row[10];
 
                 //get level buy data
                 if ($tsymbol=="NQ")
@@ -615,6 +616,13 @@ form {
                     $usd = number_format($bal,2);
 	                print "<td>Account Balance &nbsp;&nbsp;&nbsp;&nbsp:$ $usd <td> <size='25' /><br /> ";                   
 	            print "</tr> ";
+
+                print "<tr> ";
+                    $usd = number_format($ramt,2);
+	                print "<td> <font color=green>Unrealized Reserve &nbsp:$ $usd <td> <size='25' /><br /> ";                   
+	            print "</tr> ";
+
+
 
                 print "<tr> ";
 	                print "<td><font color=green>===========Long Side===========<td> <size='25' /><br /> ";                   
