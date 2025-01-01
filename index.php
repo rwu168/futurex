@@ -282,8 +282,17 @@ form {
     /*=================Display YTD P/L==================================*/
         function disp_ytd($conn,$cy)
         {
-                global $data;
+                global $data,$lastyearper;
 
+                $sql = "SELECT  jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec FROM plapr where yy=$cy-1 and name='acw';";
+          
+                //$sql = "SELECT bal,sys,email,password FROM control limit 4;";
+          
+                $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
+                $row=pg_fetch_row($rs);
+                $rowcount= pg_num_rows($rs);
+                $lastyearper=round(($row[0]+$row[1]+$row[2]+$row[3]+$row[4]+$row[5]+$row[6]+$row[7]+$row[8]+$row[9]+$row[10]+$row[11])/12,2);
+                //print "testttttttt" .$lastyearper;
 
                 $sql = "SELECT  jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec FROM plapr where yy=$cy and name='acw';";
           
@@ -292,7 +301,11 @@ form {
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
-                //print "testttttttt" .$row[0];
+                //print "testttttttt" .$rowcount;
+                if ($rowcount==0)
+                {
+                    $row[0]=0;$row[1]=0;$row[2]=0;$row[3]=0;$row[4]=0;$row[5]=0;$row[6]=0;$row[7]=0;$row[8]=0;$row[9]=0;$row[10]=0;$row[11]=0;
+                }
                 $data=array(round($row[0],2),round($row[1],2),round($row[2],2),round($row[3],2),round($row[4],2),round($row[5],2),round($row[6],2),round($row[7],2),round($row[8],2),round($row[9],2),round($row[10],2),round($row[11],2),);
 
     ?>
@@ -613,7 +626,7 @@ form {
     <h3 class="tot"> 
     <?php
         disp_ytd($conn,$cy);
-        $lastyearper=24.5;
+        #$lastyearper=24.5;
 
         print "<br>Last Year Annual Return:  $lastyearper%<br>";
         disp_detail($conn,$ask);
