@@ -50,7 +50,7 @@ form {
 .login {
   position: fixed;
   width: 45px;
-  height: 270px;
+  height: 280px;
   margin: auto;
   width: 35%;
   top: 100px;
@@ -75,10 +75,10 @@ form {
 
 .ask {
   position: fixed;
-  width: 60px;
+  width: 100px;
   left: 5px;
   height: 40px;
-  width: 25%;
+  width: 35%;
   top: 370px;
   color: green;
 }
