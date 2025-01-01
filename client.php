@@ -380,7 +380,7 @@ form {
                 $rs = pg_query($conn, $sql) or die("Cannot connect: $sql<br>"); 
                 $row=pg_fetch_row($rs);
                 $rowcount= pg_num_rows($rs);
-                $k=1;
+                $k=0;
 
                 //print "testttttttt" .$row[9];
 
